@@ -7,6 +7,12 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float attackRange = 5f;
     [SerializeField] Transform pusher;
     [SerializeField] Transform jumper;
+    [SerializeField] GameObject spell;
+
+    [Tooltip("Delay between casting again in s")]
+    [SerializeField] float castingSpeed = 5;
+
+    private bool canCastSpell = true;
 
     // Start is called before the first frame update
     void Start()
@@ -87,6 +93,26 @@ public class EnemyController : MonoBehaviour
     {
         // TODO attack player - we're friendly for now >:)
         print($"attacking {player.name}");
+
+        if(canCastSpell)
+        {
+            print($"instantiating + {canCastSpell}");
+
+            // For now just cast spell at player position
+            Instantiate(spell, player.position, Quaternion.identity);
+
+            StartCoroutine(ResetCastTimer());
+        }
+    }
+
+    IEnumerator ResetCastTimer()
+    {
+        print("falsing");
+        canCastSpell = false;
+
+        yield return new WaitForSecondsRealtime(castingSpeed);
+
+        canCastSpell = true;
     }
 
     void OnDrawGizmos()

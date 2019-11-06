@@ -108,3 +108,5 @@ MonoBehaviour:
   attackRange: 25
   pusher: {fileID: 0}
   jumper: {fileID: 0}
+  spell: {fileID: 3835551453791708532, guid: a13a01b1b6ba5394b807b4ddd323f599, type: 3}
+  castingSpeed: 20

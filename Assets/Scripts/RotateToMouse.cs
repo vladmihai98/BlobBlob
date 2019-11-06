@@ -12,7 +12,7 @@ public class RotateToMouse : MonoBehaviour
     private Vector3 direction;
     private Quaternion rotation;
 
-    // Update is called once per frame
+    // TODO when pointing at objects far away the direction gets messed up; maxLength seems to do smth?
     void Update()
     {
         if(camera != null)

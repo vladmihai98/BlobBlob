@@ -98,7 +98,7 @@ MonoBehaviour:
   targets:
   - {fileID: 0}
   - {fileID: 0}
-  offset: {x: 0, y: 10, z: -8}
+  offset: {x: 0, y: 15, z: -8}
   smoothTime: 0.5
   zoomedOutZPos: -65
   zoomedInZPos: -20
