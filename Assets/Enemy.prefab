@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1123369357073177631}
   - component: {fileID: 1123369357073177628}
   - component: {fileID: 1123369357073177629}
-  - component: {fileID: 1123369357073177625}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -93,20 +92,3 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1123369357073177625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123369357073177618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49725cff30610ad458d03e0246a5162f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRange: 25
-  pusher: {fileID: 0}
-  jumper: {fileID: 0}
-  spell: {fileID: 3835551453791708532, guid: a13a01b1b6ba5394b807b4ddd323f599, type: 3}
-  castingSpeed: 20
