@@ -98,14 +98,13 @@ public class EnemyShoots : MonoBehaviour
 
     private void AttackPlayer(Transform player)
     {
-        // TODO attack player - we're friendly for now >:)
         print($"attacking {player.name}");
 
         if(Time.time >= timeToFire)
         {
             timeToFire = Time.time + 1 / fireRate;
             GameObject bullet = SpawnBullet(player);
-            MoveBullet(player.position, bullet);
+            //MoveBullet(player.position, bullet);
         }
     }
 
@@ -116,9 +115,10 @@ public class EnemyShoots : MonoBehaviour
 
         if (firePoint != null)
         {
-            bullet = Instantiate(effectToSpawn, position, Quaternion.identity);
+            Vector3 direction = player.position - transform.position;
+            Quaternion newQuat = Quaternion.LookRotation(direction);
 
-            //bullet.transform.localRotation = player.localRotation;
+            bullet = Instantiate(effectToSpawn, position, newQuat);
         }
         else
         {
@@ -132,7 +132,7 @@ public class EnemyShoots : MonoBehaviour
     {
         if (bulletSpeed >= 0)
         {
-            transform.position += transform.forward * (bulletSpeed * Time.deltaTime);
+            bullet.transform.position += transform.forward * (bulletSpeed * Time.deltaTime);
         }
     }
 

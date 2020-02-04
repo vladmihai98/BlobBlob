@@ -14,4 +14,14 @@ public class MoveProjectile : MonoBehaviour
             transform.position += transform.forward * (speed * Time.deltaTime);
         }
     }
+
+    //void OnCollisionEnter(Collision collision)
+    //{
+    //    print("who" + collision.gameObject + "at" + collision.transform.position);
+    //}
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    print("who" + other.gameObject + "at" + other.transform.position);
+    //}
 }

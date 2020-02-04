@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8301074503240435781}
   - component: {fileID: 1182111978058624408}
   - component: {fileID: 5876032775973684793}
-  - component: {fileID: 8185321148703997553}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -27,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2257008846156941247}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.558, y: -0.013, z: 0.388}
+  m_LocalPosition: {x: 0.718, y: -0.013, z: 0.388}
   m_LocalScale: {x: 0.28852704, y: 0.22158691, z: 0.89751}
   m_Children: []
   m_Father: {fileID: 7327174031964074800}
@@ -78,19 +77,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &8185321148703997553
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2257008846156941247}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2278740560656395443
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,6 +119,7 @@ GameObject:
   - component: {fileID: 5672127045129564252}
   - component: {fileID: 5672127045129564255}
   - component: {fileID: 5672127045129564254}
+  - component: {fileID: 1311576905}
   - component: {fileID: 1637078000345686784}
   m_Layer: 0
   m_Name: Ranger
@@ -148,7 +135,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5672127045129564241}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.3, y: 3, z: 104.3}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
@@ -215,6 +202,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1311576905
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672127045129564241}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 32
+  m_CollisionDetection: 0
 --- !u!114 &1637078000345686784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,7 +236,7 @@ MonoBehaviour:
   firePoint: {fileID: 4956784788047719070}
   materialColor: {fileID: 2100000, guid: ce0cb271c34a85f47826bf4a5239017c, type: 2}
   fireRate: 1.5
-  bulletSpeed: 5
+  bulletSpeed: 20
   bullets:
   - {fileID: 8731488085076216129, guid: 9ec56f099d5553448826b29970422e3d, type: 3}
 --- !u!1 &8298820524578711359

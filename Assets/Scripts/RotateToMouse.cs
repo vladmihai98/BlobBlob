@@ -27,7 +27,7 @@ public class RotateToMouse : MonoBehaviour
             }
             else
             {
-                var position = mouseRay.GetPoint(maximumLength);
+                position = mouseRay.GetPoint(maximumLength);
                 RotateToMouseDirection(gameObject, position);
             }
         }
