@@ -13,11 +13,13 @@ public class SpawnProjectiles : MonoBehaviour
 
     private GameObject effectToSpawn;
     private float timeToFire = 0;
+    private PusherController controller;
 
     // Start is called before the first frame update
     void Start()
     {
         effectToSpawn = vfx[0];
+        controller = gameObject.GetComponent<PusherController>();
     }
 
     // Update is called once per frame
@@ -43,6 +45,9 @@ public class SpawnProjectiles : MonoBehaviour
             {
                 bullet.transform.localRotation = rotateToMouse.GetRotation();
             }
+
+            Ability ability = bullet.GetComponent<Ability>();
+            ability.AttackDamage = controller.AttackDamage;
         }
         else
         {

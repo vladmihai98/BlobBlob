@@ -3,19 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyShoots : MonoBehaviour
+public class RangerController : Character
 {
-    [SerializeField] float attackRange = 5f;
+    [Header("Extra Stats")]
     [SerializeField] Transform pusher;
     [SerializeField] Transform jumper;
     [SerializeField] Transform firePoint;
-    [SerializeField] Material materialColor;
-
-    [Tooltip("Delay between casting again in s")]
-    [SerializeField] float fireRate = 5;
-
+    [SerializeField] Material material;
     [SerializeField] float bulletSpeed;
-
     [SerializeField] List<GameObject> bullets = new List<GameObject>();
 
     private GameObject effectToSpawn;
@@ -25,8 +20,9 @@ public class EnemyShoots : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        color = materialColor.color;
+        color = material.color;
         effectToSpawn = bullets[0];
+        currentHealth = MaxHealth;
     }
 
     // Update is called once per frame
@@ -73,7 +69,7 @@ public class EnemyShoots : MonoBehaviour
         float distanceFromJumper = Vector3.Distance(jumper.position, transform.position);
 
         // Attack the player that is closer to the enemy.
-        if (distanceFromJumper <= attackRange && distanceFromPusher <= attackRange)
+        if (distanceFromJumper <= AttackRange && distanceFromPusher <= AttackRange)
         {
             if (distanceFromPusher < distanceFromJumper)
             {
@@ -84,11 +80,11 @@ public class EnemyShoots : MonoBehaviour
                 playerToAttack = jumper;
             }
         }
-        else if (distanceFromJumper <= attackRange)
+        else if (distanceFromJumper <= AttackRange)
         {
             playerToAttack = jumper;
         }
-        else if (distanceFromPusher <= attackRange)
+        else if (distanceFromPusher <= AttackRange)
         {
             playerToAttack = pusher;
         }
@@ -100,25 +96,35 @@ public class EnemyShoots : MonoBehaviour
     {
         print($"attacking {player.name}");
 
+        FaceTarget(player);
+
         if(Time.time >= timeToFire)
         {
-            timeToFire = Time.time + 1 / fireRate;
+            timeToFire = Time.time + 1 / AttackSpeed;
             GameObject bullet = SpawnBullet(player);
+            Ability ability = bullet.GetComponent<Ability>();
+            ability.AttackDamage = AttackDamage;
             //MoveBullet(player.position, bullet);
         }
+    }
+
+    void FaceTarget(Transform target)
+    {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
     GameObject SpawnBullet(Transform player)
     {
         GameObject bullet = null;
-        var position = firePoint.position;
 
         if (firePoint != null)
         {
-            Vector3 direction = player.position - transform.position;
+            Vector3 direction = player.position - firePoint.position;
             Quaternion newQuat = Quaternion.LookRotation(direction);
 
-            bullet = Instantiate(effectToSpawn, position, newQuat);
+            bullet = Instantiate(effectToSpawn, firePoint.position, newQuat);
         }
         else
         {
@@ -136,6 +142,24 @@ public class EnemyShoots : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Ability ability = other.GetComponent<Ability>();
+
+        if (ability.AttackDamage > 0)
+        {
+            TakeDamage(ability.AttackDamage, Resistance.UseArmor);
+        }
+        else if (ability.AbilityPower > 0)
+        {
+            TakeDamage(ability.AbilityPower, Resistance.UseMagicResist);
+        }
+        else
+        {
+            print($"[WARNING] No damage on {transform.name} from {other.name}");
+        }
+    }
+
     void OnDrawGizmos()
     {
         DrawAggroRange();
@@ -146,15 +170,15 @@ public class EnemyShoots : MonoBehaviour
     {
         Gizmos.color = color;
         float theta = 0;
-        float x = attackRange * Mathf.Cos(theta);
-        float y = attackRange * Mathf.Sin(theta);
+        float x = AttackRange * Mathf.Cos(theta);
+        float y = AttackRange * Mathf.Sin(theta);
         Vector3 pos = transform.position + new Vector3(x, 0, y);
         Vector3 newPos = pos;
         Vector3 lastPos = pos;
         for (theta = 0.1f; theta < Mathf.PI * 2; theta += 0.1f)
         {
-            x = attackRange * Mathf.Cos(theta);
-            y = attackRange * Mathf.Sin(theta);
+            x = AttackRange * Mathf.Cos(theta);
+            y = AttackRange * Mathf.Sin(theta);
             newPos = transform.position + new Vector3(x, 0, y);
             Gizmos.DrawLine(pos, newPos);
             pos = newPos;

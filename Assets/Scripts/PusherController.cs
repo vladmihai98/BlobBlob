@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PusherController : MonoBehaviour
+public class PusherController : Character
 {
-    [SerializeField] float movementSpeed = 5;
-
     private Rigidbody rigidbody;
     private Vector3 velocity;
 
@@ -13,13 +11,19 @@ public class PusherController : MonoBehaviour
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        currentHealth = MaxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Interact()
+    {
+        Move();
+    }
+
+    public override void Move()
     {
         ProcessInput();
-        Move();
+
+        rigidbody.MovePosition(transform.position + (velocity * MovementSpeed * Time.deltaTime));
     }
 
     void ProcessInput()
@@ -74,8 +78,21 @@ public class PusherController : MonoBehaviour
         }
     }
 
-    void Move()
+    private void OnTriggerEnter(Collider other)
     {
-        rigidbody.MovePosition(transform.position + (velocity * movementSpeed * Time.deltaTime));
+        Ability ability = other.GetComponent<Ability>();
+
+        if(ability.AttackDamage > 0)
+        {
+            TakeDamage(ability.AttackDamage, Resistance.UseArmor);
+        }
+        else if(ability.AbilityPower > 0)
+        {
+            TakeDamage(ability.AbilityPower, Resistance.UseMagicResist);
+        }
+        else
+        {
+            print($"[WARNING] No damage on {transform.name} from {other.name}");
+        }
     }
 }

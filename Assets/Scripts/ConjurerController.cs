@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyConjurer : MonoBehaviour
+public class ConjurerController : Character
 {
-    [SerializeField] float attackRange = 5f;
+    [Header("Extra Stats")]
     [SerializeField] Transform pusher;
     [SerializeField] Transform jumper;
     [SerializeField] GameObject spell;
-
-    [Tooltip("Delay between casting again in s")]
-    [SerializeField] float castingSpeed = 5;
+    [SerializeField] Material material;
 
     private bool canCastSpell = true;
+    private Color color;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        color = material.color;
+        currentHealth = MaxHealth;
     }
 
     // Update is called once per frame
@@ -64,7 +64,7 @@ public class EnemyConjurer : MonoBehaviour
         float distanceFromJumper = Vector3.Distance(jumper.position, transform.position);
 
         // Attack the player that is closer to the enemy.
-        if (distanceFromJumper <= attackRange && distanceFromPusher <= attackRange)
+        if (distanceFromJumper <= AttackRange && distanceFromPusher <= AttackRange)
         {
             if (distanceFromPusher < distanceFromJumper)
             {
@@ -75,11 +75,11 @@ public class EnemyConjurer : MonoBehaviour
                 playerToAttack = jumper;
             }
         }
-        else if (distanceFromJumper <= attackRange)
+        else if (distanceFromJumper <= AttackRange)
         {
             playerToAttack = jumper;
         }
-        else if (distanceFromPusher <= attackRange)
+        else if (distanceFromPusher <= AttackRange)
         {
             playerToAttack = pusher;
         }
@@ -89,7 +89,6 @@ public class EnemyConjurer : MonoBehaviour
 
     void AttackPlayer(Transform player)
     {
-        // TODO attack player - we're friendly for now >:)
         print($"attacking {player.name}");
 
         if (canCastSpell)
@@ -97,7 +96,9 @@ public class EnemyConjurer : MonoBehaviour
             print($"instantiating + {canCastSpell}");
 
             // For now just cast spell at player position
-            Instantiate(spell, player.position, Quaternion.identity);
+            GameObject spellInstance = Instantiate(spell, player.position, Quaternion.identity);
+            Ability ability = spellInstance.GetComponentInChildren<Ability>();
+            ability.AbilityPower = AbilityPower;
 
             StartCoroutine(ResetCastTimer());
         }
@@ -108,9 +109,27 @@ public class EnemyConjurer : MonoBehaviour
         print("falsing");
         canCastSpell = false;
 
-        yield return new WaitForSecondsRealtime(castingSpeed);
+        yield return new WaitForSecondsRealtime(CastingSpeed);
 
         canCastSpell = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Ability ability = other.GetComponent<Ability>();
+
+        if (ability.AttackDamage > 0)
+        {
+            TakeDamage(ability.AttackDamage, Resistance.UseArmor);
+        }
+        else if (ability.AbilityPower > 0)
+        {
+            TakeDamage(ability.AbilityPower, Resistance.UseMagicResist);
+        }
+        else
+        {
+            print($"[WARNING] No damage on {transform.name} from {other.name}");
+        }
     }
 
     void OnDrawGizmos()
@@ -121,17 +140,17 @@ public class EnemyConjurer : MonoBehaviour
     // Kudos to the guy from http://codetuto.com/2015/06/drawing-a-circle-using-gizmos-in-unity3d/
     void DrawAggroRange()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = color;
         float theta = 0;
-        float x = attackRange * Mathf.Cos(theta);
-        float y = attackRange * Mathf.Sin(theta);
+        float x = AttackRange * Mathf.Cos(theta);
+        float y = AttackRange * Mathf.Sin(theta);
         Vector3 pos = transform.position + new Vector3(x, 0, y);
         Vector3 newPos = pos;
         Vector3 lastPos = pos;
         for (theta = 0.1f; theta < Mathf.PI * 2; theta += 0.1f)
         {
-            x = attackRange * Mathf.Cos(theta);
-            y = attackRange * Mathf.Sin(theta);
+            x = AttackRange * Mathf.Cos(theta);
+            y = AttackRange * Mathf.Sin(theta);
             newPos = transform.position + new Vector3(x, 0, y);
             Gizmos.DrawLine(pos, newPos);
             pos = newPos;
