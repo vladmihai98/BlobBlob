@@ -96,7 +96,10 @@ public class ConjurerController : Character
             print($"instantiating + {canCastSpell}");
 
             // For now just cast spell at player position
-            GameObject spellInstance = Instantiate(spell, player.position, Quaternion.identity);
+            // Use 0.1 for the Y so that it does not fight with the plane for rendering.
+            GameObject spellInstance = Instantiate(spell, new Vector3(player.position.x, 0.1f, player.position.z), Quaternion.identity);
+
+            // Give damage to the ability.
             Ability ability = spellInstance.GetComponentInChildren<Ability>();
             ability.AbilityPower = AbilityPower;
 

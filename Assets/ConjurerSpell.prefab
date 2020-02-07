@@ -4711,6 +4711,7 @@ GameObject:
   - component: {fileID: 8941078611911264431}
   - component: {fileID: 8403330104406883615}
   - component: {fileID: 3734286237549818896}
+  - component: {fileID: 3837352763939663334}
   m_Layer: 0
   m_Name: VerticalDamage
   m_TagString: Untagged
@@ -4740,7 +4741,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324208298144717864}
   serializedVersion: 6
-  lengthInSec: 5
+  lengthInSec: 0.45
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -4815,7 +4816,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 0.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -9406,10 +9407,10 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324208298144717864}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
+  m_IsTrigger: 0
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 35, y: 35, z: 700}
+  m_Size: {x: 25, y: 25, z: 700}
   m_Center: {x: 0, y: 0, z: 350.0001}
 --- !u!114 &3734286237549818896
 MonoBehaviour:
@@ -9425,6 +9426,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackDamage: 0
   AbilityPower: 0
+--- !u!114 &3837352763939663334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324208298144717864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b1e12845016d84189218a1a0f70211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3835551453791708532
 GameObject:
   m_ObjectHideFlags: 0
