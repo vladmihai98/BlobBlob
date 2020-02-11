@@ -1,13 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PusherController : Character
+public class MontyController : Character
 {
+    //TODO remove multiple jump; isGrounded?
+
+    [Header("Extra Stats")]
+    [SerializeField] float jumpHeight = 300;
+
     private Rigidbody rigidbody;
     private Vector3 velocity;
 
-    // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -16,65 +18,76 @@ public class PusherController : Character
 
     public override void Interact()
     {
-        Move();
-    }
-
-    public override void Move()
-    {
         ProcessInput();
-
-        rigidbody.MovePosition(transform.position + (velocity * MovementSpeed * Time.deltaTime));
+        Move();
+        Jump();
     }
 
+    /// <summary>
+    /// Process the keyboard input to decide move direction.
+    /// </summary>
     void ProcessInput()
     {
-        if (Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
         {
             velocity = Vector3.forward + Vector3.left;
         }
-        else if (Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
         {
             velocity = Vector3.forward + Vector3.right;
         }
-        else if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
         {
             velocity = Vector3.back + Vector3.left;
         }
-        else if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
         {
             velocity = Vector3.back + Vector3.right;
         }
-        else if (Input.GetKey(KeyCode.UpArrow))
+        else if (Input.GetKey(KeyCode.W))
         {
             velocity = Vector3.forward;
         }
-        else if (Input.GetKeyUp(KeyCode.UpArrow))
+        else if (Input.GetKeyUp(KeyCode.W))
         {
             velocity = Vector3.zero;
         }
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.A))
         {
             velocity = Vector3.left;
         }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        else if (Input.GetKeyUp(KeyCode.A))
         {
             velocity = Vector3.zero;
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.S))
         {
             velocity = Vector3.back;
         }
-        else if (Input.GetKeyUp(KeyCode.DownArrow))
+        else if (Input.GetKeyUp(KeyCode.S))
         {
             velocity = Vector3.zero;
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.D))
         {
             velocity = Vector3.right;
         }
-        else if (Input.GetKeyUp(KeyCode.RightArrow))
+        else if (Input.GetKeyUp(KeyCode.D))
         {
             velocity = Vector3.zero;
+        }
+    }
+
+    void Move()
+    {
+        rigidbody.MovePosition(transform.position + (velocity * MovementSpeed * Time.deltaTime));
+    }
+
+    private void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rigidbody.AddForce(0, jumpHeight, 0);
         }
     }
 
@@ -82,11 +95,11 @@ public class PusherController : Character
     {
         Ability ability = other.GetComponent<Ability>();
 
-        if(ability.AttackDamage > 0)
+        if (ability.AttackDamage > 0)
         {
             TakeDamage(ability.AttackDamage, Resistance.UseArmor);
         }
-        else if(ability.AbilityPower > 0)
+        else if (ability.AbilityPower > 0)
         {
             TakeDamage(ability.AbilityPower, Resistance.UseMagicResist);
         }

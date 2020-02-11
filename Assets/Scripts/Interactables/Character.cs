@@ -61,28 +61,32 @@ public class Character : Interactable
     /// </summary>
     protected void TakeDamage(int damage, Resistance resistance)
     {
+        // If it is physical damage we want to use armor to reduce it.
         if (resistance == Resistance.UseArmor)
         {
             // Reduce damage effectiveness based on armor value.
             damage -= Armor;
             damage = damage < 0 ? 0 : damage;
 
+            // Update current health and the health HUD.
             currentHealth -= damage;
-            healthBar.fillAmount = (float)currentHealth / (float)MaxHealth;
+            healthBar.fillAmount = (float) currentHealth / MaxHealth;
 
             if (currentHealth <= 0)
             {
                 Die();
             }
         }
+        // It is magic damage so use magic resist.
         else
         {
             // Reduce damage effectiveness based on magic resist value.
             damage -= MagicResist;
             damage = damage < 0 ? 0 : damage;
 
+            // Update current health and the health HUD.
             currentHealth -= damage;
-            healthBar.fillAmount = (float)currentHealth / (float)MaxHealth;
+            healthBar.fillAmount = (float) currentHealth / MaxHealth;
 
             if (currentHealth <= 0)
             {

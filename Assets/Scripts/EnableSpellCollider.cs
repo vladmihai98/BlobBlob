@@ -1,14 +1,16 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnableSpellCollider : MonoBehaviour
 {
     ParticleSystem ps;
     BoxCollider collider;
+
+    /// <summary>
+    /// Variable to prevent the collider from being enabled multiple times.
+    /// </summary>
     bool colliderNotYetEnabled;
 
-    // Start is called before the first frame update
     void Start()
     {
         ps = transform.GetComponent<ParticleSystem>();
@@ -17,33 +19,34 @@ public class EnableSpellCollider : MonoBehaviour
         colliderNotYetEnabled = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(ps.isEmitting && colliderNotYetEnabled)
         {
-            print("1");
             colliderNotYetEnabled = false;
             StartCoroutine(EnableCollider());
         }
     }
 
-    // Since the animation has a delay in spawning the particles that would deal damage
-    // Wait for that delay before turning on the collider, so that the user does not take damage earlier on.
+    /// <summary>
+    /// Since the animation has a delay in spawning the particles that would deal damage,
+    /// wait for that delay before turning on the collider, so that the user does not take damage earlier on.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator EnableCollider()
     {
         yield return new WaitForSecondsRealtime(ps.main.startDelay.constant);
-
-        print("2");
         collider.enabled = true;
         StartCoroutine(DisableCollider());
     }
 
+    /// <summary>
+    /// Disable collider once the animation is finished.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator DisableCollider()
     {
         yield return new WaitForSecondsRealtime(ps.main.duration);
-
-        print("3");
         collider.enabled = false;
     }
 }

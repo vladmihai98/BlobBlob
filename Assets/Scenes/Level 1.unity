@@ -1702,6 +1702,16 @@ PrefabInstance:
       propertyPath: jumper
       value: 
       objectReference: {fileID: 4021653460737494264}
+    - target: {fileID: 5884942578588145131, guid: af57ec6c3969cfb4fa23d4096ba05636,
+        type: 3}
+      propertyPath: seeSharp
+      value: 
+      objectReference: {fileID: 677604452}
+    - target: {fileID: 5884942578588145131, guid: af57ec6c3969cfb4fa23d4096ba05636,
+        type: 3}
+      propertyPath: monty
+      value: 
+      objectReference: {fileID: 4021653460737494264}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af57ec6c3969cfb4fa23d4096ba05636, type: 3}
 --- !u!1001 &1710704244678892063
@@ -1714,7 +1724,7 @@ PrefabInstance:
     - target: {fileID: 1710704244274099776, guid: a9df3186fdb455d4daf003f58d7ab4cf,
         type: 3}
       propertyPath: m_Name
-      value: Pusher
+      value: SeeSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1710704244274099835, guid: a9df3186fdb455d4daf003f58d7ab4cf,
         type: 3}
@@ -1867,7 +1877,7 @@ PrefabInstance:
     - target: {fileID: 1996124951430779182, guid: 67dedb2c0cd3bfd47983068702caf905,
         type: 3}
       propertyPath: m_Name
-      value: Jumper
+      value: Monty
       objectReference: {fileID: 0}
     - target: {fileID: 1996124951430779157, guid: 67dedb2c0cd3bfd47983068702caf905,
         type: 3}
@@ -2001,6 +2011,16 @@ PrefabInstance:
     - target: {fileID: 2087157238044769639, guid: 958720e8e8983a24a895db3839c04065,
         type: 3}
       propertyPath: jumper
+      value: 
+      objectReference: {fileID: 4021653460737494264}
+    - target: {fileID: 2087157238044769639, guid: 958720e8e8983a24a895db3839c04065,
+        type: 3}
+      propertyPath: seeSharp
+      value: 
+      objectReference: {fileID: 677604452}
+    - target: {fileID: 2087157238044769639, guid: 958720e8e8983a24a895db3839c04065,
+        type: 3}
+      propertyPath: monty
       value: 
       objectReference: {fileID: 4021653460737494264}
     m_RemovedComponents: []

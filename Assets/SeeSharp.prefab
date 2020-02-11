@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 1710704244274099837}
   - component: {fileID: 1710704244274099838}
   - component: {fileID: 1710704244274099834}
-  - component: {fileID: 1710704244596278615}
   - component: {fileID: 6852016215522448311}
+  - component: {fileID: 110865273041432819}
   m_Layer: 0
   m_Name: Pusher
   m_TagString: Untagged
@@ -113,33 +113,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &1710704244596278615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1710704244274099776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bffbd4f0d76fcf4d8a8d80b6ce87f41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: SeeSharp
-  Description: The fearless adventurer seeking hidden treasures. The obvious treasures,
-    he pushes them away.
-  healthBar: {fileID: 1721470185953636663}
-  MaxHealth: 300
-  Mana: 0
-  MovementSpeed: 10
-  AttackRange: 20
-  ShowRange: 0
-  AttackDamage: 60
-  AbilityPower: 0
-  AttackSpeed: 3
-  CastingSpeed: 0
-  Armor: 30
-  MagicResist: 25
 --- !u!114 &6852016215522448311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +130,33 @@ MonoBehaviour:
   - {fileID: 8731488085076216129, guid: 9ec56f099d5553448826b29970422e3d, type: 3}
   fireRate: 3
   rotateToMouse: {fileID: 1710704244678892065}
+--- !u!114 &110865273041432819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710704244274099776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a4d2cf8a2182e419d6836323ad969e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: SeeSharp
+  Description: The fearless adventurer seeking hidden treasures. The obvious treasures,
+    he pushes them away.
+  healthBar: {fileID: 1721470185953636663}
+  MaxHealth: 300
+  Mana: 0
+  MovementSpeed: 10
+  AttackRange: 20
+  ShowRange: 0
+  AttackDamage: 60
+  AbilityPower: 0
+  AttackSpeed: 3
+  CastingSpeed: 0
+  Armor: 30
+  MagicResist: 25
 --- !u!1 &2322808587300930168
 GameObject:
   m_ObjectHideFlags: 0

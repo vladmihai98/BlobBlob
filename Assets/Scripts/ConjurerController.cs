@@ -1,26 +1,23 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ConjurerController : Character
 {
     [Header("Extra Stats")]
-    [SerializeField] Transform pusher;
-    [SerializeField] Transform jumper;
+    [SerializeField] Transform seeSharp;
+    [SerializeField] Transform monty;
     [SerializeField] GameObject spell;
     [SerializeField] Material material;
 
     private bool canCastSpell = true;
     private Color color;
 
-    // Start is called before the first frame update
     void Start()
     {
         color = material.color;
         currentHealth = MaxHealth;
     }
 
-    // Update is called once per frame
     void Update()
     {
         /*
@@ -51,37 +48,44 @@ public class ConjurerController : Character
         return false;
     }
 
+    /// <summary>
+    /// Buff base stats so that the character becomes more threatening for being ignored.
+    /// </summary>
     void BecomeEnraged()
     {
 
     }
 
+    /// <summary>
+    /// Retrieve the position of the nearest Player in range.
+    /// </summary>
+    /// <returns>The transform of the nearest enemy in range or null.</returns>
     Transform isPlayerInAttackRange()
     {
         Transform playerToAttack = null;
 
-        float distanceFromPusher = Vector3.Distance(pusher.position, transform.position);
-        float distanceFromJumper = Vector3.Distance(jumper.position, transform.position);
+        float distanceFromPusher = Vector3.Distance(seeSharp.position, transform.position);
+        float distanceFromJumper = Vector3.Distance(monty.position, transform.position);
 
         // Attack the player that is closer to the enemy.
         if (distanceFromJumper <= AttackRange && distanceFromPusher <= AttackRange)
         {
             if (distanceFromPusher < distanceFromJumper)
             {
-                playerToAttack = pusher;
+                playerToAttack = seeSharp;
             }
             else
             {
-                playerToAttack = jumper;
+                playerToAttack = monty;
             }
         }
         else if (distanceFromJumper <= AttackRange)
         {
-            playerToAttack = jumper;
+            playerToAttack = monty;
         }
         else if (distanceFromPusher <= AttackRange)
         {
-            playerToAttack = pusher;
+            playerToAttack = seeSharp;
         }
 
         return playerToAttack;
@@ -89,13 +93,9 @@ public class ConjurerController : Character
 
     void AttackPlayer(Transform player)
     {
-        print($"attacking {player.name}");
-
         if (canCastSpell)
         {
-            print($"instantiating + {canCastSpell}");
-
-            // For now just cast spell at player position
+            // For now just cast spell at player position -- TODO maximise the positioning so that we damage the other player too
             // Use 0.1 for the Y so that it does not fight with the plane for rendering.
             GameObject spellInstance = Instantiate(spell, new Vector3(player.position.x, 0.1f, player.position.z), Quaternion.identity);
 
@@ -107,9 +107,13 @@ public class ConjurerController : Character
         }
     }
 
+    /// <summary>
+    /// Allow spells to only be cast at a certain interval.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ResetCastTimer()
     {
-        print("falsing");
+        // Prevent 
         canCastSpell = false;
 
         yield return new WaitForSecondsRealtime(CastingSpeed);

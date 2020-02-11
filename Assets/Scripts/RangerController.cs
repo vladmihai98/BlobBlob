@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class RangerController : Character
 {
     [Header("Extra Stats")]
-    [SerializeField] Transform pusher;
-    [SerializeField] Transform jumper;
+    [SerializeField] Transform seeSharp;
+    [SerializeField] Transform monty;
     [SerializeField] Transform firePoint;
     [SerializeField] Material material;
     [SerializeField] float bulletSpeed;
@@ -25,7 +23,6 @@ public class RangerController : Character
         currentHealth = MaxHealth;
     }
 
-    // Update is called once per frame
     void Update()
     {
         /*
@@ -45,7 +42,7 @@ public class RangerController : Character
         }
 
         Transform playerToAttack = isPlayerInAttackRange();
-        if (playerToAttack != null)
+        if (playerToAttack)
         {
             AttackPlayer(playerToAttack);
         }
@@ -56,37 +53,44 @@ public class RangerController : Character
         return false;
     }
 
+    /// <summary>
+    /// Buff base stats so that the character becomes more threatening for being ignored.
+    /// </summary>
     private void BecomeEnraged()
     {
         
     }
 
+    /// <summary>
+    /// Retrieve the position of the nearest Player in range.
+    /// </summary>
+    /// <returns>The transform of the nearest enemy in range or null.</returns>
     private Transform isPlayerInAttackRange()
     {
         Transform playerToAttack = null;
 
-        float distanceFromPusher = Vector3.Distance(pusher.position, transform.position);
-        float distanceFromJumper = Vector3.Distance(jumper.position, transform.position);
+        float distanceFromPusher = Vector3.Distance(seeSharp.position, transform.position);
+        float distanceFromJumper = Vector3.Distance(monty.position, transform.position);
 
         // Attack the player that is closer to the enemy.
         if (distanceFromJumper <= AttackRange && distanceFromPusher <= AttackRange)
         {
             if (distanceFromPusher < distanceFromJumper)
             {
-                playerToAttack = pusher;
+                playerToAttack = seeSharp;
             }
             else
             {
-                playerToAttack = jumper;
+                playerToAttack = monty;
             }
         }
         else if (distanceFromJumper <= AttackRange)
         {
-            playerToAttack = jumper;
+            playerToAttack = monty;
         }
         else if (distanceFromPusher <= AttackRange)
         {
-            playerToAttack = pusher;
+            playerToAttack = seeSharp;
         }
 
         return playerToAttack;
@@ -94,20 +98,24 @@ public class RangerController : Character
 
     private void AttackPlayer(Transform player)
     {
-        print($"attacking {player.name}");
-
         FaceTarget(player);
 
         if(Time.time >= timeToFire)
         {
             timeToFire = Time.time + 1 / AttackSpeed;
             GameObject bullet = SpawnBullet(player);
+
+            // Give damage to the bullet instance.
             Ability ability = bullet.GetComponent<Ability>();
             ability.AttackDamage = AttackDamage;
             //MoveBullet(player.position, bullet);
         }
     }
 
+    /// <summary>
+    /// Rotate the GameObject towards the target.
+    /// </summary>
+    /// <param name="target">The target to rotate towards.</param>
     void FaceTarget(Transform target)
     {
         Vector3 direction = (target.position - transform.position).normalized;
@@ -115,6 +123,11 @@ public class RangerController : Character
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
+    /// <summary>
+    /// Spawn the bullet VFX and rotate it towards the target.
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns>The bullet instance.</returns>
     GameObject SpawnBullet(Transform player)
     {
         GameObject bullet = null;

@@ -1,18 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class JumperController : Character
+public class SeeSharpController : Character
 {
-    //TODO remove multiple jump; isGrounded?
-
-    [Header("Extra Stats")]
-    [SerializeField] float jumpHeight = 300;
-
     private Rigidbody rigidbody;
     private Vector3 velocity;
 
-    // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -21,73 +13,68 @@ public class JumperController : Character
 
     public override void Interact()
     {
-        ProcessInput();
         Move();
-        Jump();
     }
 
-    void ProcessInput()
+    public override void Move()
     {
-        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
-        {
-            velocity = Vector3.forward + Vector3.left;
-        }
-        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
-        {
-            velocity = Vector3.forward + Vector3.right;
-        }
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
-        {
-            velocity = Vector3.back + Vector3.left;
-        }
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
-        {
-            velocity = Vector3.back + Vector3.right;
-        }
-        else if (Input.GetKey(KeyCode.W))
-        {
-            velocity = Vector3.forward;
-        }
-        else if (Input.GetKeyUp(KeyCode.W))
-        {
-            velocity = Vector3.zero;
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            velocity = Vector3.left;
-        }
-        else if (Input.GetKeyUp(KeyCode.A))
-        {
-            velocity = Vector3.zero;
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            velocity = Vector3.back;
-        }
-        else if (Input.GetKeyUp(KeyCode.S))
-        {
-            velocity = Vector3.zero;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            velocity = Vector3.right;
-        }
-        else if (Input.GetKeyUp(KeyCode.D))
-        {
-            velocity = Vector3.zero;
-        }
-    }
+        ProcessInput();
 
-    void Move()
-    {
         rigidbody.MovePosition(transform.position + (velocity * MovementSpeed * Time.deltaTime));
     }
 
-    private void Jump()
+    /// <summary>
+    /// Process the keyboard input to decide move direction.
+    /// </summary>
+    void ProcessInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.LeftArrow))
         {
-            rigidbody.AddForce(0, jumpHeight, 0);
+            velocity = Vector3.forward + Vector3.left;
+        }
+        else if (Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.RightArrow))
+        {
+            velocity = Vector3.forward + Vector3.right;
+        }
+        else if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftArrow))
+        {
+            velocity = Vector3.back + Vector3.left;
+        }
+        else if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.RightArrow))
+        {
+            velocity = Vector3.back + Vector3.right;
+        }
+        else if (Input.GetKey(KeyCode.UpArrow))
+        {
+            velocity = Vector3.forward;
+        }
+        else if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            velocity = Vector3.zero;
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            velocity = Vector3.left;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            velocity = Vector3.zero;
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            velocity = Vector3.back;
+        }
+        else if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            velocity = Vector3.zero;
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            velocity = Vector3.right;
+        }
+        else if (Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            velocity = Vector3.zero;
         }
     }
 
@@ -95,11 +82,11 @@ public class JumperController : Character
     {
         Ability ability = other.GetComponent<Ability>();
 
-        if (ability.AttackDamage > 0)
+        if(ability.AttackDamage > 0)
         {
             TakeDamage(ability.AttackDamage, Resistance.UseArmor);
         }
-        else if (ability.AbilityPower > 0)
+        else if(ability.AbilityPower > 0)
         {
             TakeDamage(ability.AbilityPower, Resistance.UseMagicResist);
         }

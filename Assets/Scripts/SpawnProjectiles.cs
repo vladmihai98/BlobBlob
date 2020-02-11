@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnProjectiles : MonoBehaviour
@@ -13,16 +12,14 @@ public class SpawnProjectiles : MonoBehaviour
 
     private GameObject effectToSpawn;
     private float timeToFire = 0;
-    private PusherController controller;
+    private SeeSharpController controller;
 
-    // Start is called before the first frame update
     void Start()
     {
         effectToSpawn = vfx[0];
-        controller = gameObject.GetComponent<PusherController>();
+        controller = gameObject.GetComponent<SeeSharpController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetMouseButton(0) && Time.time >= timeToFire)
@@ -35,17 +32,17 @@ public class SpawnProjectiles : MonoBehaviour
     void SpawnVfx()
     {
         GameObject bullet = null;
-        var position = firePoint.position;
 
         if (firePoint != null)
         {
-            bullet = Instantiate(effectToSpawn, position, Quaternion.identity);
+            bullet = Instantiate(effectToSpawn, firePoint.position, Quaternion.identity);
 
             if(rotateToMouse)
             {
                 bullet.transform.localRotation = rotateToMouse.GetRotation();
             }
 
+            // Give damage to the bullet instance.
             Ability ability = bullet.GetComponent<Ability>();
             ability.AttackDamage = controller.AttackDamage;
         }

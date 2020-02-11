@@ -159,9 +159,9 @@ GameObject:
   - component: {fileID: 1996124951430779155}
   - component: {fileID: 1996124951430779152}
   - component: {fileID: 1996124951430779156}
-  - component: {fileID: 3205544317724319517}
+  - component: {fileID: 5616508554871044176}
   m_Layer: 0
-  m_Name: Jumper
+  m_Name: Monty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -257,7 +257,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &3205544317724319517
+--- !u!114 &5616508554871044176
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -266,14 +266,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1996124951430779182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b9617e9d16f9a94a8ffd5c0672ea584, type: 3}
+  m_Script: {fileID: 11500000, guid: d1a207a62f0f99741a0c19086c42b961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Monty
   Description: The agile partner in crime of SeeSharp. Agile enough only to jump.
   healthBar: {fileID: 5395832215718445851}
   MaxHealth: 250
-  Mana: 500
+  Mana: 200
   MovementSpeed: 13
   AttackRange: 30
   ShowRange: 0
@@ -283,7 +283,7 @@ MonoBehaviour:
   CastingSpeed: 0
   Armor: 20
   MagicResist: 10
-  jumpHeight: 650
+  jumpHeight: 300
 --- !u!1 &2273465064081877391
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 6976432937291209039}
   - component: {fileID: 3939808702615677656}
   m_Layer: 5
-  m_Name: HealthBar
+  m_Name: ManaBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
