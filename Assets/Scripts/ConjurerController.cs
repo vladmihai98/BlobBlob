@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ConjurerController : Character
 {
@@ -9,29 +10,23 @@ public class ConjurerController : Character
     [SerializeField] GameObject spell;
     [SerializeField] Material material;
 
+    private NavMeshAgent agent; 
     private bool canCastSpell = true;
     private Color color;
 
     void Start()
     {
+        initialPosition = transform;
         color = material.color;
         currentHealth = MaxHealth;
+
+        agent = GetComponent<NavMeshAgent>();
+        agent.stoppingDistance = AttackRange;
     }
 
     void Update()
     {
-        /*
-         * get player from world
-         * get player position
-         * if(playerPosition is past transform.position)
-         * {
-         *      // become enraged
-         *      // more damage, increased AS, increased Casting Speed
-         *      // increased MS
-         *      // and follow the enemy forever = Video 172 from Udemy
-         * }
-         */
-        if (didPlayerGoPastMe())
+        if (didPlayerIgnoreMe())
         {
             BecomeEnraged();
         }
@@ -41,10 +36,28 @@ public class ConjurerController : Character
         {
             AttackPlayer(playerToAttack);
         }
+        else
+        {
+            if (isAggroed)
+            {
+                ChaseClosestPlayer();
+            }
+        }
     }
 
-    bool didPlayerGoPastMe()
+    /// <summary>
+    /// For convenience the enemies are placed facing Z-.
+    /// So the players ignore the enemies when they have gone past the initial position plus range in the Z+ direction.
+    /// </summary>
+    /// <returns>True if player ignored enemy, false otherwise.</returns>
+    bool didPlayerIgnoreMe()
     {
+        if(initialPosition.position.z < monty.position.z || 
+           initialPosition.position.z < seeSharp.position.z)
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -88,11 +101,22 @@ public class ConjurerController : Character
             playerToAttack = seeSharp;
         }
 
+        FaceTarget(playerToAttack);
+
         return playerToAttack;
     }
 
+    /// <summary>
+    /// Cast a damaging spell at the location of the player closest to us.
+    /// </summary>
+    /// <param name="player">The player closest to us.</param>
     void AttackPlayer(Transform player)
     {
+        // Register the fact that we can attack the player and that we want to chase if he escapes our range.
+        isAggroed = true;
+
+        animator.SetTrigger("attack");
+
         if (canCastSpell)
         {
             // For now just cast spell at player position -- TODO maximise the positioning so that we damage the other player too
@@ -104,6 +128,40 @@ public class ConjurerController : Character
             ability.AbilityPower = AbilityPower;
 
             StartCoroutine(ResetCastTimer());
+        }
+    }
+
+    /// <summary>
+    /// Chase the player closest to us.
+    /// </summary>
+    void ChaseClosestPlayer()
+    {
+        float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
+        float distanceFromMonty = Vector3.Distance(monty.position, transform.position);
+
+        if(distanceFromSeeSharp <= distanceFromMonty)
+        {
+            agent.SetDestination(seeSharp.position);
+        }
+        else
+        {
+            agent.SetDestination(monty.position);
+        }
+
+        animator.SetTrigger("run");
+    }
+
+    /// <summary>
+    /// Rotate the GameObject towards the target.
+    /// </summary>
+    /// <param name="target">The target to rotate towards.</param>
+    void FaceTarget(Transform target)
+    {
+        if(target)
+        {
+            Vector3 direction = (target.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
         }
     }
 

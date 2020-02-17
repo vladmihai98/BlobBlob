@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Character : Interactable
 {
     public Image healthBar;
+    public Animator animator;
 
     [Header("Generic Stats")]
     public int MaxHealth;
@@ -23,6 +25,8 @@ public class Character : Interactable
     public int MagicResist;
 
     protected int currentHealth;
+    protected Transform initialPosition;
+    protected bool isAggroed = false;
 
     /// <summary>
     /// To identify what to use to reduce damage.
@@ -101,6 +105,13 @@ public class Character : Interactable
     private void Die()
     {
         print($"[INFO] Character {transform.name} has died.");
+        animator.SetTrigger("die");
+        StartCoroutine(DestroyGameObject());
+    }
+
+    IEnumerator DestroyGameObject()
+    {
+        yield return new WaitForSecondsRealtime(10f);
         Destroy(gameObject);
     }
 

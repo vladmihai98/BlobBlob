@@ -1,19 +1,30 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class MontyController : Character
 {
-    //TODO remove multiple jump; isGrounded?
-
     [Header("Extra Stats")]
     [SerializeField] float jumpHeight = 300;
 
     private Rigidbody rigidbody;
     private Vector3 velocity;
 
+    /// <summary>
+    /// Keep track of objects that have damaged us so that their colliders can't damage us the next frame.
+    /// Remove the objects after a given period of time, say 10s.
+    /// </summary>
+    private List<GameObject> pastDamagingParticles;
+
+    private bool isGrounded;
+
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
         currentHealth = MaxHealth;
+        isGrounded = true;
+
+        pastDamagingParticles = new List<GameObject>();
     }
 
     public override void Interact()
@@ -28,53 +39,63 @@ public class MontyController : Character
     /// </summary>
     void ProcessInput()
     {
-        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
+        velocity = Vector3.zero;
+
+        // Move Forward
+        if (Input.GetKey(KeyCode.W))
         {
-            velocity = Vector3.forward + Vector3.left;
-        }
-        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
-        {
-            velocity = Vector3.forward + Vector3.right;
-        }
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
-        {
-            velocity = Vector3.back + Vector3.left;
-        }
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
-        {
-            velocity = Vector3.back + Vector3.right;
-        }
-        else if (Input.GetKey(KeyCode.W))
-        {
-            velocity = Vector3.forward;
+            velocity.z = 1;
+            animator.SetBool("forward", true);
         }
         else if (Input.GetKeyUp(KeyCode.W))
         {
-            velocity = Vector3.zero;
+            velocity.z = 0;
+            animator.SetBool("forward", false);
         }
-        else if (Input.GetKey(KeyCode.A))
+
+        // Move Right
+        if (Input.GetKey(KeyCode.D))
         {
-            velocity = Vector3.left;
-        }
-        else if (Input.GetKeyUp(KeyCode.A))
-        {
-            velocity = Vector3.zero;
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            velocity = Vector3.back;
-        }
-        else if (Input.GetKeyUp(KeyCode.S))
-        {
-            velocity = Vector3.zero;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            velocity = Vector3.right;
+            velocity.x = 1;
+            animator.SetBool("right", true);
         }
         else if (Input.GetKeyUp(KeyCode.D))
         {
-            velocity = Vector3.zero;
+            velocity.x = 0;
+            animator.SetBool("right", false);
+        }
+
+        // Move Back
+        if (Input.GetKey(KeyCode.S))
+        {
+            velocity.z = -1;
+            animator.SetBool("back", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.S))
+        {
+            velocity.z = 0;
+            animator.SetBool("back", false);
+        }
+
+        // Move Left
+        if (Input.GetKey(KeyCode.A))
+        {
+            velocity.x = -1;
+            animator.SetBool("left", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.A))
+        {
+            velocity.x = 0;
+            animator.SetBool("left", false);
+        }
+
+        if (velocity != Vector3.zero)
+        {
+            animator.SetBool("move", true);
+        }
+        else
+        {
+            animator.SetBool("move", false);
         }
     }
 
@@ -85,16 +106,47 @@ public class MontyController : Character
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            rigidbody.AddForce(0, jumpHeight, 0);
+            isGrounded = false;
+
+            // Start the animation.
+            animator.SetTrigger("jump");
+
+            // Perform jump after delay, since character ducks before jumping.
+            StartCoroutine(PerformJump());
         }
+    }
+
+    IEnumerator PerformJump()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        rigidbody.AddForce(0, jumpHeight * Time.deltaTime, 0);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Register hitting ground.
+        isGrounded = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Ability ability = other.GetComponent<Ability>();
+        HandleDamage(other.GetComponent<Ability>());
+    }
 
+    private void OnParticleCollision(GameObject other)
+    {
+        if (!pastDamagingParticles.Contains(other))
+        {
+            pastDamagingParticles.Add(other);
+            HandleDamage(other.GetComponent<Ability>());
+        }
+    }
+
+    private void HandleDamage(Ability ability)
+    {
         if (ability.AttackDamage > 0)
         {
             TakeDamage(ability.AttackDamage, Resistance.UseArmor);
@@ -105,7 +157,7 @@ public class MontyController : Character
         }
         else
         {
-            print($"[WARNING] No damage on {transform.name} from {other.name}");
+            print($"[WARNING] No damage on {transform.name} from {ability.name}");
         }
     }
 }

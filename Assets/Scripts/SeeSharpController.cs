@@ -1,14 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SeeSharpController : Character
 {
     private Rigidbody rigidbody;
     private Vector3 velocity;
 
+    /// <summary>
+    /// Keep track of objects that have damaged us so that their colliders can't damage us the next frame.
+    /// Remove the objects after a given period of time, say 10s.
+    /// </summary>
+    private List<GameObject> pastDamagingParticles;
+
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
         currentHealth = MaxHealth;
+
+        pastDamagingParticles = new List<GameObject>();
     }
 
     public override void Interact()
@@ -28,71 +37,98 @@ public class SeeSharpController : Character
     /// </summary>
     void ProcessInput()
     {
-        if (Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.LeftArrow))
+        velocity = Vector3.zero;
+
+        // Move Forward
+        if(Input.GetKey(KeyCode.UpArrow))
         {
-            velocity = Vector3.forward + Vector3.left;
-        }
-        else if (Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.RightArrow))
-        {
-            velocity = Vector3.forward + Vector3.right;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftArrow))
-        {
-            velocity = Vector3.back + Vector3.left;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.RightArrow))
-        {
-            velocity = Vector3.back + Vector3.right;
-        }
-        else if (Input.GetKey(KeyCode.UpArrow))
-        {
-            velocity = Vector3.forward;
+            velocity.z = 1;
+            animator.SetBool("forward", true);
         }
         else if (Input.GetKeyUp(KeyCode.UpArrow))
         {
-            velocity = Vector3.zero;
+            velocity.z = 0;
+            animator.SetBool("forward", false);
         }
-        else if (Input.GetKey(KeyCode.LeftArrow))
+
+        // Move Right
+        if (Input.GetKey(KeyCode.RightArrow))
         {
-            velocity = Vector3.left;
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            velocity = Vector3.zero;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            velocity = Vector3.back;
-        }
-        else if (Input.GetKeyUp(KeyCode.DownArrow))
-        {
-            velocity = Vector3.zero;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            velocity = Vector3.right;
+            velocity.x = 1;
+            animator.SetBool("right", true);
         }
         else if (Input.GetKeyUp(KeyCode.RightArrow))
         {
-            velocity = Vector3.zero;
+            velocity.x = 0;
+            animator.SetBool("right", false);
+        }
+
+        // Move Back
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            velocity.z = -1;
+            animator.SetBool("back", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            velocity.z = 0;
+            animator.SetBool("back", false);
+        }
+
+        // Move Left
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            velocity.x = -1;
+            animator.SetBool("left", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            velocity.x = 0;
+            animator.SetBool("left", false);
+        }
+
+        if(velocity != Vector3.zero)
+        {
+            animator.SetBool("move", true);
+        }
+        else
+        {
+            animator.SetBool("move", false);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Ability ability = other.GetComponent<Ability>();
+        HandleDamage(other.GetComponent<Ability>());
+    }
 
-        if(ability.AttackDamage > 0)
+    private void OnParticleCollision(GameObject other)
+    {
+        if (!pastDamagingParticles.Contains(other))
+        {
+            pastDamagingParticles.Add(other);
+            HandleDamage(other.GetComponent<Ability>());
+        }
+    }
+
+    private void HandleDamage(Ability ability)
+    {
+        if (ability.AttackDamage > 0)
         {
             TakeDamage(ability.AttackDamage, Resistance.UseArmor);
         }
-        else if(ability.AbilityPower > 0)
+        else if (ability.AbilityPower > 0)
         {
             TakeDamage(ability.AbilityPower, Resistance.UseMagicResist);
         }
         else
         {
-            print($"[WARNING] No damage on {transform.name} from {other.name}");
+            print($"[WARNING] No damage on {transform.name} from {ability.name}");
         }
+    }
+
+    public Vector3 GetVelocity()
+    {
+        return velocity;
     }
 }
