@@ -153,9 +153,10 @@ MonoBehaviour:
   Name: Monty
   Description: The agile partner in crime of SeeSharp. Agile enough only to jump.
   healthBar: {fileID: 704268328735888668}
+  manaBar: {fileID: 3466073196069253151}
   animator: {fileID: 1117777458965485178}
   MaxHealth: 250
-  Mana: 200
+  MaxMana: 500
   MovementSpeed: 13
   AttackRange: 30
   ShowRange: 0
@@ -163,9 +164,16 @@ MonoBehaviour:
   AbilityPower: 50
   AttackSpeed: 0
   CastingSpeed: 0
-  Armor: 20
-  MagicResist: 10
+  Armor: 40
+  MagicResist: 30
   jumpHeight: 24000
+  BasicHeal: {fileID: 4488991662910922453, guid: 4bc243ff9ec94da43aaaefd122d8f0d1,
+    type: 3}
+  TechShield: {fileID: 5806714760081332719, guid: 2e1635f547c3e714d939d438e24011be,
+    type: 3}
+  EnergySlash: {fileID: 4669550037239217194, guid: c754282828dc1984ca2608cb9b185281,
+    type: 3}
+  AoeHeal: {fileID: 3768099162540429643, guid: 2ae871e782571d1468a69bf8c231ec1b, type: 3}
 --- !u!1 &6193362777493008903
 GameObject:
   m_ObjectHideFlags: 0

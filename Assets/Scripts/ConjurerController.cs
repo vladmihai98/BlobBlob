@@ -11,28 +11,29 @@ public class ConjurerController : Character
     [SerializeField] Material material;
 
     private NavMeshAgent agent; 
-    private bool canCastSpell = true;
     private Color color;
+    private bool canCastSpell = true;
 
     void Start()
     {
+        // Initialise inherited variables.
         initialPosition = transform;
-        color = material.color;
         currentHealth = MaxHealth;
 
+        color = material.color;
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = AttackRange;
     }
 
     void Update()
     {
-        if (didPlayerIgnoreMe())
+        if (isAggroed && didPlayerIgnoreMe())
         {
             BecomeEnraged();
         }
 
         Transform playerToAttack = isPlayerInAttackRange();
-        if (playerToAttack != null)
+        if (playerToAttack)
         {
             AttackPlayer(playerToAttack);
         }
@@ -101,8 +102,6 @@ public class ConjurerController : Character
             playerToAttack = seeSharp;
         }
 
-        FaceTarget(playerToAttack);
-
         return playerToAttack;
     }
 
@@ -115,6 +114,7 @@ public class ConjurerController : Character
         // Register the fact that we can attack the player and that we want to chase if he escapes our range.
         isAggroed = true;
 
+        FaceTarget(player);
         animator.SetTrigger("attack");
 
         if (canCastSpell)
@@ -123,11 +123,9 @@ public class ConjurerController : Character
             // Use 0.1 for the Y so that it does not fight with the plane for rendering.
             GameObject spellInstance = Instantiate(spell, new Vector3(player.position.x, 0.1f, player.position.z), Quaternion.identity);
 
-            // Give damage to the ability.
+            // Extract the cooldown of the ability.
             Ability ability = spellInstance.GetComponentInChildren<Ability>();
-            ability.AbilityPower = AbilityPower;
-
-            StartCoroutine(ResetCastTimer());
+            StartCoroutine(ResetCastTimer(ability.Cooldown));
         }
     }
 
@@ -148,7 +146,7 @@ public class ConjurerController : Character
             agent.SetDestination(monty.position);
         }
 
-        animator.SetTrigger("run");
+        animator.SetTrigger("chase");
     }
 
     /// <summary>
@@ -157,25 +155,20 @@ public class ConjurerController : Character
     /// <param name="target">The target to rotate towards.</param>
     void FaceTarget(Transform target)
     {
-        if(target)
-        {
-            Vector3 direction = (target.position - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-        }
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
     /// <summary>
     /// Allow spells to only be cast at a certain interval.
     /// </summary>
     /// <returns></returns>
-    IEnumerator ResetCastTimer()
+    IEnumerator ResetCastTimer(int cooldown)
     {
-        // Prevent 
+        // Prevent casting until the spell has cooled down.
         canCastSpell = false;
-
-        yield return new WaitForSecondsRealtime(CastingSpeed);
-
+        yield return new WaitForSecondsRealtime(cooldown);
         canCastSpell = true;
     }
 

@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.4}
+  m_AnchoredPosition: {x: 0, y: 2.48}
   m_SizeDelta: {x: 100, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &961187682
@@ -268,7 +268,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1289677774528876152}
   m_LocalRotation: {x: -0.000000007450581, y: 0.998908, z: 0.046720907, w: 0}
-  m_LocalPosition: {x: -0, y: -3.5, z: 35}
+  m_LocalPosition: {x: -0, y: -7, z: 74}
   m_LocalScale: {x: 45.74257, y: 45.74257, z: 45.74257}
   m_Children: []
   m_Father: {fileID: 1011305024074330962}
@@ -285,7 +285,8 @@ GameObject:
   - component: {fileID: 5672127045129564253}
   - component: {fileID: 8251329578764924242}
   - component: {fileID: 5449503751197958940}
-  - component: {fileID: 5884942578588145131}
+  - component: {fileID: 738880659772175340}
+  - component: {fileID: 7839072865291851849}
   m_Layer: 0
   m_Name: Dragon
   m_TagString: Untagged
@@ -339,7 +340,29 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.3, z: 0}
---- !u!114 &5884942578588145131
+--- !u!195 &738880659772175340
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672127045129564241}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.2
+  m_Speed: 3.5
+  m_Acceleration: 10
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &7839072865291851849
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -348,19 +371,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 5672127045129564241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab9957504eb25f94bb207bf754157975, type: 3}
+  m_Script: {fileID: 11500000, guid: bc3a30cb97cad9c4bbe0a640c87c71bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Ranger
-  Description: A guy who likes to shoot... that's it really.
+  Name: SoulEater
+  Description: Always hungry for the souls of invaders.
   healthBar: {fileID: 1517488422}
   animator: {fileID: 1011305024016618830}
-  MaxHealth: 500
+  MaxHealth: 400
   Mana: 0
   MovementSpeed: 10
   AttackRange: 25
   ShowRange: 1
-  AttackDamage: 50
+  AttackDamage: 0
   AbilityPower: 0
   AttackSpeed: 1.5
   CastingSpeed: 0
@@ -371,8 +394,8 @@ MonoBehaviour:
   firePoint: {fileID: 907755166416187963}
   material: {fileID: 2100000, guid: ce0cb271c34a85f47826bf4a5239017c, type: 2}
   bulletSpeed: 20
-  bullets:
-  - {fileID: 8731488085076216129, guid: 9ec56f099d5553448826b29970422e3d, type: 3}
+  fireBall: {fileID: 8731488085076216129, guid: 6d45a6be2d9b33b4aad357ad205aae81,
+    type: 3}
 --- !u!1001 &1011305023645901665
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -398,19 +421,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 971994672, guid: 0bdbbc31102770146858004072a8752a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 971994672, guid: 0bdbbc31102770146858004072a8752a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 971994672, guid: 0bdbbc31102770146858004072a8752a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 971994672, guid: 0bdbbc31102770146858004072a8752a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 971994672, guid: 0bdbbc31102770146858004072a8752a, type: 3}
       propertyPath: m_RootOrder

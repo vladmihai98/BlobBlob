@@ -113,6 +113,12 @@ public class SeeSharpController : Character
 
     private void HandleDamage(Ability ability)
     {
+        // Ignore friendly-fire, e.g. abilities that should damage enemies and not our friends.
+        if(ability.TypeOfTarget == Ability.TargetType.Enemy)
+        {
+            return;
+        }
+
         if (ability.AttackDamage > 0)
         {
             TakeDamage(ability.AttackDamage, Resistance.UseArmor);
@@ -125,6 +131,16 @@ public class SeeSharpController : Character
         {
             print($"[WARNING] No damage on {transform.name} from {ability.name}");
         }
+    }
+
+    public void UseHeal(int healAmount)
+    {
+        currentHealth += healAmount;
+        if (currentHealth > MaxHealth)
+        {
+            currentHealth = MaxHealth;
+        }
+        healthBar.fillAmount = (float)currentHealth / MaxHealth;
     }
 
     public Vector3 GetVelocity()

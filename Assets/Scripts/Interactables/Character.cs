@@ -5,11 +5,12 @@ using UnityEngine.UI;
 public class Character : Interactable
 {
     public Image healthBar;
+    public Image manaBar;
     public Animator animator;
 
     [Header("Generic Stats")]
     public int MaxHealth;
-    public int Mana;
+    public int MaxMana;
     public int MovementSpeed;
     public int AttackRange;
     public bool ShowRange;
@@ -25,13 +26,14 @@ public class Character : Interactable
     public int MagicResist;
 
     protected int currentHealth;
+    protected int currentMana;
     protected Transform initialPosition;
     protected bool isAggroed = false;
 
     /// <summary>
     /// To identify what to use to reduce damage.
     /// </summary>
-    public enum Resistance { UseArmor, UseMagicResist };
+    protected enum Resistance { UseArmor, UseMagicResist };
 
     /// <summary>
     /// Handles character movement.

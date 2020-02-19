@@ -445,8 +445,8 @@ MonoBehaviour:
   AbilityPower: 0
   AttackSpeed: 3
   CastingSpeed: 0
-  Armor: 30
-  MagicResist: 25
+  Armor: 60
+  MagicResist: 50
 --- !u!1001 &8275852417043588401
 PrefabInstance:
   m_ObjectHideFlags: 0
