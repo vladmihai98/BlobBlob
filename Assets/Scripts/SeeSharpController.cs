@@ -143,6 +143,11 @@ public class SeeSharpController : Character
         healthBar.fillAmount = (float)currentHealth / MaxHealth;
     }
 
+    public void TakeHit(int damageAmount, Resistance resistance)
+    {
+        TakeDamage(damageAmount, resistance);
+    }
+
     public Vector3 GetVelocity()
     {
         return velocity;

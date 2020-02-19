@@ -284,7 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5672127045129564253}
   - component: {fileID: 8251329578764924242}
-  - component: {fileID: 5449503751197958940}
+  - component: {fileID: 8917432242848396199}
   - component: {fileID: 738880659772175340}
   - component: {fileID: 7839072865291851849}
   m_Layer: 0
@@ -303,7 +303,7 @@ Transform:
   m_GameObject: {fileID: 5672127045129564241}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.3, y: 3, z: 104.3}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 961187679}
   - {fileID: 1011305024016618833}
@@ -326,8 +326,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &5449503751197958940
-CapsuleCollider:
+--- !u!65 &8917432242848396199
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -336,10 +336,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.7
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.3, z: 0}
+  serializedVersion: 2
+  m_Size: {x: 2.6881032, y: 2.6672409, z: 3.004385}
+  m_Center: {x: -0.011953592, y: 0.34929216, z: 0.07272434}
 --- !u!195 &738880659772175340
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -377,9 +376,10 @@ MonoBehaviour:
   Name: SoulEater
   Description: Always hungry for the souls of invaders.
   healthBar: {fileID: 1517488422}
+  manaBar: {fileID: 0}
   animator: {fileID: 1011305024016618830}
   MaxHealth: 400
-  Mana: 0
+  MaxMana: 0
   MovementSpeed: 10
   AttackRange: 25
   ShowRange: 1

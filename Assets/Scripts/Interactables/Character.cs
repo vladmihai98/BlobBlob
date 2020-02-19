@@ -33,7 +33,7 @@ public class Character : Interactable
     /// <summary>
     /// To identify what to use to reduce damage.
     /// </summary>
-    protected enum Resistance { UseArmor, UseMagicResist };
+    public enum Resistance { UseArmor, UseMagicResist };
 
     /// <summary>
     /// Handles character movement.

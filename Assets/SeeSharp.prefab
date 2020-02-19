@@ -435,13 +435,14 @@ MonoBehaviour:
   Description: The fearless adventurer seeking hidden treasures. The obvious treasures,
     he pushes them away.
   healthBar: {fileID: 8961730244946557467}
+  manaBar: {fileID: 0}
   animator: {fileID: 6161549800818973675}
   MaxHealth: 300
-  Mana: 0
+  MaxMana: 0
   MovementSpeed: 10
   AttackRange: 20
   ShowRange: 0
-  AttackDamage: 60
+  AttackDamage: 75
   AbilityPower: 0
   AttackSpeed: 3
   CastingSpeed: 0

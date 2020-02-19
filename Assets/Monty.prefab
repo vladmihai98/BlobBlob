@@ -156,7 +156,7 @@ MonoBehaviour:
   manaBar: {fileID: 3466073196069253151}
   animator: {fileID: 1117777458965485178}
   MaxHealth: 250
-  MaxMana: 500
+  MaxMana: 700
   MovementSpeed: 13
   AttackRange: 30
   ShowRange: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
   AbilityPower: 50
   AttackSpeed: 0
   CastingSpeed: 0
-  Armor: 40
+  Armor: 35
   MagicResist: 30
   jumpHeight: 24000
   BasicHeal: {fileID: 4488991662910922453, guid: 4bc243ff9ec94da43aaaefd122d8f0d1,
