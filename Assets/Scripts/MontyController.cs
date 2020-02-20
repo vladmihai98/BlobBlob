@@ -248,6 +248,11 @@ public class MontyController : Character
         TakeDamage(damageAmount, resistance);
     }
 
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         // Register hitting ground.

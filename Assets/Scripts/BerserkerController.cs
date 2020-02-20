@@ -78,13 +78,13 @@ public class BerserkerController : Character
     {
         Transform playerToAttack = null;
 
-        float distanceFromPusher = Vector3.Distance(seeSharp.position, transform.position);
-        float distanceFromJumper = Vector3.Distance(monty.position, transform.position);
+        float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
+        float distanceFromMonty = Vector3.Distance(monty.position, transform.position);
 
         // Attack the player that is closer to the enemy.
-        if (distanceFromJumper <= AttackRange && distanceFromPusher <= AttackRange)
+        if (distanceFromMonty <= AttackRange && distanceFromSeeSharp <= AttackRange)
         {
-            if (distanceFromPusher < distanceFromJumper)
+            if (distanceFromSeeSharp < distanceFromMonty)
             {
                 playerToAttack = seeSharp;
             }
@@ -93,11 +93,11 @@ public class BerserkerController : Character
                 playerToAttack = monty;
             }
         }
-        else if (distanceFromJumper <= AttackRange)
+        else if (distanceFromMonty <= AttackRange)
         {
             playerToAttack = monty;
         }
-        else if (distanceFromPusher <= AttackRange)
+        else if (distanceFromSeeSharp <= AttackRange)
         {
             playerToAttack = seeSharp;
         }

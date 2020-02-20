@@ -125,7 +125,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-9368
+  m_Name: pb_Mesh-1078
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -1121,7 +1121,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-9580
+  m_Name: pb_Mesh-1262
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -1485,7 +1485,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-9628
+  m_Name: pb_Mesh-1310
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -1651,7 +1651,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-9604
+  m_Name: pb_Mesh-1286
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -1805,6 +1805,24 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &2091781516 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6407761724837699991, guid: b6220870580d01b43a7269145927850d,
+    type: 3}
+  m_PrefabInstance: {fileID: 8275852418224297337}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2091781521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091781516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed08e00ce9cf89a41819b28c526dc6ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &629219321004063043
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1872,6 +1890,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8331938965216514938, guid: 3a5f63d70119ab8499ba1e83f868ca84,
+        type: 3}
+      propertyPath: seeSharp
+      value: 
+      objectReference: {fileID: 219146270}
+    - target: {fileID: 8331938965216514938, guid: 3a5f63d70119ab8499ba1e83f868ca84,
+        type: 3}
+      propertyPath: monty
+      value: 
+      objectReference: {fileID: 1137715779}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a5f63d70119ab8499ba1e83f868ca84, type: 3}
 --- !u!4 &629219321004063044 stripped

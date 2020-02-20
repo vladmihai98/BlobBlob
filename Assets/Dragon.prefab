@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 961187682}
   - component: {fileID: 961187681}
   - component: {fileID: 961187680}
+  - component: {fileID: 4556478657851182014}
   m_Layer: 5
   m_Name: HealthHUD
   m_TagString: Untagged
@@ -99,6 +100,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4556478657851182014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961187678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed08e00ce9cf89a41819b28c526dc6ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1517488420
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +401,7 @@ MonoBehaviour:
   AttackSpeed: 1.5
   CastingSpeed: 0
   Armor: 30
-  MagicResist: 20
+  MagicResist: 30
   seeSharp: {fileID: 0}
   monty: {fileID: 0}
   firePoint: {fileID: 907755166416187963}

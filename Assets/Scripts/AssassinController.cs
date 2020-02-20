@@ -2,23 +2,23 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ConjurerController : Character
+public class AssassinController : Character
 {
     [Header("Extra Stats")]
     [SerializeField] Transform seeSharp;
     [SerializeField] Transform monty;
-    [SerializeField] GameObject spell;
     [SerializeField] Material material;
 
-    private NavMeshAgent agent; 
     private Color color;
-    private bool canCastSpell = true;
+    private NavMeshAgent agent;
+    private bool canAttack = true;
 
     void Start()
     {
         // Initialise inherited variables.
         initialPosition = transform;
         currentHealth = MaxHealth;
+
 
         color = material.color;
         agent = GetComponent<NavMeshAgent>();
@@ -53,7 +53,7 @@ public class ConjurerController : Character
     /// <returns>True if player ignored enemy, false otherwise.</returns>
     bool didPlayerIgnoreMe()
     {
-        if(initialPosition.position.z < monty.position.z || 
+        if (initialPosition.position.z < monty.position.z ||
            initialPosition.position.z < seeSharp.position.z)
         {
             return true;
@@ -78,19 +78,23 @@ public class ConjurerController : Character
     {
         Transform playerToAttack = null;
 
+        var montyController = monty.GetComponent<MontyController>();
+        var seeSharpController = seeSharp.GetComponent<SeeSharpController>();
+
         float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
         float distanceFromMonty = Vector3.Distance(monty.position, transform.position);
 
-        // Attack the player that is closer to the enemy.
+        // Attack the players if they are in range.
         if (distanceFromMonty <= AttackRange && distanceFromSeeSharp <= AttackRange)
         {
-            if (distanceFromSeeSharp < distanceFromMonty)
+            // Attack the player that has the fewest HealthPoints.
+            if (montyController.GetCurrentHealth() < seeSharpController.GetCurrentHealth())
             {
-                playerToAttack = seeSharp;
+                playerToAttack = monty;
             }
             else
             {
-                playerToAttack = monty;
+                playerToAttack = seeSharp;
             }
         }
         else if (distanceFromMonty <= AttackRange)
@@ -117,16 +121,36 @@ public class ConjurerController : Character
         FaceTarget(player);
         animator.SetTrigger("attack");
 
-        if (canCastSpell)
+        if (canAttack)
         {
-            // For now just cast spell at player position -- TODO maximise the positioning so that we damage the other player too
-            // Use 0.1 for the Y so that it does not fight with the plane for rendering.
-            GameObject spellInstance = Instantiate(spell, new Vector3(player.position.x, 0.1f, player.position.z), Quaternion.identity);
+            canAttack = false;
 
-            // Extract the cooldown of the ability.
-            Ability ability = spellInstance.GetComponentInChildren<Ability>();
-            StartCoroutine(ResetCastTimer(ability.Cooldown));
+            Vector3 currentPosition = transform.position;
+
+            transform.position = new Vector3(player.position.x, player.position.y, player.position.z - 3f);
+
+            var controller = player.GetComponent<SeeSharpController>();
+            var controller1 = player.GetComponent<MontyController>();
+
+            if (controller)
+            {
+                controller.TakeHit(AttackDamage, Resistance.UseArmor);
+            }
+
+            if (controller1)
+            {
+                controller1.TakeHit(AttackDamage, Resistance.UseArmor);
+            }
+
+            StartCoroutine(ResetPositionAndAttack(currentPosition));
         }
+    }
+
+    IEnumerator ResetPositionAndAttack(Vector3 positionToResetTo)
+    {
+        yield return new WaitForSecondsRealtime(AttackSpeed);
+        transform.position = positionToResetTo;
+        canAttack = true;
     }
 
     /// <summary>
@@ -137,7 +161,7 @@ public class ConjurerController : Character
         float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
         float distanceFromMonty = Vector3.Distance(monty.position, transform.position);
 
-        if(distanceFromSeeSharp <= distanceFromMonty)
+        if (distanceFromSeeSharp <= distanceFromMonty)
         {
             agent.SetDestination(seeSharp.position);
         }
@@ -158,18 +182,6 @@ public class ConjurerController : Character
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-    }
-
-    /// <summary>
-    /// Allow spells to only be cast at a certain interval.
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator ResetCastTimer(int cooldown)
-    {
-        // Prevent casting until the spell has cooled down.
-        canCastSpell = false;
-        yield return new WaitForSecondsRealtime(cooldown);
-        canCastSpell = true;
     }
 
     private void OnTriggerEnter(Collider other)

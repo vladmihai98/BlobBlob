@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 6351346557679903190}
   - component: {fileID: 4951128660571171559}
   - component: {fileID: 2801636321290357752}
+  - component: {fileID: 461704123}
   m_Layer: 5
   m_Name: HealthHUD
   m_TagString: Untagged
@@ -172,6 +173,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &461704123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942103677991224565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed08e00ce9cf89a41819b28c526dc6ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3361182403962254190
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,9 +288,10 @@ MonoBehaviour:
   Name: Conjurer
   Description: Likes casting spells more than brewing something in the witch cauldron.
   healthBar: {fileID: 3875863031977279577}
+  manaBar: {fileID: 0}
   animator: {fileID: 2921589049225228351}
   MaxHealth: 500
-  Mana: 0
+  MaxMana: 0
   MovementSpeed: 10
   AttackRange: 25
   ShowRange: 1
@@ -285,8 +299,8 @@ MonoBehaviour:
   AbilityPower: 0
   AttackSpeed: 0
   CastingSpeed: 0
-  Armor: 20
-  MagicResist: 20
+  Armor: 25
+  MagicResist: 30
   seeSharp: {fileID: 0}
   monty: {fileID: 0}
   spell: {fileID: 5242769728890104769, guid: 3dfd8699202f4894fb2d721177e175a3, type: 3}

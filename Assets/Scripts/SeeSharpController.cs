@@ -148,6 +148,11 @@ public class SeeSharpController : Character
         TakeDamage(damageAmount, resistance);
     }
 
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
     public Vector3 GetVelocity()
     {
         return velocity;
