@@ -88,7 +88,9 @@ public class AssassinController : Character
                 }
                 else
                 {
-                    //Dodge();
+                    // Attempt to dodge incoming bullets. 
+                    // The Energy Slash is meant to be undodgeable so we do not track that.
+                    Dodge();
                 }
             }
         }
@@ -146,6 +148,12 @@ public class AssassinController : Character
                 AttackPlayer(playerToAttack);
             }
         }
+    }
+
+    void Dodge()
+    {
+        // Get instance of bullet.
+        // Calculate direction and cast a ray thru that.. if it hits us step aside.
     }
 
     /// <summary>
