@@ -13,35 +13,137 @@ public class AssassinController : Character
     private NavMeshAgent agent;
     private bool canAttack = true;
 
+    private MontyController montyCtrl;
+    private SeeSharpController seeSharpCtrl;
+
     void Start()
     {
         // Initialise inherited variables.
         initialPosition = transform;
         currentHealth = MaxHealth;
 
-
         color = material.color;
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = AttackRange;
+
+        montyCtrl = monty.GetComponent<MontyController>();
+        seeSharpCtrl = seeSharp.GetComponent<SeeSharpController>();
     }
 
-    void Update()
+    void LateUpdate()
     {
-        if (isAggroed && didPlayerIgnoreMe())
+        if(isAlive)
         {
-            BecomeEnraged();
+            anotherGo();
         }
+        //ChooseNextAction();
+        //if (isAggroed && didPlayerIgnoreMe())
+        //{
+        //    BecomeEnraged();
+        //}
 
-        Transform playerToAttack = isPlayerInAttackRange();
-        if (playerToAttack)
+        //Transform playerToAttack = isPlayerInAttackRange();
+        //if (playerToAttack)
+        //{
+        //    AttackPlayer(playerToAttack);
+        //}
+        //else
+        //{
+        //    if (isAggroed)
+        //    {
+        //        ChaseClosestPlayer();
+        //    }
+        //}
+    }
+
+    void ChooseNextAction()
+    {
+        if(isAggroed)
         {
-            AttackPlayer(playerToAttack);
+            if(didPlayerIgnoreMe())
+            {
+                if(canAttack)
+                {
+                    int montyHealth = montyCtrl.GetCurrentHealth();
+                    int seeSharpHealth = seeSharpCtrl.GetCurrentHealth();
+
+                    print("I SHALL NOT BE IGNORED!!!");
+
+                    if(montyHealth < seeSharpHealth)
+                    {
+                        AttackPlayer(monty, false);
+                    }
+                    else
+                    {
+                        AttackPlayer(seeSharp, false);
+                    }
+                }
+            }
+            else
+            {
+                if(canAttack)
+                {
+                    Transform playerToAttack = isPlayerInAttackRange();
+                    AttackPlayer(playerToAttack);
+                }
+                else
+                {
+                    //Dodge();
+                }
+            }
         }
         else
         {
-            if (isAggroed)
+            Transform playerToAttack = isPlayerInAttackRange();
+            if(playerToAttack)
             {
-                ChaseClosestPlayer();
+                AttackPlayer(playerToAttack);
+            }
+        }
+    }
+
+    void anotherGo()
+    {
+        Transform playerToAttack = isPlayerInAttackRange();
+
+        if(isAggroed)
+        {
+            if(canAttack)
+            {
+                if(didPlayerIgnoreMe())
+                {
+                    int montyHealth = montyCtrl.GetCurrentHealth();
+                    int seeSharpHealth = seeSharpCtrl.GetCurrentHealth();
+
+                    print("I SHALL NOT BE IGNORED!!!");
+
+                    if (montyHealth < seeSharpHealth)
+                    {
+                        AttackPlayer(monty, false);
+                    }
+                    else
+                    {
+                        AttackPlayer(seeSharp, false);
+                    }
+                }
+                else
+                {
+                    if (playerToAttack)
+                    {
+                        AttackPlayer(playerToAttack);
+                    }
+                }
+            }
+            else
+            {
+                //Dodge();
+            }
+        }
+        else
+        {
+            if(playerToAttack)
+            {
+                AttackPlayer(playerToAttack);
             }
         }
     }
@@ -113,43 +215,91 @@ public class AssassinController : Character
     /// Cast a damaging spell at the location of the player closest to us.
     /// </summary>
     /// <param name="player">The player closest to us.</param>
-    void AttackPlayer(Transform player)
+    void AttackPlayer(Transform player, bool resetPosition = true)
     {
         // Register the fact that we can attack the player and that we want to chase if he escapes our range.
         isAggroed = true;
 
         FaceTarget(player);
-        animator.SetTrigger("attack");
 
         if (canAttack)
         {
             canAttack = false;
 
-            Vector3 currentPosition = transform.position;
+            Vector3 positionReset = transform.position;
 
-            transform.position = new Vector3(player.position.x, player.position.y, player.position.z - 3f);
+            transform.position = new Vector3(player.position.x, player.position.y, player.position.z + 5f);
 
-            var controller = player.GetComponent<SeeSharpController>();
-            var controller1 = player.GetComponent<MontyController>();
-
-            if (controller)
+            if (resetPosition)
             {
-                controller.TakeHit(AttackDamage, Resistance.UseArmor);
+                StartCoroutine(PrepareAndAttack(positionReset, player));
             }
-
-            if (controller1)
+            else
             {
-                controller1.TakeHit(AttackDamage, Resistance.UseArmor);
+                StartCoroutine(PrepareAndAttack(player));
             }
-
-            StartCoroutine(ResetPositionAndAttack(currentPosition));
         }
     }
 
-    IEnumerator ResetPositionAndAttack(Vector3 positionToResetTo)
+    IEnumerator PrepareAndAttack(Transform player)
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        Vector3 newPosition = new Vector3(player.position.x, player.position.y, player.position.z - 5f);
+        transform.position = newPosition;
+        FaceTarget(player);
+        animator.SetBool("attack", true);
+
+        var ctrl = player.GetComponent<SeeSharpController>();
+        var ctrl1 = player.GetComponent<MontyController>();
+
+        if (ctrl)
+        {
+            ctrl.TakeHit(AttackDamage, Resistance.UseArmor);
+        }
+        if (ctrl1)
+        {
+            //ctrl1.SetMovementSpeed(ctrl1.GetMovementSpeed() / 2);
+            ctrl1.TakeHit(AttackDamage, Resistance.UseArmor);
+        }
+
+        StartCoroutine(ResetAttack());
+    }
+
+    IEnumerator PrepareAndAttack(Vector3 positionToResetTo, Transform player)
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        Vector3 newPosition = new Vector3(player.position.x, player.position.y, player.position.z - 5f);
+        transform.position = newPosition;
+        FaceTarget(player);
+        animator.SetBool("attack", true);
+
+        var ctrl = player.GetComponent<SeeSharpController>();
+        var ctrl1 = player.GetComponent<MontyController>();
+
+        if (ctrl)
+        {
+            ctrl.TakeHit(AttackDamage, Resistance.UseArmor);
+        }
+        if(ctrl1)
+        {
+            //ctrl1.SetMovementSpeed(ctrl1.GetMovementSpeed() / 2);
+            ctrl1.TakeHit(AttackDamage, Resistance.UseArmor);
+        }
+
+        StartCoroutine(ResetPosition(positionToResetTo));
+    }
+
+    IEnumerator ResetPosition(Vector3 positionToResetTo)
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        transform.position = positionToResetTo;
+        animator.SetBool("attack", false);
+        StartCoroutine(ResetAttack());
+    }
+
+    IEnumerator ResetAttack()
     {
         yield return new WaitForSecondsRealtime(AttackSpeed);
-        transform.position = positionToResetTo;
         canAttack = true;
     }
 

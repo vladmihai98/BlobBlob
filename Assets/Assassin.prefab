@@ -251,6 +251,9 @@ MonoBehaviour:
   healthBar: {fileID: 1179879363436573204}
   manaBar: {fileID: 0}
   animator: {fileID: 4326255083096399553}
+  ManaParticles: {fileID: 9050246880503001876, guid: 061b2c80a5e2be048a74809d925fccaf,
+    type: 3}
+  ManaPoints: 2
   MaxHealth: 200
   MaxMana: 0
   MovementSpeed: 20
@@ -258,10 +261,10 @@ MonoBehaviour:
   ShowRange: 0
   AttackDamage: 150
   AbilityPower: 0
-  AttackSpeed: 3
+  AttackSpeed: 5
   CastingSpeed: 0
-  Armor: 15
-  MagicResist: 15
+  Armor: 10
+  MagicResist: 10
   seeSharp: {fileID: 0}
   monty: {fileID: 0}
   material: {fileID: 2100000, guid: 40e1af48d60759b408cdbcebdd349b7b, type: 2}

@@ -3711,7 +3711,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 5
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -4750,7 +4750,7 @@ MonoBehaviour:
   Duration: 0
   Range: 0
   AttackDamage: 0
-  AbilityPower: 200
+  AbilityPower: 175
   HealAmount: 0
   ShieldAmount: 0
 --- !u!1 &7658575194304067410

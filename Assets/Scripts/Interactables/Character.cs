@@ -7,6 +7,9 @@ public class Character : Interactable
     public Image healthBar;
     public Image manaBar;
     public Animator animator;
+    public ParticleSystem ManaParticles;
+    [Tooltip("How many mana points to be spawned on the ground.")]
+    public int ManaPoints;
 
     [Header("Generic Stats")]
     public int MaxHealth;
@@ -29,6 +32,7 @@ public class Character : Interactable
     protected int currentMana;
     protected Transform initialPosition;
     protected bool isAggroed = false;
+    protected bool isAlive = true;
 
     /// <summary>
     /// To identify what to use to reduce damage.
@@ -106,8 +110,19 @@ public class Character : Interactable
     /// </summary>
     private void Die()
     {
+        isAlive = false;
+
         print($"[INFO] Character {transform.name} has died.");
         animator.SetTrigger("die");
+
+        if(ManaParticles)
+        {
+            var emiss = ManaParticles.emission;
+            emiss.burstCount = ManaPoints;
+            Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 5f, transform.position.z);
+            Instantiate(ManaParticles, spawnPosition, Quaternion.identity);
+        }
+
         StartCoroutine(DestroyGameObject());
     }
 

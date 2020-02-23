@@ -253,24 +253,56 @@ public class MontyController : Character
         return currentHealth;
     }
 
+    public int GetMovementSpeed()
+    {
+        return MovementSpeed;
+    }
+
+    public void SetMovementSpeed(int newSpeed)
+    {
+        MovementSpeed = newSpeed;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
+        print("3");
+
         // Register hitting ground.
         isGrounded = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        print("2");
+
         HandleDamage(other.GetComponent<Ability>());
     }
 
     private void OnParticleCollision(GameObject other)
     {
-        if (!pastDamagingParticles.Contains(other))
+        print($"1");
+
+        //if (!pastDamagingParticles.Contains(other))
+        //{
+        //    pastDamagingParticles.Add(other);
+        //    HandleDamage(other.GetComponent<Ability>());
+        //}
+    }
+
+    void OnParticleTrigger()
+    {
+        print("4");
+
+        List<ParticleSystem.Particle> enter = new List<ParticleSystem.Particle>();
+        var wow = ManaParticles.GetComponent<ParticleSystem>();
+        int idc = wow.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
+
+        print($"atatea boss {enter.Count}");
+
+        enter.ForEach(x =>
         {
-            pastDamagingParticles.Add(other);
-            HandleDamage(other.GetComponent<Ability>());
-        }
+            print($"do we even have a name {x.position}");
+        });
     }
 
     private void HandleDamage(Ability ability)

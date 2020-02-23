@@ -105,8 +105,8 @@ public class DragonController : Character
 
         if(playerToAttack == null)
         {
-            if(distanceFromMonty >= AttackRange - 5 || 
-               distanceFromSeeSharp >= AttackRange - 5)
+            if(distanceFromMonty <= AttackRange + 10 || 
+               distanceFromSeeSharp <= AttackRange + 10)
             {
                 animator.SetTrigger("wake");
             }
@@ -192,6 +192,12 @@ public class DragonController : Character
     private void OnTriggerEnter(Collider other)
     {
         Ability ability = other.GetComponent<Ability>();
+
+        // Ignore friendly-fire, e.g. abilities that should damage enemies and not our friends.
+        if (ability.TypeOfTarget == Ability.TargetType.Player)
+        {
+            return;
+        }
 
         if (ability.AttackDamage > 0)
         {

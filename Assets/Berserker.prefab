@@ -178,12 +178,15 @@ MonoBehaviour:
   healthBar: {fileID: 2174590602963680111}
   manaBar: {fileID: 0}
   animator: {fileID: 1864300508969545635}
+  ManaParticles: {fileID: 9050246880503001876, guid: 061b2c80a5e2be048a74809d925fccaf,
+    type: 3}
+  ManaPoints: 4
   MaxHealth: 650
   MaxMana: 0
   MovementSpeed: 10
   AttackRange: 10
   ShowRange: 0
-  AttackDamage: 45
+  AttackDamage: 65
   AbilityPower: 0
   AttackSpeed: 2
   CastingSpeed: 0
