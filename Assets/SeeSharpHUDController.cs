@@ -23,6 +23,6 @@ public class SeeSharpHUDController : MonoBehaviour
     {
         int currentHealth = controller.GetCurrentHealth();
         healthText.text = $"{currentHealth} / {controller.MaxHealth}";
-        healthBar.fillAmount = (float)currentHealth / controller.MaxHealth;
+        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (float)currentHealth / controller.MaxHealth, 0.1f);
     }
 }

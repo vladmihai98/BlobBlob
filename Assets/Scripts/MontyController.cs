@@ -6,6 +6,7 @@ public class MontyController : Character
 {
     [Header("Extra Stats")]
     [SerializeField] float jumpHeight = 300;
+    [SerializeField] Transform seeSharp;
 
     private SpellHandler spellHandler;
     private Rigidbody rigidbody;
@@ -17,7 +18,6 @@ public class MontyController : Character
     /// </summary>
     private List<GameObject> pastDamagingParticles;
     private bool isGrounded;
-    private GameObject seeSharp;
 
     void Start()
     {
@@ -104,8 +104,56 @@ public class MontyController : Character
             animator.SetBool("move", false);
         }
 
-        // Cast BasicHeal.
-        if(Input.GetKeyDown(KeyCode.Z))
+        // Cast BasicHeal on SeeSharp.
+        //if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
+
+            if(distanceFromSeeSharp < AttackRange)
+            {
+                int result = spellHandler.CastBasicHeal(seeSharp);
+                if(result >= 0)
+                {
+                    currentMana = result;
+                }
+            }
+        }
+
+        // Cast TechShield on SeeSharp.
+        //if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
+
+            if (distanceFromSeeSharp < AttackRange)
+            {
+                int result = spellHandler.CastTechShield(seeSharp);
+                if (result >= 0)
+                {
+                    currentMana = result;
+                }
+            }
+        }
+
+        // Cast EnergySlash from SeeSharp's position.
+        //if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
+
+            if(distanceFromSeeSharp < AttackRange)
+            {
+                int result = spellHandler.CastEnergySlash(seeSharp);
+                if (result >= 0)
+                {
+                    currentMana = result;
+                }
+            }
+        }
+
+        // Cast BasicHeal on Monty.
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             int result = spellHandler.CastBasicHeal();
             if(result >= 0)
@@ -114,7 +162,7 @@ public class MontyController : Character
             }
         }
 
-        // Cast TechShield.
+        // Cast TechShield on Monty.
         if (Input.GetKeyDown(KeyCode.X))
         {
             int result = spellHandler.CastTechShield();
@@ -124,7 +172,7 @@ public class MontyController : Character
             }
         }
 
-        // Cast EnergySlash.
+        // Cast EnergySlash on Monty.
         if(Input.GetKeyDown(KeyCode.C))
         {
             int result = spellHandler.CastEnergySlash();

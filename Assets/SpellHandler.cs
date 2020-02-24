@@ -47,12 +47,17 @@ public class SpellHandler : MonoBehaviour
     /// The spell Monty casts when pressing Z.
     /// </summary>
     /// <returns>The mana pool available after casting the spell.</returns>
-    public int CastBasicHeal()
+    public int CastBasicHeal(Transform newTarget = null)
     {
         // If we can cast the spell (i.e. it's not on cooldown) and we have the mana for it
         if (spellsStats[BasicHeal.name][0] == 1 && spellsStats[BasicHeal.name][1] <= currentMana)
         {
             spellTarget = transform;
+            if(newTarget)
+            {
+                spellTarget = newTarget;
+            }
+
             InstantiateSpellAtTarget(BasicHeal, false, true);
 
             if (spellTarget.Equals(transform))
@@ -61,7 +66,7 @@ public class SpellHandler : MonoBehaviour
             }
             else
             {
-                var ctrl = spellTarget.GetComponent<SeeSharpController>();
+                SeeSharpController ctrl = spellTarget.GetComponent<SeeSharpController>();
                 ctrl.UseHeal(BasicHeal.GetComponent<Ability>().HealAmount);
             }
 
@@ -83,11 +88,16 @@ public class SpellHandler : MonoBehaviour
     /// The spell Monty casts when pressing X.
     /// </summary>
     /// <returns>The mana pool available after casting the spell.</returns>
-    public int CastTechShield()
+    public int CastTechShield(Transform newTarget = null)
     {
         if (spellsStats[TechShield.name][0] == 1 && spellsStats[TechShield.name][1] <= currentMana)
         {
             spellTarget = transform;
+            if (newTarget)
+            {
+                spellTarget = newTarget;
+            }
+
             InstantiateSpellAtTarget(TechShield, true, true);
 
             currentMana -= spellsStats[TechShield.name][1];
@@ -107,11 +117,16 @@ public class SpellHandler : MonoBehaviour
     /// The spell Monty casts when pressing C.
     /// </summary>
     /// <returns>The mana pool available after casting the spell.</returns>
-    public int CastEnergySlash()
+    public int CastEnergySlash(Transform newTarget = null)
     {
         if (spellsStats[EnergySlash.name][0] == 1 && spellsStats[EnergySlash.name][1] <= currentMana)
         {
             spellTarget = transform;
+            if (newTarget)
+            {
+                spellTarget = newTarget;
+            }
+
             InstantiateSpellAtTarget(EnergySlash, true);
 
             currentMana -= spellsStats[EnergySlash.name][1];
@@ -128,27 +143,27 @@ public class SpellHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// Get the mana cost of the Basic Heal spell.
+    /// Get the mana cost of the BasicHeal spell.
     /// </summary>
-    /// <returns>An int representing the mana cost of the Basic Heal spell.</returns>
+    /// <returns>An int representing the mana cost of the BasicHeal spell.</returns>
     public int GetBasicHealCost()
     {
         return spellsStats[BasicHeal.name][1];
     }
 
     /// <summary>
-    /// Get the mana cost of the Tech Shield spell.
+    /// Get the mana cost of the TechShield spell.
     /// </summary>
-    /// <returns>An int representing the mana cost of the Tech Shield spell.</returns>
+    /// <returns>An int representing the mana cost of the TechShield spell.</returns>
     public int GetTechShieldCost()
     {
         return spellsStats[TechShield.name][1];
     }
 
     /// <summary>
-    /// Get the mana cost of the Energy Slash spell.
+    /// Get the mana cost of the EnergySlash spell.
     /// </summary>
-    /// <returns>An int representing the mana cost of the Tech Shield spell.</returns>
+    /// <returns>An int representing the mana cost of the EnergySlash spell.</returns>
     public int GetEnergySlashCost()
     {
         return spellsStats[EnergySlash.name][1];

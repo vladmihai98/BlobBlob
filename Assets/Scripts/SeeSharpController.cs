@@ -140,7 +140,6 @@ public class SeeSharpController : Character
         {
             currentHealth = MaxHealth;
         }
-        healthBar.fillAmount = (float)currentHealth / MaxHealth;
     }
 
     public void TakeHit(int damageAmount, Resistance resistance)
