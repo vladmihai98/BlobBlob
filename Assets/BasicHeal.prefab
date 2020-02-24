@@ -4744,7 +4744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TypeOfTarget: 0
   ManaCost: 75
-  Cooldown: 4
+  Cooldown: 5
   Speed: 0
   Duration: 1
   Range: 0

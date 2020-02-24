@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 59466009}
   - component: {fileID: 59466008}
   m_Layer: 5
-  m_Name: ShieldCDText
+  m_Name: TechShieldCDText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -190,6 +190,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59466006}
   m_CullTransparentMesh: 0
+--- !u!114 &95875322 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8275852417690028464, guid: b6220870580d01b43a7269145927850d,
+    type: 3}
+  m_PrefabInstance: {fileID: 8275852418224297337}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a4d2cf8a2182e419d6836323ad969e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &101337346
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +342,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 4cc65bd216005a344a4b6b4acf1ce614, type: 3}
-  m_Type: 3
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -358,7 +370,7 @@ GameObject:
   - component: {fileID: 228542209}
   - component: {fileID: 228542208}
   m_Layer: 5
-  m_Name: ShieldText
+  m_Name: TechShieldCD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -580,7 +592,7 @@ GameObject:
   - component: {fileID: 294626095}
   - component: {fileID: 294626094}
   m_Layer: 5
-  m_Name: SlashCDText
+  m_Name: EnergySlashCDText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1215,7 +1227,7 @@ GameObject:
   - component: {fileID: 675089930}
   - component: {fileID: 675089929}
   m_Layer: 5
-  m_Name: BasicHealCD
+  m_Name: BasicHeal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1259,7 +1271,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 4cc65bd216005a344a4b6b4acf1ce614, type: 3}
-  m_Type: 3
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
@@ -1415,7 +1427,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0.00015258789}
+  m_AnchoredPosition: {x: 0.000061035156, y: 0.00012207031}
   m_SizeDelta: {x: 0.010009766, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &762154326
@@ -1566,6 +1578,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 786869416}
+  - component: {fileID: 786869417}
   m_Layer: 5
   m_Name: MontyHUD
   m_TagString: Untagged
@@ -1605,6 +1618,33 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -1144, y: -418}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &786869417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786869415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd5a43524532ccb4aba102737db840f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 4787614778345812469}
+  handler: {fileID: 1696105916}
+  healthBar: {fileID: 821617351}
+  healthText: {fileID: 762154326}
+  manaBar: {fileID: 829085472}
+  manaText: {fileID: 1769079621}
+  basicHealCD: {fileID: 1449235612}
+  basicHealCDText: {fileID: 101337348}
+  basicHealCost: {fileID: 398173920}
+  techShieldCD: {fileID: 228542208}
+  techShieldCDText: {fileID: 59466008}
+  techShieldCost: {fileID: 1755499382}
+  energySlashCD: {fileID: 2079048629}
+  energySlashCDText: {fileID: 294626094}
+  energySlashCost: {fileID: 1703980278}
 --- !u!1001 &814758498
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1800,7 +1840,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.18997192, y: -0.000030517578}
+  m_AnchoredPosition: {x: -0.1899414, y: 0}
   m_SizeDelta: {x: -5.369995, y: -5.880005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &829085472
@@ -2238,7 +2278,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 4cc65bd216005a344a4b6b4acf1ce614, type: 3}
-  m_Type: 3
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
@@ -2657,7 +2697,7 @@ GameObject:
   - component: {fileID: 1219823654}
   - component: {fileID: 1219823653}
   m_Layer: 5
-  m_Name: SlashCostBG
+  m_Name: EnergySlashCostBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2702,7 +2742,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 4cc65bd216005a344a4b6b4acf1ce614, type: 3}
-  m_Type: 3
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3030,7 +3070,7 @@ GameObject:
   - component: {fileID: 1356645390}
   - component: {fileID: 1356645389}
   m_Layer: 5
-  m_Name: ShieldCD
+  m_Name: TechShieldCD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3052,7 +3092,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.06994629, y: -0.019195557}
+  m_AnchoredPosition: {x: -0.06994629, y: -0.019165039}
   m_SizeDelta: {x: -3.710083, y: -3.919983}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1356645389
@@ -3074,7 +3114,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 4cc65bd216005a344a4b6b4acf1ce614, type: 3}
-  m_Type: 3
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
@@ -3194,6 +3234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1407063289}
+  - component: {fileID: 1407063290}
   m_Layer: 5
   m_Name: SeeSharpHUD
   m_TagString: Untagged
@@ -3222,6 +3263,21 @@ RectTransform:
   m_AnchoredPosition: {x: 799.69, y: 478.85}
   m_SizeDelta: {x: -1599.4, y: -957.84}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1407063290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407063288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 731b732c3052675439b29b263cfe33b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 95875322}
+  healthBar: {fileID: 289953874}
+  healthText: {fileID: 271093355}
 --- !u!1 &1449235610
 GameObject:
   m_ObjectHideFlags: 0
@@ -3234,7 +3290,7 @@ GameObject:
   - component: {fileID: 1449235613}
   - component: {fileID: 1449235612}
   m_Layer: 5
-  m_Name: BasicHealText
+  m_Name: BasicHealCD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3392,7 +3448,7 @@ GameObject:
   - component: {fileID: 1550272897}
   - component: {fileID: 1550272896}
   m_Layer: 5
-  m_Name: ShieldBG
+  m_Name: TechShieldBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3465,7 +3521,7 @@ GameObject:
   - component: {fileID: 1556633071}
   - component: {fileID: 1556633070}
   m_Layer: 5
-  m_Name: ShieldCostBG
+  m_Name: TechShieldCostBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3510,7 +3566,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 4cc65bd216005a344a4b6b4acf1ce614, type: 3}
-  m_Type: 3
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3637,6 +3693,32 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1864300508220983158}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1696105915 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3360111240198490298, guid: a52e3e42f01461845ab42815affc6059,
+    type: 3}
+  m_PrefabInstance: {fileID: 4787614778345812468}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1696105916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696105915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d3e5fdc2225824f81f42c1164e496b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hudController: {fileID: 786869417}
+  BasicHeal: {fileID: 4488991662910922453, guid: 4bc243ff9ec94da43aaaefd122d8f0d1,
+    type: 3}
+  TechShield: {fileID: 5806714760081332719, guid: 2e1635f547c3e714d939d438e24011be,
+    type: 3}
+  EnergySlash: {fileID: 4669550037239217194, guid: c754282828dc1984ca2608cb9b185281,
+    type: 3}
+  AoeHeal: {fileID: 3768099162540429643, guid: 2ae871e782571d1468a69bf8c231ec1b, type: 3}
 --- !u!1 &1703980276
 GameObject:
   m_ObjectHideFlags: 0
@@ -3649,7 +3731,7 @@ GameObject:
   - component: {fileID: 1703980279}
   - component: {fileID: 1703980278}
   m_Layer: 5
-  m_Name: SlashCostText
+  m_Name: EnergySlashCostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3671,7 +3753,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.58999634, y: 0.24307251}
+  m_AnchoredPosition: {x: 0.5899658, y: 0.24310303}
   m_SizeDelta: {x: 13.039917, y: 3.1900024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1703980278
@@ -3726,7 +3808,7 @@ GameObject:
   - component: {fileID: 1755499383}
   - component: {fileID: 1755499382}
   m_Layer: 5
-  m_Name: ShieldCostText
+  m_Name: TechShieldCostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3748,7 +3830,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.58999634, y: 0.24307251}
+  m_AnchoredPosition: {x: 0.59002686, y: 0.24310303}
   m_SizeDelta: {x: 13.039917, y: 3.1900024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755499382
@@ -4840,7 +4922,7 @@ GameObject:
   - component: {fileID: 2079048630}
   - component: {fileID: 2079048629}
   m_Layer: 5
-  m_Name: SlashText
+  m_Name: EnergySlashCD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5387,6 +5469,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a52e3e42f01461845ab42815affc6059, type: 3}
+--- !u!114 &4787614778345812469 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 487919238538434733, guid: a52e3e42f01461845ab42815affc6059,
+    type: 3}
+  m_PrefabInstance: {fileID: 4787614778345812468}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696105915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a207a62f0f99741a0c19086c42b961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8275852418224297337
 PrefabInstance:
   m_ObjectHideFlags: 0
