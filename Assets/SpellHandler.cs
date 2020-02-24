@@ -22,7 +22,7 @@ public class SpellHandler : MonoBehaviour
     private Transform spellTarget;
     private int currentMana;
 
-    void Start()
+    void Awake()
     {
         controller = GetComponent<MontyController>();
         currentMana = controller.MaxMana;
@@ -41,11 +41,6 @@ public class SpellHandler : MonoBehaviour
         spellsStats.Add(TechShield.name, new int[3] { 1, techShieldManaCost, techShieldCooldown });
         spellsStats.Add(EnergySlash.name, new int[3] { 1, energySlashManaCost, energySlashCooldown });
         spellsStats.Add(AoeHeal.name, new int[3] { 1, aoeHealManaCost, aoeHealCooldown });
-    }
-
-    void Update()
-    {
-        
     }
 
     /// <summary>
@@ -73,6 +68,7 @@ public class SpellHandler : MonoBehaviour
             currentMana -= spellsStats[BasicHeal.name][1];
             currentMana = currentMana < 0 ? 0 : currentMana;
 
+            // Now that we've cast the spell, make it unavailable for its cooldown time.
             spellsStats[BasicHeal.name][0] = 0;
             StartCoroutine(PutSpellOnCooldown(BasicHeal.name, spellsStats[BasicHeal.name][2]));
             hudController.PutBasicHealOnCooldown(spellsStats[BasicHeal.name][2]);
@@ -99,6 +95,7 @@ public class SpellHandler : MonoBehaviour
 
             spellsStats[TechShield.name][0] = 0;
             StartCoroutine(PutSpellOnCooldown(TechShield.name, spellsStats[TechShield.name][2]));
+            hudController.PutTechShieldOnCooldown(spellsStats[TechShield.name][2]);
 
             return currentMana;
         }
@@ -122,6 +119,7 @@ public class SpellHandler : MonoBehaviour
 
             spellsStats[EnergySlash.name][0] = 0;
             StartCoroutine(PutSpellOnCooldown(EnergySlash.name, spellsStats[EnergySlash.name][2]));
+            hudController.PutEnergySlashOnCooldown(spellsStats[EnergySlash.name][2]);
 
             return currentMana;
         }
@@ -129,16 +127,28 @@ public class SpellHandler : MonoBehaviour
         return -1;
     }
 
+    /// <summary>
+    /// Get the mana cost of the Basic Heal spell.
+    /// </summary>
+    /// <returns>An int representing the mana cost of the Basic Heal spell.</returns>
     public int GetBasicHealCost()
     {
         return spellsStats[BasicHeal.name][1];
     }
 
+    /// <summary>
+    /// Get the mana cost of the Tech Shield spell.
+    /// </summary>
+    /// <returns>An int representing the mana cost of the Tech Shield spell.</returns>
     public int GetTechShieldCost()
     {
         return spellsStats[TechShield.name][1];
     }
 
+    /// <summary>
+    /// Get the mana cost of the Energy Slash spell.
+    /// </summary>
+    /// <returns>An int representing the mana cost of the Tech Shield spell.</returns>
     public int GetEnergySlashCost()
     {
         return spellsStats[EnergySlash.name][1];

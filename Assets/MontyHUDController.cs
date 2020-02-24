@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +25,12 @@ public class MontyHUDController : MonoBehaviour
     [SerializeField] Text energySlashCDText;
     [SerializeField] Text energySlashCost;
 
+    /// <summary>
+    /// Dictionary holding the references to the CD image and text of each spell.
+    /// Key: Spell name, Value: array with 2 objects: CD image and CD text.
+    /// </summary>
+    private Dictionary<string, Tuple<Image, Text>> spellsCooldownUpdateable;
+
     void Start()
     {
         healthText.text = $"{controller.MaxHealth} / {controller.MaxHealth}";
@@ -34,6 +42,15 @@ public class MontyHUDController : MonoBehaviour
 
         basicHealCD.fillAmount = 0f;
         basicHealCDText.text = string.Empty;
+        techShieldCD.fillAmount = 0f;
+        techShieldCDText.text = string.Empty;
+        energySlashCD.fillAmount = 0f;
+        energySlashCDText.text = string.Empty;
+
+        spellsCooldownUpdateable = new Dictionary<string, Tuple<Image, Text>>();
+        spellsCooldownUpdateable.Add("BasicHeal", new Tuple<Image, Text>(basicHealCD, basicHealCDText));
+        spellsCooldownUpdateable.Add("TechShield", new Tuple<Image, Text>(techShieldCD, techShieldCDText));
+        spellsCooldownUpdateable.Add("EnergySlash", new Tuple<Image, Text>(energySlashCD, energySlashCDText));
     }
 
     void Update()
@@ -58,24 +75,42 @@ public class MontyHUDController : MonoBehaviour
 
     public void PutBasicHealOnCooldown(int seconds)
     {
-        StartCoroutine(UpdateBHCD(seconds));
+        StartCoroutine(UpdateSpellCooldown("BasicHeal", seconds));
     }
 
-    IEnumerator UpdateBHCD(int cooldown)
+    public void PutTechShieldOnCooldown(int seconds)
     {
-        int currCd = cooldown;
-        basicHealCD.fillAmount = 1f;
+        StartCoroutine(UpdateSpellCooldown("TechShield", seconds));
+    }
 
-        while(currCd > 0)
+    public void PutEnergySlashOnCooldown(int seconds)
+    {
+        StartCoroutine(UpdateSpellCooldown("EnergySlash", seconds));
+    }
+
+    IEnumerator UpdateSpellCooldown(string spellName, int cooldown)
+    {
+        int currentCd = cooldown;
+        Image image = spellsCooldownUpdateable[spellName].Item1;
+        Text text = spellsCooldownUpdateable[spellName].Item2;
+
+        image.fillAmount = 1f;
+        text.text = $"{currentCd} s";
+        yield return new WaitForSecondsRealtime(1f);
+
+        while (currentCd > 0)
         {
-            print($"cd {cooldown} and currcd {currCd}");
-            currCd--;
-            basicHealCDText.text = $"{currCd} s";
-            basicHealCD.fillAmount -= (float) 1 / cooldown;
+            image.fillAmount -= (float) 1 / cooldown;
+            currentCd--;
+            if(currentCd == 0)
+            {
+                text.text = string.Empty;
+            }
+            else
+            {
+                text.text = $"{currentCd} s";
+            }
             yield return new WaitForSecondsRealtime(1f);
         }
-
-        basicHealCD.fillAmount = 0f;
-        basicHealCDText.text = string.Empty;
     }
 }

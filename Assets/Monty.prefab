@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 2852642746673772931}
   - component: {fileID: 1108391881046782064}
   - component: {fileID: 487919238538434733}
+  - component: {fileID: 1696105916}
   m_Layer: 2
   m_Name: Monty
   m_TagString: Untagged
@@ -169,6 +170,19 @@ MonoBehaviour:
   Armor: 35
   MagicResist: 30
   jumpHeight: 24000
+--- !u!114 &1696105916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3360111240198490298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d3e5fdc2225824f81f42c1164e496b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hudController: {fileID: 0}
   BasicHeal: {fileID: 4488991662910922453, guid: 4bc243ff9ec94da43aaaefd122d8f0d1,
     type: 3}
   TechShield: {fileID: 5806714760081332719, guid: 2e1635f547c3e714d939d438e24011be,
