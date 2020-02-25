@@ -33,6 +33,7 @@ public class Character : Interactable
     protected Transform initialPosition;
     protected bool isAggroed = false;
     protected bool isAlive = true;
+    protected bool isEnraged = false;
 
     /// <summary>
     /// To identify what to use to reduce damage.
@@ -69,7 +70,7 @@ public class Character : Interactable
     /// <summary>
     /// Handle taking damage.
     /// </summary>
-    protected void TakeDamage(int damage, Resistance resistance)
+    protected void TakeDamage(int damage, Resistance resistance, bool updateHUD = true)
     {
         // If it is physical damage we want to use armor to reduce it.
         if (resistance == Resistance.UseArmor)
@@ -80,7 +81,11 @@ public class Character : Interactable
 
             // Update current health and the health HUD.
             currentHealth -= damage;
-            healthBar.fillAmount = (float) currentHealth / MaxHealth;
+            currentHealth = currentHealth < 0 ? 0 : currentHealth;
+            if (updateHUD)
+            {
+                healthBar.fillAmount = (float) currentHealth / MaxHealth;
+            }
 
             if (currentHealth <= 0)
             {
@@ -96,7 +101,11 @@ public class Character : Interactable
 
             // Update current health and the health HUD.
             currentHealth -= damage;
-            healthBar.fillAmount = (float) currentHealth / MaxHealth;
+            currentHealth = currentHealth < 0 ? 0 : currentHealth;
+            if(updateHUD)
+            {
+                healthBar.fillAmount = (float) currentHealth / MaxHealth;
+            }
 
             if (currentHealth <= 0)
             {

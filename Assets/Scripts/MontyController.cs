@@ -220,7 +220,7 @@ public class MontyController : Character
 
     public void TakeHit(int damageAmount, Resistance resistance)
     {
-        TakeDamage(damageAmount, resistance);
+        TakeDamage(damageAmount, resistance, false);
     }
 
     public int GetCurrentHealth()
@@ -295,11 +295,11 @@ public class MontyController : Character
 
         if (ability.AttackDamage > 0)
         {
-            TakeDamage(ability.AttackDamage, Resistance.UseArmor);
+            TakeDamage(ability.AttackDamage, Resistance.UseArmor, false);
         }
         else if (ability.AbilityPower > 0)
         {
-            TakeDamage(ability.AbilityPower, Resistance.UseMagicResist);
+            TakeDamage(ability.AbilityPower, Resistance.UseMagicResist, false);
         }
         else
         {

@@ -23,6 +23,7 @@ public class SeeSharpShooter : MonoBehaviour
     void Update()
     {
         Quaternion newRotation = Quaternion.identity;
+        Vector3 direction = Vector3.zero;
 
         if (camera != null)
         {
@@ -32,19 +33,19 @@ public class SeeSharpShooter : MonoBehaviour
 
             if (Physics.Raycast(mouseRay.origin, mouseRay.direction, out hit, maximumLength))
             {
-                newRotation = CalculateNewRotation(firePoint, hit.point);
+                newRotation = CalculateNewRotation(firePoint, hit.point, out direction);
             }
             else
             {
                 Vector3 position = mouseRay.GetPoint(maximumLength);
-                newRotation = CalculateNewRotation(firePoint, position);
+                newRotation = CalculateNewRotation(firePoint, position, out direction);
             }
         }
 
         if (Input.GetMouseButton(0) && Time.time >= timeToFire)
         {
             timeToFire = Time.time + 1 / fireRate;
-            SpawnVfx(newRotation);
+            SpawnVfx(newRotation, direction);
 
             if(controller.GetVelocity() == Vector3.zero)
             {
@@ -57,15 +58,15 @@ public class SeeSharpShooter : MonoBehaviour
         }
     }
 
-    Quaternion CalculateNewRotation(Transform target, Vector3 destination)
+    Quaternion CalculateNewRotation(Transform target, Vector3 destination, out Vector3 direction)
     {
-        Vector3 direction = destination - target.position;
+        direction = destination - target.position;
         Quaternion rotation = Quaternion.LookRotation(direction);
 
         return Quaternion.Lerp(target.rotation, rotation, 1);
     }
 
-    void SpawnVfx(Quaternion newRotation)
+    void SpawnVfx(Quaternion newRotation, Vector3 direction)
     {
         GameObject bullet;
 
@@ -77,6 +78,11 @@ public class SeeSharpShooter : MonoBehaviour
             // Give damage to the bullet instance.
             Ability ability = bullet.GetComponent<Ability>();
             ability.AttackDamage = controller.AttackDamage;
+
+            // Assign the direction to the bullet controller so that
+            // the Assassin can attempt to dodge it.
+            BulletController bulletController = bullet.GetComponent<BulletController>();
+            bulletController.SetDirection(direction);
         }
         else
         {

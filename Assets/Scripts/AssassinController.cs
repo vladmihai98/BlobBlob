@@ -8,10 +8,14 @@ public class AssassinController : Character
     [SerializeField] Transform seeSharp;
     [SerializeField] Transform monty;
     [SerializeField] Material material;
+    [SerializeField] LayerMask assassinMask;
 
     private Color color;
     private NavMeshAgent agent;
+    private Rigidbody rigidbody;
     private bool canAttack = true;
+    private int timesDodged = 0;
+    private const int DODGE_CAP = 3;
 
     private MontyController montyCtrl;
     private SeeSharpController seeSharpCtrl;
@@ -25,6 +29,7 @@ public class AssassinController : Character
         color = material.color;
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = AttackRange;
+        rigidbody = GetComponent<Rigidbody>();
 
         montyCtrl = monty.GetComponent<MontyController>();
         seeSharpCtrl = seeSharp.GetComponent<SeeSharpController>();
@@ -112,13 +117,12 @@ public class AssassinController : Character
         {
             if(canAttack)
             {
-                if(didPlayerIgnoreMe())
+                if(isEnraged || didPlayerIgnoreMe())
                 {
+                    isEnraged = true;
+
                     int montyHealth = montyCtrl.GetCurrentHealth();
                     int seeSharpHealth = seeSharpCtrl.GetCurrentHealth();
-
-                    print("I SHALL NOT BE IGNORED!!!");
-
                     if (montyHealth < seeSharpHealth)
                     {
                         AttackPlayer(monty, false);
@@ -136,9 +140,10 @@ public class AssassinController : Character
                     }
                 }
             }
-            else
+            else if(timesDodged < DODGE_CAP)
             {
-                //Dodge();
+                Dodge();
+                ChaseClosestPlayer();
             }
         }
         else
@@ -152,8 +157,43 @@ public class AssassinController : Character
 
     void Dodge()
     {
-        // Get instance of bullet.
-        // Calculate direction and cast a ray thru that.. if it hits us step aside.
+        BulletController bulletController = FindObjectOfType<BulletController>();
+
+        // If there is a bullet in the scene (i.e. the player is shooting).
+        if(bulletController)
+        {
+            // Get its direction.
+            Vector3 direction = bulletController.GetDirection();
+
+            // And find out if that would hit us.
+            RaycastHit hit;
+            if(Physics.Raycast(bulletController.transform.position, direction, out hit, 5000, assassinMask))
+            {
+                timesDodged++;
+
+                float randomValue = Random.value;
+                Vector3 positionAlteration;
+
+                if(randomValue <= 0.25f)
+                {
+                    positionAlteration = Vector3.forward;
+                }
+                else if(randomValue <= 0.5f)
+                {
+                    positionAlteration = Vector3.right;
+                }
+                else if(randomValue <= 0.75f)
+                {
+                    positionAlteration = Vector3.back;
+                }
+                else
+                {
+                    positionAlteration = Vector3.left;
+                }
+
+                rigidbody.MovePosition(GetClosestPlayer().position + positionAlteration * 10f);
+            }
+        }
     }
 
     /// <summary>
@@ -166,6 +206,7 @@ public class AssassinController : Character
         if (initialPosition.position.z < monty.position.z ||
            initialPosition.position.z < seeSharp.position.z)
         {
+            isEnraged = true;
             return true;
         }
 
@@ -227,6 +268,8 @@ public class AssassinController : Character
     {
         // Register the fact that we can attack the player and that we want to chase if he escapes our range.
         isAggroed = true;
+
+        timesDodged = 0;
 
         FaceTarget(player);
 
@@ -311,24 +354,30 @@ public class AssassinController : Character
         canAttack = true;
     }
 
-    /// <summary>
-    /// Chase the player closest to us.
-    /// </summary>
-    void ChaseClosestPlayer()
+    Transform GetClosestPlayer()
     {
+        Transform closestPlayer;
         float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
         float distanceFromMonty = Vector3.Distance(monty.position, transform.position);
 
         if (distanceFromSeeSharp <= distanceFromMonty)
         {
-            agent.SetDestination(seeSharp.position);
+            closestPlayer = seeSharp;
         }
         else
         {
-            agent.SetDestination(monty.position);
+            closestPlayer = monty;
         }
+        return closestPlayer;
+    }
 
-        animator.SetTrigger("chase");
+    /// <summary>
+    /// Chase the player closest to us.
+    /// </summary>
+    void ChaseClosestPlayer()
+    {
+        agent.SetDestination(GetClosestPlayer().position);
+        //animator.SetTrigger("chase");
     }
 
     /// <summary>
