@@ -39,77 +39,11 @@ public class AssassinController : Character
     {
         if(isAlive)
         {
-            anotherGo();
+            ChooseNextAction();
         }
-        //ChooseNextAction();
-        //if (isAggroed && didPlayerIgnoreMe())
-        //{
-        //    BecomeEnraged();
-        //}
-
-        //Transform playerToAttack = isPlayerInAttackRange();
-        //if (playerToAttack)
-        //{
-        //    AttackPlayer(playerToAttack);
-        //}
-        //else
-        //{
-        //    if (isAggroed)
-        //    {
-        //        ChaseClosestPlayer();
-        //    }
-        //}
     }
 
     void ChooseNextAction()
-    {
-        if(isAggroed)
-        {
-            if(didPlayerIgnoreMe())
-            {
-                if(canAttack)
-                {
-                    int montyHealth = montyCtrl.GetCurrentHealth();
-                    int seeSharpHealth = seeSharpCtrl.GetCurrentHealth();
-
-                    print("I SHALL NOT BE IGNORED!!!");
-
-                    if(montyHealth < seeSharpHealth)
-                    {
-                        AttackPlayer(monty, false);
-                    }
-                    else
-                    {
-                        AttackPlayer(seeSharp, false);
-                    }
-                }
-            }
-            else
-            {
-                if(canAttack)
-                {
-                    Transform playerToAttack = isPlayerInAttackRange();
-                    AttackPlayer(playerToAttack);
-                }
-                else
-                {
-                    // Attempt to dodge incoming bullets. 
-                    // The Energy Slash is meant to be undodgeable so we do not track that.
-                    Dodge();
-                }
-            }
-        }
-        else
-        {
-            Transform playerToAttack = isPlayerInAttackRange();
-            if(playerToAttack)
-            {
-                AttackPlayer(playerToAttack);
-            }
-        }
-    }
-
-    void anotherGo()
     {
         Transform playerToAttack = isPlayerInAttackRange();
 
