@@ -204,7 +204,7 @@ public class MontyController : Character
 
     IEnumerator PerformJump()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.15f);
 
         rigidbody.AddForce(0, jumpHeight * Time.deltaTime, 0);
     }
@@ -255,7 +255,11 @@ public class MontyController : Character
     {
         print("2");
 
-        HandleDamage(other.GetComponent<Ability>());
+        Ability ability = other.GetComponent<Ability>();
+        if(ability)
+        {
+            HandleDamage(ability);
+        }
     }
 
     private void OnParticleCollision(GameObject other)

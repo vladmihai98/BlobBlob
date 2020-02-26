@@ -47,7 +47,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -62,9 +62,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.0057939957
-  m_Height: 0.04773927
+  m_Height: 0.04629951
   m_Direction: 1
-  m_Center: {x: 0.00018731713, y: 0.02120948, z: 0.0004844117}
+  m_Center: {x: 0.00018731713, y: 0.02192936, z: 0.0004844117}
 --- !u!114 &487919238538434733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,9 +95,8 @@ MonoBehaviour:
   CastingSpeed: 0
   Armor: 35
   MagicResist: 30
-  jumpHeight: 24000
-  seeSharp: {fileID: 8275852417690424127, guid: b6220870580d01b43a7269145927850d,
-    type: 3}
+  jumpHeight: 40000
+  seeSharp: {fileID: 0}
 --- !u!114 &1696105916
 MonoBehaviour:
   m_ObjectHideFlags: 0
