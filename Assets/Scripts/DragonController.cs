@@ -12,6 +12,7 @@ public class DragonController : Character
     [SerializeField] GameObject fireBall;
 
     private NavMeshAgent agent;
+    private BoxCollider collider;
     private Color color;
     private float timeToFire = 0;
 
@@ -24,6 +25,7 @@ public class DragonController : Character
         color = material.color;
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = AttackRange;
+        collider = GetComponent<BoxCollider>();
     }
 
     void Update()
@@ -105,8 +107,8 @@ public class DragonController : Character
 
         if(playerToAttack == null)
         {
-            if(distanceFromMonty <= AttackRange + 10 || 
-               distanceFromSeeSharp <= AttackRange + 10)
+            if(distanceFromMonty <= AttackRange + 30 || 
+               distanceFromSeeSharp <= AttackRange + 30)
             {
                 animator.SetTrigger("wake");
             }
@@ -151,6 +153,10 @@ public class DragonController : Character
             agent.SetDestination(monty.position);
         }
 
+        // Raise the collider since the model of the dragon raises to fly for chasing.
+        Vector3 colliderCenter = collider.center;
+        colliderCenter.y = 3.3f;
+        collider.center = colliderCenter;
         animator.SetTrigger("chase");
     }
 
