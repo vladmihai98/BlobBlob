@@ -95,7 +95,7 @@ MonoBehaviour:
   CastingSpeed: 0
   Armor: 35
   MagicResist: 30
-  jumpHeight: 40000
+  jumpHeight: 675
   seeSharp: {fileID: 0}
 --- !u!114 &1696105916
 MonoBehaviour:

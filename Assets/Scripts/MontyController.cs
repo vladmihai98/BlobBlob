@@ -206,7 +206,7 @@ public class MontyController : Character
     {
         yield return new WaitForSeconds(1.15f);
 
-        rigidbody.AddForce(0, jumpHeight * Time.deltaTime, 0);
+        rigidbody.AddForce(0, jumpHeight, 0);
     }
 
     public void UseHeal(int healAmount)

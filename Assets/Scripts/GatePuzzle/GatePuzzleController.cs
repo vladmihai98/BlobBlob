@@ -16,6 +16,12 @@ public class GatePuzzleController : MonoBehaviour
     [SerializeField] bool test = false;
 
     private bool isPuzzleSolved = false;
+    private Vector3 newPosition;
+
+    private void Start()
+    {
+        newPosition = new Vector3(gate.position.x, gate.position.y + 50f, gate.position.z);
+    }
 
     void Update()
     {
@@ -33,18 +39,14 @@ public class GatePuzzleController : MonoBehaviour
                 MoveGate();
             }
         }
-    }
-
-    void Test()
-    {
-        print($"x {gate.position.x} y {gate.position.y} z {gate.position.z}");
+        else
+        {
+            MoveGate();
+        }
     }
 
     void MoveGate()
     {
-        Vector3 newPosition = new Vector3(gate.position.x, gate.position.y + 50f, gate.position.z);
-        gate.position = newPosition;//Vector3.Lerp(gate.position, newPosition, 0.1f);
-        test = false;
-        isPuzzleSolved = false;
+        gate.position = Vector3.Lerp(gate.position, newPosition, 0.005f);
     }
 }
