@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 8251329578764924242}
   - component: {fileID: 8917432242848396199}
   - component: {fileID: 738880659772175340}
+  - component: {fileID: 8448428781929946271}
   - component: {fileID: 7839072865291851849}
   m_Layer: 11
   m_Name: Dragon
@@ -374,7 +375,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7839072865291851849
+--- !u!114 &8448428781929946271
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -383,7 +384,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5672127045129564241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc3a30cb97cad9c4bbe0a640c87c71bb, type: 3}
+  m_Script: {fileID: 11500000, guid: bb27290a77f62c24c9d36f9824a93d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Name: SoulEater
@@ -405,11 +406,21 @@ MonoBehaviour:
   CastingSpeed: 0
   Armor: 30
   MagicResist: 30
-  seeSharp: {fileID: 0}
-  monty: {fileID: 0}
-  firePoint: {fileID: 907755166416187963}
   material: {fileID: 2100000, guid: ce0cb271c34a85f47826bf4a5239017c, type: 2}
-  bulletSpeed: 20
+  isDragon: 1
+--- !u!114 &7839072865291851849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672127045129564241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3a30cb97cad9c4bbe0a640c87c71bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firePoint: {fileID: 907755166416187963}
   fireBall: {fileID: 8731488085076216129, guid: 6d45a6be2d9b33b4aad357ad205aae81,
     type: 3}
 --- !u!1001 &1011305023645901665

@@ -30,9 +30,9 @@ public class Character : Interactable
 
     protected int currentHealth;
     protected int currentMana;
+    protected bool isAlive = true;
     protected Transform initialPosition;
     protected bool isAggroed = false;
-    protected bool isAlive = true;
     protected bool isEnraged = false;
 
     /// <summary>

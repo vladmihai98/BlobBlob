@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 7372124091605921409}
   - component: {fileID: 2187513812724940613}
   - component: {fileID: 2564600083953724543}
+  - component: {fileID: 2157136515801512303}
   - component: {fileID: 371209614450195926}
   m_Layer: 11
   m_Name: Berserker
@@ -161,7 +162,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &371209614450195926
+--- !u!114 &2157136515801512303
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,7 +171,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1864300507638091054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21638ba2451ceda47b23ff9ac6ffe2bd, type: 3}
+  m_Script: {fileID: 11500000, guid: bb27290a77f62c24c9d36f9824a93d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Berserker
@@ -192,9 +193,21 @@ MonoBehaviour:
   CastingSpeed: 0
   Armor: 50
   MagicResist: 10
-  seeSharp: {fileID: 0}
-  monty: {fileID: 0}
   material: {fileID: 2100000, guid: e76ec02e36235a94897d10cfddb2bcea, type: 2}
+  isDragon: 0
+  isBerserker: 1
+--- !u!114 &371209614450195926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864300507638091054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21638ba2451ceda47b23ff9ac6ffe2bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4259831026238007768
 GameObject:
   m_ObjectHideFlags: 0
