@@ -113,6 +113,11 @@ public class SeeSharpController : Character
 
     private void HandleDamage(Ability ability)
     {
+        if(!ability)
+        {
+            return;
+        }
+
         // Ignore friendly-fire, e.g. abilities that should damage enemies and not our friends.
         if(ability.TypeOfTarget == Ability.TargetType.Enemy)
         {

@@ -9,12 +9,12 @@ public class LeverController : MonoBehaviour
     [SerializeField] Transform wallToMove;
     [SerializeField] [Tooltip("Offset for the wall movement.")] Vector3 offset;
 
-    private bool rotate = false;
+    private bool rotateLever = false;
     private bool moveWall = false;
 
     void Update()
     {
-        if(rotate)
+        if(rotateLever)
         {
             RotateLever();
         }
@@ -32,7 +32,7 @@ public class LeverController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        rotate = true;
+        rotateLever = true;
         if(shootingTarget)
         {
             EnableShootingTarget();
@@ -54,5 +54,10 @@ public class LeverController : MonoBehaviour
     {
         Vector3 newPosition = wallToMove.position + offset;
         wallToMove.position = Vector3.Lerp(wallToMove.position, newPosition, 0.005f);
+
+        if(wallToMove.position == newPosition)
+        {
+            wallToMove.gameObject.SetActive(false);
+        }
     }
 }
