@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8497071107040084328}
   - component: {fileID: 8497071107040084329}
   - component: {fileID: 8497071107040084342}
-  - component: {fileID: 8497071107040084331}
+  - component: {fileID: 2042304307508030759}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -83,7 +83,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8497071107040084343}
   m_Enabled: 1
---- !u!114 &8497071107040084331
+--- !u!114 &2042304307508030759
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,14 +92,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8497071107040084343}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19ddbaf72e6a0fd45aa2a7d59a0e4a76, type: 3}
+  m_Script: {fileID: 11500000, guid: c28b3e5cfec0f5b40a0d9121a87086d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 0}
-  - {fileID: 0}
-  offset: {x: 0, y: 20, z: -8}
-  smoothTime: 0.5
-  zoomedOutZPos: -25
-  zoomedInZPos: -20
-  zoomLimiter: 16
+  monty: {fileID: 0}
+  seeSharp: {fileID: 0}
+  positionOffset: {x: 0, y: 25, z: -30}

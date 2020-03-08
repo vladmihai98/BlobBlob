@@ -21562,16 +21562,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8497071107040084331, guid: af7a31c6498dee04c9a79b45482d4544,
+    - target: {fileID: 2042304307508030759, guid: af7a31c6498dee04c9a79b45482d4544,
         type: 3}
-      propertyPath: targets.Array.data[0]
-      value: 
-      objectReference: {fileID: 219146270}
-    - target: {fileID: 8497071107040084331, guid: af7a31c6498dee04c9a79b45482d4544,
-        type: 3}
-      propertyPath: targets.Array.data[1]
+      propertyPath: monty
       value: 
       objectReference: {fileID: 1137715779}
+    - target: {fileID: 2042304307508030759, guid: af7a31c6498dee04c9a79b45482d4544,
+        type: 3}
+      propertyPath: seeSharp
+      value: 
+      objectReference: {fileID: 219146270}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af7a31c6498dee04c9a79b45482d4544, type: 3}
 --- !u!33 &8506560614426800646
