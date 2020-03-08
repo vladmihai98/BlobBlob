@@ -19,14 +19,37 @@ public class MontyController : Character
     private List<GameObject> pastDamagingParticles;
     private bool isGrounded;
 
+    public int GetCurrentHealth() { return currentHealth; }
+
+    public int GetCurrentMana() { return currentMana; }
+
+    public int GetMovementSpeed() { return MovementSpeed; }
+
+    public void SetMovementSpeed(int newSpeed) { MovementSpeed = newSpeed; }
+
+    public void TakeHit(int damageAmount, Resistance resistance)
+    {
+        TakeDamage(damageAmount, resistance, false);
+    }
+
+    public void UseHeal(int healAmount)
+    {
+        currentHealth += healAmount;
+        if (currentHealth > MaxHealth)
+        {
+            currentHealth = MaxHealth;
+        }
+    }
+
     void Start()
     {
-        spellHandler = GetComponent<SpellHandler>();
-        rigidbody = GetComponent<Rigidbody>();
+        // Initialise inherited variables.
         currentHealth = MaxHealth;
         currentMana = MaxMana;
-        isGrounded = true;
 
+        isGrounded = true;
+        spellHandler = GetComponent<SpellHandler>();
+        rigidbody = GetComponent<Rigidbody>();
         pastDamagingParticles = new List<GameObject>();
     }
 
@@ -207,40 +230,6 @@ public class MontyController : Character
         yield return new WaitForSeconds(1.15f);
 
         rigidbody.AddForce(0, jumpHeight, 0);
-    }
-
-    public void UseHeal(int healAmount)
-    {
-        currentHealth += healAmount;
-        if(currentHealth > MaxHealth)
-        {
-            currentHealth = MaxHealth;
-        }
-    }
-
-    public void TakeHit(int damageAmount, Resistance resistance)
-    {
-        TakeDamage(damageAmount, resistance, false);
-    }
-
-    public int GetCurrentHealth()
-    {
-        return currentHealth;
-    }
-
-    public int GetCurrentMana()
-    {
-        return currentMana;
-    }
-
-    public int GetMovementSpeed()
-    {
-        return MovementSpeed;
-    }
-
-    public void SetMovementSpeed(int newSpeed)
-    {
-        MovementSpeed = newSpeed;
     }
 
     private void OnCollisionEnter(Collision collision)

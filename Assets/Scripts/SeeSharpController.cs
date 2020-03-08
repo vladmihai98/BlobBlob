@@ -12,6 +12,24 @@ public class SeeSharpController : Character
     /// </summary>
     private List<GameObject> pastDamagingParticles;
 
+    public int GetCurrentHealth() { return currentHealth; }
+
+    public Vector3 GetVelocity() { return velocity; }
+
+    public void TakeHit(int damageAmount, Resistance resistance)
+    {
+        TakeDamage(damageAmount, resistance, false);
+    }
+
+    public void UseHeal(int healAmount)
+    {
+        currentHealth += healAmount;
+        if (currentHealth > MaxHealth)
+        {
+            currentHealth = MaxHealth;
+        }
+    }
+
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -136,29 +154,5 @@ public class SeeSharpController : Character
         {
             print($"[WARNING] No damage on {transform.name} from {ability.name}");
         }
-    }
-
-    public void UseHeal(int healAmount)
-    {
-        currentHealth += healAmount;
-        if (currentHealth > MaxHealth)
-        {
-            currentHealth = MaxHealth;
-        }
-    }
-
-    public void TakeHit(int damageAmount, Resistance resistance)
-    {
-        TakeDamage(damageAmount, resistance, false);
-    }
-
-    public int GetCurrentHealth()
-    {
-        return currentHealth;
-    }
-
-    public Vector3 GetVelocity()
-    {
-        return velocity;
     }
 }
