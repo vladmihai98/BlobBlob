@@ -11,25 +11,31 @@ public class MontyController : Character
     private SpellHandler spellHandler;
     private Rigidbody rigidbody;
     private Vector3 velocity;
+    private bool isGrounded;
+    private int shieldValue;
+    private int currentShieldValue;
 
     /// <summary>
     /// Keep track of objects that have damaged us so that their colliders can't damage us the next frame.
     /// Remove the objects after a given period of time, say 10s.
     /// </summary>
     private List<GameObject> pastDamagingParticles;
-    private bool isGrounded;
 
     public int GetCurrentHealth() { return currentHealth; }
 
     public int GetCurrentMana() { return currentMana; }
 
+    public int GetCurrentShieldValue() { return currentShieldValue; }
+
     public int GetMovementSpeed() { return MovementSpeed; }
+
+    public int GetShieldValue() { return shieldValue; }
 
     public void SetMovementSpeed(int newSpeed) { MovementSpeed = newSpeed; }
 
     public void TakeHit(int damageAmount, Resistance resistance)
     {
-        TakeDamage(damageAmount, resistance, false);
+        currentShieldValue = TakeDamage(damageAmount, resistance, false, currentShieldValue);
     }
 
     public void UseHeal(int healAmount)
@@ -41,6 +47,12 @@ public class MontyController : Character
         }
     }
 
+    public void UseShield(int shieldAmount, float timeOut) 
+    { 
+        shieldValue = currentShieldValue = shieldAmount;
+        StartCoroutine(DestroyShield(timeOut));
+    }
+
     void Start()
     {
         // Initialise inherited variables.
@@ -48,6 +60,7 @@ public class MontyController : Character
         currentMana = MaxMana;
 
         isGrounded = true;
+        currentShieldValue = -1;
         spellHandler = GetComponent<SpellHandler>();
         rigidbody = GetComponent<Rigidbody>();
         pastDamagingParticles = new List<GameObject>();
@@ -232,6 +245,12 @@ public class MontyController : Character
         rigidbody.AddForce(0, jumpHeight, 0);
     }
 
+    IEnumerator DestroyShield(float timeOut)
+    {
+        yield return new WaitForSecondsRealtime(timeOut);
+        currentShieldValue = -1;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         print("3");
@@ -288,11 +307,11 @@ public class MontyController : Character
 
         if (ability.AttackDamage > 0)
         {
-            TakeDamage(ability.AttackDamage, Resistance.UseArmor, false);
+            currentShieldValue = TakeDamage(ability.AttackDamage, Resistance.UseArmor, false, currentShieldValue);
         }
         else if (ability.AbilityPower > 0)
         {
-            TakeDamage(ability.AbilityPower, Resistance.UseMagicResist, false);
+            currentShieldValue = TakeDamage(ability.AbilityPower, Resistance.UseMagicResist, false, currentShieldValue);
         }
         else
         {

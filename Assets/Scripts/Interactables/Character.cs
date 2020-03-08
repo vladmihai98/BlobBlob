@@ -70,13 +70,35 @@ public class Character : Interactable
     /// <summary>
     /// Handle taking damage.
     /// </summary>
-    protected void TakeDamage(int damage, Resistance resistance, bool updateHUD = true)
+    protected int TakeDamage(int damage, Resistance resistance, bool updateHUD = true, int shieldValue = -1)
     {
         // If it is physical damage we want to use armor to reduce it.
         if (resistance == Resistance.UseArmor)
         {
             // Reduce damage effectiveness based on armor value.
             damage -= Armor;
+
+            // Reduce shield value if active
+            if(shieldValue > -1)
+            {
+                if(shieldValue > damage)
+                {
+                    shieldValue -= damage;
+                    damage = 0;
+                }
+                else if(shieldValue < damage)
+                {
+                    damage -= shieldValue;
+                    shieldValue = -1;
+                }
+                else
+                {
+                    shieldValue = -1;
+                    damage = 0;
+                }
+            }
+
+            // Reset damage if it fell below zero.
             damage = damage < 0 ? 0 : damage;
 
             // Update current health and the health HUD.
@@ -97,6 +119,28 @@ public class Character : Interactable
         {
             // Reduce damage effectiveness based on magic resist value.
             damage -= MagicResist;
+
+            // Reduce shield value if active
+            if (shieldValue > -1)
+            {
+                if (shieldValue > damage)
+                {
+                    shieldValue -= damage;
+                    damage = 0;
+                }
+                else if (shieldValue < damage)
+                {
+                    damage -= shieldValue;
+                    shieldValue = -1;
+                }
+                else
+                {
+                    shieldValue = -1;
+                    damage = 0;
+                }
+            }
+
+            // Reset damage if it fell below zero.
             damage = damage < 0 ? 0 : damage;
 
             // Update current health and the health HUD.
@@ -112,6 +156,8 @@ public class Character : Interactable
                 Die();
             }
         }
+
+        return shieldValue;
     }
 
     /// <summary>

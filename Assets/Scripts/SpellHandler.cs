@@ -100,6 +100,16 @@ public class SpellHandler : MonoBehaviour
 
             InstantiateSpellAtTarget(TechShield, true, true);
 
+            if(spellTarget.Equals(transform))
+            {
+                controller.UseShield(TechShield.GetComponent<Ability>().ShieldAmount, TechShield.GetComponent<Ability>().Duration);
+            }
+            else
+            {
+                SeeSharpController seeSharpController = spellTarget.GetComponent<SeeSharpController>();
+                seeSharpController.UseShield(TechShield.GetComponent<Ability>().ShieldAmount, TechShield.GetComponent<Ability>().Duration);
+            }
+
             currentMana -= spellsStats[TechShield.name][1];
             currentMana = currentMana < 0 ? 0 : currentMana;
 

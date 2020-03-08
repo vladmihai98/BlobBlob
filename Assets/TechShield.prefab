@@ -115,7 +115,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 8
       minScalar: 2
       maxCurve:
         serializedVersion: 2
@@ -4802,9 +4802,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TypeOfTarget: 0
   ManaCost: 150
-  Cooldown: 8
+  Cooldown: 10
   Speed: 0
-  Duration: 5
+  Duration: 8
   Range: 0
   AttackDamage: 0
   AbilityPower: 0

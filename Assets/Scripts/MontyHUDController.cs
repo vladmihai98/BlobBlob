@@ -13,6 +13,10 @@ public class MontyHUDController : MonoBehaviour
     [Header("References to HUD items.")]
     [SerializeField] Image healthBar;
     [SerializeField] Text healthText;
+    [SerializeField] Image shieldBar;
+    [SerializeField] Image shieldBarBackground;
+    [SerializeField] Text shieldText;
+    [SerializeField] Image shieldTextBackground;
     [SerializeField] Image manaBar;
     [SerializeField] Text manaText;
     [SerializeField] Image basicHealCD;
@@ -56,6 +60,7 @@ public class MontyHUDController : MonoBehaviour
     void Update()
     {
         UpdateHealth();
+        DisplayShield();
         UpdateMana();
     }
 
@@ -64,6 +69,25 @@ public class MontyHUDController : MonoBehaviour
         int currentHealth = controller.GetCurrentHealth();
         healthText.text = $"{currentHealth} / {controller.MaxHealth}";
         healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (float) currentHealth / controller.MaxHealth, 0.1f);
+    }
+
+    void DisplayShield()
+    {
+        int shieldValue = controller.GetCurrentShieldValue();
+        int maxShield = controller.GetShieldValue();
+
+        if(shieldValue > 0)
+        {
+            shieldBarBackground.gameObject.SetActive(true);
+            shieldTextBackground.gameObject.SetActive(true);
+            shieldBar.fillAmount = (float) shieldValue / maxShield;
+            shieldText.text = $"{shieldValue} / {maxShield}";
+        }
+        else
+        {
+            shieldBarBackground.gameObject.SetActive(false);
+            shieldTextBackground.gameObject.SetActive(false);
+        }
     }
 
     void UpdateMana()

@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SeeSharpController : Character
 {
     private Rigidbody rigidbody;
     private Vector3 velocity;
+    private int shieldValue;
+    private int currentShieldValue;
 
     /// <summary>
     /// Keep track of objects that have damaged us so that their colliders can't damage us the next frame.
@@ -14,11 +17,15 @@ public class SeeSharpController : Character
 
     public int GetCurrentHealth() { return currentHealth; }
 
+    public int GetCurrentShieldValue() { return currentShieldValue; }
+
+    public int GetShieldValue() { return shieldValue; }
+
     public Vector3 GetVelocity() { return velocity; }
 
     public void TakeHit(int damageAmount, Resistance resistance)
     {
-        TakeDamage(damageAmount, resistance, false);
+        currentShieldValue = TakeDamage(damageAmount, resistance, false, currentShieldValue);
     }
 
     public void UseHeal(int healAmount)
@@ -30,11 +37,18 @@ public class SeeSharpController : Character
         }
     }
 
+    public void UseShield(int shieldAmount, float timeOut)
+    {
+        shieldValue = currentShieldValue = shieldAmount;
+        StartCoroutine(DestroyShield(timeOut));
+    }
+
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        // Initialise inherited variables.
         currentHealth = MaxHealth;
-
+        currentShieldValue = -1;
+        rigidbody = GetComponent<Rigidbody>();
         pastDamagingParticles = new List<GameObject>();
     }
 
@@ -115,6 +129,12 @@ public class SeeSharpController : Character
         }
     }
 
+    IEnumerator DestroyShield(float timeOut)
+    {
+        yield return new WaitForSecondsRealtime(timeOut);
+        currentShieldValue = -1;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         HandleDamage(other.GetComponent<Ability>());
@@ -144,11 +164,11 @@ public class SeeSharpController : Character
 
         if (ability.AttackDamage > 0)
         {
-            TakeDamage(ability.AttackDamage, Resistance.UseArmor, false);
+            currentShieldValue = TakeDamage(ability.AttackDamage, Resistance.UseArmor, false, currentShieldValue);
         }
         else if (ability.AbilityPower > 0)
         {
-            TakeDamage(ability.AbilityPower, Resistance.UseMagicResist, false);
+            currentShieldValue = TakeDamage(ability.AbilityPower, Resistance.UseMagicResist, false, currentShieldValue);
         }
         else
         {
