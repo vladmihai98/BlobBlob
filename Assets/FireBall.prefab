@@ -4845,8 +4845,7 @@ GameObject:
   - component: {fileID: 1799587213495735308}
   - component: {fileID: 5560116764561938231}
   - component: {fileID: 4013160619686060221}
-  - component: {fileID: 114614019722190804}
-  - component: {fileID: 114244929581594460}
+  - component: {fileID: 3643548085398158847}
   m_Layer: 0
   m_Name: FireBall
   m_TagString: Untagged
@@ -4915,14 +4914,14 @@ MonoBehaviour:
   TypeOfTarget: 0
   ManaCost: 0
   Cooldown: 0
-  Speed: 20
+  Speed: 40
   Duration: 1
   Range: 0
   AttackDamage: 0
   AbilityPower: 100
   HealAmount: 0
   ShieldAmount: 0
---- !u!114 &114614019722190804
+--- !u!114 &3643548085398158847
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4931,23 +4930,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8731488085076216129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc23ad7f665b7c74b8ae896b4c10abb9, type: 3}
+  m_Script: {fileID: 11500000, guid: 253a39e16c7583a48b2c1b0726405c0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
---- !u!114 &114244929581594460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8731488085076216129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee293e082b3d80540b1cb40f64484d75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  secondsAlive: 1
 --- !u!1 &8731488085263813799
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2972871676200139852}
+  - component: {fileID: 6048320289212394158}
   - component: {fileID: 818560862823785747}
+  - component: {fileID: 7098326066558340264}
   m_Layer: 0
   m_Name: EnergySlash
   m_TagString: Untagged
@@ -32,6 +34,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6048320289212394158
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4669550037239217194}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 54.20627, y: 9.170189, z: 17.866707}
+  m_Center: {x: 0.027534485, y: 6.1029797, z: 4.883827}
 --- !u!114 &818560862823785747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,10 +65,22 @@ MonoBehaviour:
   Speed: 100
   Duration: 3
   Range: 0
-  AttackDamage: 200
-  AbilityPower: 200
+  AttackDamage: 350
+  AbilityPower: 350
   HealAmount: 0
   ShieldAmount: 0
+--- !u!114 &7098326066558340264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4669550037239217194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253a39e16c7583a48b2c1b0726405c0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8269524999046650930
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8269524999046650930}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 5.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2972871676200139852}
@@ -222,7 +249,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 0
       minScalar: 5
       maxCurve:
         serializedVersion: 2
