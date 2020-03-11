@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class Character : Interactable
@@ -165,20 +166,35 @@ public class Character : Interactable
     /// </summary>
     private void Die()
     {
-        isAlive = false;
-
-        print($"[INFO] Character {transform.name} has died.");
-        animator.SetTrigger("die");
-
-        if(ManaParticles)
+        if(isAlive)
         {
-            var emiss = ManaParticles.emission;
-            emiss.burstCount = ManaPoints;
-            Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 5f, transform.position.z);
-            Instantiate(ManaParticles, spawnPosition, Quaternion.identity);
-        }
+            print($"[INFO] Character {transform.name} has died.");
 
-        StartCoroutine(DestroyGameObject());
+            // Put the object in final state.
+            isAlive = false;
+            var navMeshAgent = transform.GetComponent<NavMeshAgent>();
+            if(navMeshAgent)
+            {
+                navMeshAgent.enabled = false;
+            }
+            var rigidBody = transform.GetComponent<Rigidbody>();
+            if(rigidBody)
+            {
+                rigidBody.isKinematic = true;
+            }
+            transform.GetComponent<Collider>().enabled = false;
+            animator.SetTrigger("die");
+
+            if(ManaParticles)
+            {
+                var emiss = ManaParticles.emission;
+                emiss.burstCount = ManaPoints;
+                Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 5f, transform.position.z);
+                Instantiate(ManaParticles, spawnPosition, Quaternion.identity);
+            }
+
+            StartCoroutine(DestroyGameObject());
+        }
     }
 
     IEnumerator DestroyGameObject()
@@ -189,6 +205,9 @@ public class Character : Interactable
 
     void Update()
     {
-        Interact();
+        if(isAlive)
+        {
+            Interact();
+        }
     }
 }
