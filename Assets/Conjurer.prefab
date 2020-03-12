@@ -195,6 +195,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3361182403962254178}
   - component: {fileID: 4157133879308447922}
+  - component: {fileID: 1432165357058871530}
   - component: {fileID: 5315287743657497940}
   - component: {fileID: 1204841586}
   - component: {fileID: 781242129}
@@ -238,6 +239,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &1432165357058871530
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3361182403962254190}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7259111, y: 2.3934858, z: 1.4401987}
+  m_Center: {x: -0.013772647, y: 0.14249472, z: 0.07051961}
 --- !u!136 &5315287743657497940
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -247,7 +261,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 3361182403962254190}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.9
   m_Height: 2.8
   m_Direction: 1
@@ -305,9 +319,9 @@ MonoBehaviour:
   CastingSpeed: 0
   Armor: 25
   MagicResist: 30
-  seeSharp: {fileID: 0}
-  monty: {fileID: 0}
   material: {fileID: 2100000, guid: a40a4051ad2229241985cf996fbc3d36, type: 2}
+  isDragon: 0
+  isBerserker: 0
 --- !u!114 &2087157238044769639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,7 +335,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spell: {fileID: 5242769728890104769, guid: 3dfd8699202f4894fb2d721177e175a3, type: 3}
-  material: {fileID: 2100000, guid: a40a4051ad2229241985cf996fbc3d36, type: 2}
 --- !u!1 &6497965079303559557
 GameObject:
   m_ObjectHideFlags: 0
