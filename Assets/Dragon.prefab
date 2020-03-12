@@ -394,7 +394,7 @@ MonoBehaviour:
   animator: {fileID: 1011305024016618830}
   ManaParticles: {fileID: 9050246880503001876, guid: 061b2c80a5e2be048a74809d925fccaf,
     type: 3}
-  ManaPoints: 5
+  ManaPoints: 6
   MaxHealth: 400
   MaxMana: 0
   MovementSpeed: 10
@@ -408,6 +408,7 @@ MonoBehaviour:
   MagicResist: 30
   material: {fileID: 2100000, guid: ce0cb271c34a85f47826bf4a5239017c, type: 2}
   isDragon: 1
+  isBerserker: 0
 --- !u!114 &7839072865291851849
 MonoBehaviour:
   m_ObjectHideFlags: 0

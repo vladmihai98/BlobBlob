@@ -253,15 +253,17 @@ public class MontyController : Character
 
     private void OnCollisionEnter(Collision collision)
     {
-        print("3");
-
         // Register hitting ground.
         isGrounded = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        print("2");
+        if(other.tag.Equals("ManaParticles"))
+        {
+            GainMana(other.GetComponent<ParticleSystem>().emission.burstCount);
+            Destroy(other.gameObject);
+        }
 
         Ability ability = other.GetComponent<Ability>();
         if(ability)
@@ -270,31 +272,14 @@ public class MontyController : Character
         }
     }
 
-    private void OnParticleCollision(GameObject other)
+    private void GainMana(int manaPoints)
     {
-        print($"1");
-
-        //if (!pastDamagingParticles.Contains(other))
-        //{
-        //    pastDamagingParticles.Add(other);
-        //    HandleDamage(other.GetComponent<Ability>());
-        //}
-    }
-
-    void OnParticleTrigger()
-    {
-        print("4");
-
-        List<ParticleSystem.Particle> enter = new List<ParticleSystem.Particle>();
-        var wow = ManaParticles.GetComponent<ParticleSystem>();
-        int idc = wow.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
-
-        print($"atatea boss {enter.Count}");
-
-        enter.ForEach(x =>
+        currentMana += manaPoints * 20;
+        print($"gained {manaPoints} mp");
+        if(currentMana > MaxMana)
         {
-            print($"do we even have a name {x.position}");
-        });
+            currentMana = MaxMana;
+        }
     }
 
     private void HandleDamage(Ability ability)

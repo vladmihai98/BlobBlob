@@ -212,24 +212,26 @@ public class CharacterController : Character
     private void OnTriggerEnter(Collider other)
     {
         Ability ability = other.GetComponent<Ability>();
+        if(ability)
+        {
+            // Ignore friendly-fire, e.g. abilities that should damage enemies and not our friends.
+            if (ability.TypeOfTarget == Ability.TargetType.Player)
+            {
+                return;
+            }
 
-        // Ignore friendly-fire, e.g. abilities that should damage enemies and not our friends.
-        if (ability.TypeOfTarget == Ability.TargetType.Player)
-        {
-            return;
-        }
-
-        if (ability.AttackDamage > 0)
-        {
-            TakeDamage(ability.AttackDamage, Resistance.UseArmor);
-        }
-        else if (ability.AbilityPower > 0)
-        {
-            TakeDamage(ability.AbilityPower, Resistance.UseMagicResist);
-        }
-        else
-        {
-            print($"[WARNING] No damage on {transform.name} from {other.name}");
+            if (ability.AttackDamage > 0)
+            {
+                TakeDamage(ability.AttackDamage, Resistance.UseArmor);
+            }
+            else if (ability.AbilityPower > 0)
+            {
+                TakeDamage(ability.AbilityPower, Resistance.UseMagicResist);
+            }
+            else
+            {
+                print($"[WARNING] No damage on {transform.name} from {other.name}");
+            }
         }
     }
 

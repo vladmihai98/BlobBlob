@@ -43,6 +43,11 @@ public class SpellHandler : MonoBehaviour
         spellsStats.Add(AoeHeal.name, new int[3] { 1, aoeHealManaCost, aoeHealCooldown });
     }
 
+    void Update()
+    {
+        currentMana = controller.GetCurrentMana();    
+    }
+
     /// <summary>
     /// The spell Monty casts when pressing Z.
     /// </summary>

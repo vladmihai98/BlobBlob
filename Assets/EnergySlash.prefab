@@ -62,7 +62,7 @@ MonoBehaviour:
   TypeOfTarget: 1
   ManaCost: 400
   Cooldown: 20
-  Speed: 100
+  Speed: 50
   Duration: 3
   Range: 0
   AttackDamage: 350

@@ -307,7 +307,7 @@ MonoBehaviour:
   animator: {fileID: 2921589049225228351}
   ManaParticles: {fileID: 9050246880503001876, guid: 061b2c80a5e2be048a74809d925fccaf,
     type: 3}
-  ManaPoints: 6
+  ManaPoints: 7
   MaxHealth: 500
   MaxMana: 0
   MovementSpeed: 10
