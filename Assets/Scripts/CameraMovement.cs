@@ -43,7 +43,7 @@ public class CameraMovement : MonoBehaviour
         {
             x = camera.transform.position.x,
             y = camera.transform.position.y,
-            z = newZoom
+            z = camera.transform.position.z + newZoom
         };
         camera.transform.position = Vector3.Lerp(camera.transform.position, newCameraPosition, 0.1f);
     }

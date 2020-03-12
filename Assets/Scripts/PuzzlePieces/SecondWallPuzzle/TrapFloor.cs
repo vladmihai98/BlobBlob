@@ -13,7 +13,13 @@ public class TrapFloor : MonoBehaviour
         trapDoor.position += trapOffset;
 
         // Reveal the next piece of the puzzle.
-        ceilingCrateLeft?.gameObject.SetActive(true);
-        ceilingCrateRight?.gameObject.SetActive(true);
+        if(ceilingCrateLeft)
+        {
+            ceilingCrateLeft.gameObject.SetActive(true);
+        }
+        if(ceilingCrateRight)
+        {
+            ceilingCrateRight.gameObject.SetActive(true);
+        }
     }
 }
