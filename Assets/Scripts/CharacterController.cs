@@ -9,6 +9,8 @@ public class CharacterController : Character
     [SerializeField] bool isBerserker;
 
     protected NavMeshAgent agent;
+    private Canvas healthHud;
+    private Vector3 newHudPosition;
     private BoxCollider collider;
     private Transform seeSharp;
     private Transform monty;
@@ -33,6 +35,13 @@ public class CharacterController : Character
         if(isBerserker)
         {
             aggroRange = AttackRange + 50;
+        }
+
+        if(isDragon)
+        {
+            healthHud = GetComponentInChildren<Canvas>();
+            Vector3 hudLocalPos = healthHud.transform.localPosition;
+            newHudPosition = new Vector3(hudLocalPos.x, hudLocalPos.y + 3f, hudLocalPos.z);
         }
     }
 
@@ -194,6 +203,9 @@ public class CharacterController : Character
             Vector3 colliderCenter = collider.center;
             colliderCenter.y = 3.3f;
             collider.center = colliderCenter;
+
+            // Raise the HUD as well.
+            healthHud.transform.localPosition = Vector3.Lerp(healthHud.transform.localPosition, newHudPosition, 0.1f);
         }
     }
 
