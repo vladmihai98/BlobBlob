@@ -26,6 +26,17 @@ public class SeeSharpController : Character
     public void TakeHit(int damageAmount, Resistance resistance)
     {
         currentShieldValue = TakeDamage(damageAmount, resistance, false, currentShieldValue);
+        if (currentShieldValue <= 0)
+        {
+            Ability[] equippedAbilities = GetComponentsInChildren<Ability>();
+            foreach (Ability shield in equippedAbilities)
+            {
+                if (shield.ShieldAmount > 0)
+                {
+                    Destroy(shield.gameObject);
+                }
+            }
+        }
     }
 
     public void UseHeal(int healAmount)
@@ -173,6 +184,18 @@ public class SeeSharpController : Character
         else
         {
             print($"[WARNING] No damage on {transform.name} from {ability.name}");
+        }
+
+        if (currentShieldValue <= 0)
+        {
+            Ability[] equippedAbilities = GetComponentsInChildren<Ability>();
+            foreach (Ability shield in equippedAbilities)
+            {
+                if (shield.ShieldAmount > 0)
+                {
+                    Destroy(shield.gameObject);
+                }
+            }
         }
     }
 }

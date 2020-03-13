@@ -4766,6 +4766,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4377631781713566654}
   - component: {fileID: 6794985340408021184}
+  - component: {fileID: 912925748274918904}
   m_Layer: 0
   m_Name: TechShield
   m_TagString: Untagged
@@ -4810,3 +4811,16 @@ MonoBehaviour:
   AbilityPower: 0
   HealAmount: 0
   ShieldAmount: 175
+--- !u!114 &912925748274918904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5806714760081332719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee293e082b3d80540b1cb40f64484d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  secondsAlive: 8

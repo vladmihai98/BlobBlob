@@ -4708,6 +4708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 181865323681426430}
   - component: {fileID: 8868220220731735569}
+  - component: {fileID: 3052359418798577483}
   m_Layer: 0
   m_Name: BasicHeal
   m_TagString: Untagged
@@ -4746,9 +4747,22 @@ MonoBehaviour:
   ManaCost: 75
   Cooldown: 5
   Speed: 0
-  Duration: 1
+  Duration: 4.6
   Range: 0
   AttackDamage: 0
   AbilityPower: 0
   HealAmount: 75
   ShieldAmount: 0
+--- !u!114 &3052359418798577483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4488991662910922453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee293e082b3d80540b1cb40f64484d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  secondsAlive: 4.6
