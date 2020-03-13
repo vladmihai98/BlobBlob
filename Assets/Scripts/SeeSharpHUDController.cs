@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class SeeSharpHUDController : MonoBehaviour
 {
-    [SerializeField] SeeSharpController controller;
     [SerializeField] Image healthBar;
     [SerializeField] Text healthText;
     [SerializeField] Image shieldBar;
@@ -11,8 +10,11 @@ public class SeeSharpHUDController : MonoBehaviour
     [SerializeField] Text shieldText;
     [SerializeField] Image shieldTextBackground;
 
+    private SeeSharpController controller;
+
     void Start()
     {
+        controller = FindObjectOfType<SeeSharpController>();
         healthText.text = $"{controller.MaxHealth} / {controller.MaxHealth}";
     }
 

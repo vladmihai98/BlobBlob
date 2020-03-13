@@ -2,18 +2,23 @@
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] Transform monty;
-    [SerializeField] Transform seeSharp;
     [SerializeField] Vector3 positionOffset;
     [SerializeField] float zoomInZ;
     [SerializeField] float zoomOutZ;
 
     private Camera camera;
     private Bounds bounds;
+    private MontyController montyController;
+    private SeeSharpController seeSharpController;
+    private GameController gameController;
 
     void Start()
     {
+        bounds = new Bounds();
         camera = GetComponent<Camera>();
+        montyController = FindObjectOfType<MontyController>();
+        seeSharpController = FindObjectOfType<SeeSharpController>();
+        gameController = FindObjectOfType<GameController>();
     }
 
     void Update()
@@ -25,8 +30,18 @@ public class CameraMovement : MonoBehaviour
 
     Bounds GetBounds()
     {
-        Bounds bounds = new Bounds(monty.position, Vector3.zero);
-        bounds.Encapsulate(seeSharp.position);
+        if(gameController.IsMontyAlive())
+        {
+            bounds = new Bounds(montyController.transform.position, Vector3.zero);
+            if(gameController.IsSeeSharpAlive())
+            {
+                bounds.Encapsulate(seeSharpController.transform.position);
+            }
+        }
+        else if(gameController.IsSeeSharpAlive())
+        {
+            bounds = new Bounds(seeSharpController.transform.position, Vector3.zero);
+        }
         return bounds;
     }
 

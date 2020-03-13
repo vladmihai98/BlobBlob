@@ -12,10 +12,12 @@ public class CharacterController : Character
     private Canvas healthHud;
     private Vector3 newHudPosition;
     private BoxCollider collider;
-    private Transform seeSharp;
-    private Transform monty;
     private Color color;
     private int aggroRange = 0;
+
+    private GameController gameController;
+    private MontyController montyController;
+    private SeeSharpController seeSharpController;
 
     void Start()
     {
@@ -23,9 +25,10 @@ public class CharacterController : Character
         initialPosition = transform;
         currentHealth = MaxHealth;
 
-        // Get references to the players.
-        seeSharp = FindObjectOfType<SeeSharpController>().transform;
-        monty = FindObjectOfType<MontyController>().transform;
+        // Get references to the players and to the game controller.
+        gameController = FindObjectOfType<GameController>();
+        montyController = FindObjectOfType<MontyController>();
+        seeSharpController = FindObjectOfType<SeeSharpController>();
 
         color = material.color;
         collider = GetComponent<BoxCollider>();
@@ -73,12 +76,11 @@ public class CharacterController : Character
     /// <returns>True if player ignored enemy, false otherwise.</returns>
     bool didPlayerIgnoreMe()
     {
-        if (initialPosition.position.z < monty.position.z ||
-           initialPosition.position.z < seeSharp.position.z)
+        if ((gameController.IsMontyAlive() && initialPosition.position.z < montyController.transform.position.z) ||
+           (gameController.IsSeeSharpAlive() && initialPosition.position.z < seeSharpController.transform.position.z))
         {
             return true;
         }
-
         return false;
     }
 
@@ -116,35 +118,56 @@ public class CharacterController : Character
     Transform isPlayerInRange(int rangeThreshold)
     {
         Transform playerToAttack = null;
-
-        float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
-        float distanceFromMonty = Vector3.Distance(monty.position, transform.position);
+        float distanceFromSeeSharp = float.MaxValue;
+        float distanceFromMonty = float.MaxValue;
+        if (gameController.IsSeeSharpAlive())
+        {
+            distanceFromSeeSharp = Vector3.Distance(seeSharpController.transform.position, transform.position);
+        }
+        if (gameController.IsMontyAlive())
+        {
+            distanceFromMonty = Vector3.Distance(montyController.transform.position, transform.position);
+        }
 
         // Attack the player that is closer to the enemy.
         if (distanceFromMonty <= rangeThreshold && distanceFromSeeSharp <= rangeThreshold)
         {
-            if (distanceFromSeeSharp < distanceFromMonty)
+            if(gameController.IsSeeSharpAlive())
             {
-                playerToAttack = seeSharp;
+                if(gameController.IsMontyAlive())
+                {
+                    if (distanceFromSeeSharp < distanceFromMonty)
+                    {
+                        playerToAttack = seeSharpController.transform;
+                    }
+                    else
+                    {
+                        playerToAttack = montyController.transform;
+                    }
+                }
+                else
+                {
+                    playerToAttack = seeSharpController.transform;
+                }
             }
-            else
+            else if(gameController.IsMontyAlive())
             {
-                playerToAttack = monty;
+                playerToAttack = montyController.transform;
             }
         }
-        else if (distanceFromMonty <= rangeThreshold)
+        else if (gameController.IsMontyAlive() && distanceFromMonty <= rangeThreshold)
         {
-            playerToAttack = monty;
+            playerToAttack = montyController.transform;
         }
-        else if (distanceFromSeeSharp <= rangeThreshold)
+        else if (gameController.IsSeeSharpAlive() && distanceFromSeeSharp <= rangeThreshold)
         {
-            playerToAttack = seeSharp;
+            playerToAttack = seeSharpController.transform;
         }
 
         if (isDragon && playerToAttack == null)
         {
-            if (distanceFromMonty <= rangeThreshold + 30 ||
-               distanceFromSeeSharp <= rangeThreshold + 30)
+            if (distanceFromMonty <= rangeThreshold + 50 ||
+               distanceFromSeeSharp <= rangeThreshold + 50)
             {
                 animator.SetTrigger("wake");
             }
@@ -161,9 +184,9 @@ public class CharacterController : Character
     {
         // Register the fact that we can attack the player and that we want to chase if he escapes our range.
         isAggroed = true;
+
         FaceTarget(player);
         animator.SetTrigger("attack");
-
         SendMessage("Attack", player);
     }
 
@@ -183,19 +206,45 @@ public class CharacterController : Character
     /// </summary>
     void ChaseClosestPlayer()
     {
-        float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
-        float distanceFromMonty = Vector3.Distance(monty.position, transform.position);
-
-        if (distanceFromSeeSharp <= distanceFromMonty)
+        float distanceFromSeeSharp = float.MaxValue;
+        float distanceFromMonty = float.MaxValue;
+        if (gameController.IsSeeSharpAlive())
         {
-            agent.SetDestination(seeSharp.position);
+            distanceFromSeeSharp = Vector3.Distance(seeSharpController.transform.position, transform.position);
         }
-        else
+        if (gameController.IsMontyAlive())
         {
-            agent.SetDestination(monty.position);
+            distanceFromMonty = Vector3.Distance(montyController.transform.position, transform.position);
         }
 
         animator.SetTrigger("chase");
+        if (gameController.IsMontyAlive())
+        {
+            if (gameController.IsSeeSharpAlive())
+            {
+                if (distanceFromMonty <= distanceFromSeeSharp)
+                {
+                    agent.SetDestination(montyController.transform.position);
+                }
+                else
+                {
+                    agent.SetDestination(seeSharpController.transform.position);
+                }
+            }
+            else
+            {
+                agent.SetDestination(montyController.transform.position);
+            }
+        }
+        else if (gameController.IsSeeSharpAlive())
+        {
+            agent.SetDestination(seeSharpController.transform.position);
+        }
+        else
+        {
+            agent.isStopped = true;
+            animator.SetTrigger("idle");
+        }
 
         if(isDragon)
         {

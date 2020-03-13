@@ -5,8 +5,6 @@ using UnityEngine.AI;
 public class AssassinController : Character
 {
     [Header("Extra Stats")]
-    [SerializeField] Transform seeSharp;
-    [SerializeField] Transform monty;
     [SerializeField] Material material;
     [SerializeField] LayerMask assassinMask;
 
@@ -15,10 +13,11 @@ public class AssassinController : Character
     private Rigidbody rigidbody;
     private bool canAttack = true;
     private int timesDodged = 0;
-    private const int DODGE_CAP = 3;
+    private const int DODGE_CAP = 2;
 
-    private MontyController montyCtrl;
-    private SeeSharpController seeSharpCtrl;
+    private GameController gameController;
+    private MontyController montyController;
+    private SeeSharpController seeSharpController;
 
     void Start()
     {
@@ -31,8 +30,10 @@ public class AssassinController : Character
         agent.stoppingDistance = AttackRange;
         rigidbody = GetComponent<Rigidbody>();
 
-        montyCtrl = monty.GetComponent<MontyController>();
-        seeSharpCtrl = seeSharp.GetComponent<SeeSharpController>();
+        // Get references to the players and to the game controller.
+        gameController = FindObjectOfType<GameController>();
+        montyController = FindObjectOfType<MontyController>();
+        seeSharpController = FindObjectOfType<SeeSharpController>();
     }
 
     void LateUpdate()
@@ -55,15 +56,15 @@ public class AssassinController : Character
                 {
                     isEnraged = true;
 
-                    int montyHealth = montyCtrl.GetCurrentHealth();
-                    int seeSharpHealth = seeSharpCtrl.GetCurrentHealth();
-                    if (montyHealth < seeSharpHealth)
+                    int montyHealth = gameController.IsMontyAlive() ? montyController.GetCurrentHealth() : 0;
+                    int seeSharpHealth = gameController.IsSeeSharpAlive() ? seeSharpController.GetCurrentHealth() : 0;
+                    if (gameController.IsMontyAlive() && montyHealth < seeSharpHealth)
                     {
-                        AttackPlayer(monty, false);
+                        AttackPlayer(montyController.transform, false);
                     }
-                    else
+                    else if(gameController.IsSeeSharpAlive())
                     {
-                        AttackPlayer(seeSharp, false);
+                        AttackPlayer(seeSharpController.transform, false);
                     }
                 }
                 else
@@ -89,45 +90,60 @@ public class AssassinController : Character
         }
     }
 
-    void Dodge()
+    /// <summary>
+    /// Retrieve the position of the nearest Player in range.
+    /// </summary>
+    /// <returns>The transform of the nearest enemy in range or null.</returns>
+    Transform isPlayerInAttackRange()
     {
-        BulletController bulletController = FindObjectOfType<BulletController>();
-
-        // If there is a bullet in the scene (i.e. the player is shooting).
-        if(bulletController)
+        Transform playerToAttack = null;
+        float distanceFromSeeSharp = float.MaxValue;
+        float distanceFromMonty = float.MaxValue;
+        if(gameController.IsSeeSharpAlive())
         {
-            // Get its direction.
-            Vector3 direction = bulletController.GetDirection();
+            distanceFromSeeSharp = Vector3.Distance(seeSharpController.transform.position, transform.position);
+        }
+        if (gameController.IsMontyAlive())
+        {
+            distanceFromMonty = Vector3.Distance(montyController.transform.position, transform.position);
+        }
 
-            // And find out if that would hit us.
-            RaycastHit hit;
-            if(Physics.Raycast(bulletController.transform.position, direction, out hit, 5000, assassinMask))
+        // Attack the players if they are in range.
+        if (distanceFromMonty <= AttackRange && distanceFromSeeSharp <= AttackRange)
+        {
+            // Attack the player that has the fewest HealthPoints.
+            if (gameController.IsMontyAlive())
             {
-                timesDodged++;
-
-                float randomValue = Random.value;
-                Vector3 positionAlteration;
-
-                if(randomValue <= 0.25f)
+                if(gameController.IsSeeSharpAlive())
                 {
-                    positionAlteration = Vector3.forward;
-                }
-                else if(randomValue <= 0.5f)
-                {
-                    positionAlteration = Vector3.right;
-                }
-                else if(randomValue <= 0.75f)
-                {
-                    positionAlteration = Vector3.back;
+                    if(montyController.GetCurrentHealth() < seeSharpController.GetCurrentHealth())
+                    {
+                        playerToAttack = montyController.transform;
+                    }
+                    else
+                    {
+                        playerToAttack = seeSharpController.transform;
+                    }
                 }
                 else
                 {
-                    positionAlteration = Vector3.left;
+                    playerToAttack = montyController.transform;
                 }
-
-                rigidbody.MovePosition(GetClosestPlayer().position + positionAlteration * 10f);
+            }
+            else if (gameController.IsSeeSharpAlive())
+            {
+                playerToAttack = seeSharpController.transform;
             }
         }
+        else if (gameController.IsMontyAlive() && distanceFromMonty <= AttackRange)
+        {
+            playerToAttack = montyController.transform;
+        }
+        else if (gameController.IsSeeSharpAlive() && distanceFromSeeSharp <= AttackRange)
+        {
+            playerToAttack = seeSharpController.transform;
+        }
+        return playerToAttack;
     }
 
     /// <summary>
@@ -137,13 +153,13 @@ public class AssassinController : Character
     /// <returns>True if player ignored enemy, false otherwise.</returns>
     bool didPlayerIgnoreMe()
     {
-        if (initialPosition.position.z < monty.position.z ||
-           initialPosition.position.z < seeSharp.position.z)
+        if ((gameController.IsMontyAlive() && initialPosition.position.z < montyController.transform.position.z) ||
+            (gameController.IsSeeSharpAlive() && initialPosition.position.z < seeSharpController.transform.position.z))
         {
             isEnraged = true;
+            BecomeEnraged();
             return true;
         }
-
         return false;
     }
 
@@ -152,46 +168,9 @@ public class AssassinController : Character
     /// </summary>
     void BecomeEnraged()
     {
-
-    }
-
-    /// <summary>
-    /// Retrieve the position of the nearest Player in range.
-    /// </summary>
-    /// <returns>The transform of the nearest enemy in range or null.</returns>
-    Transform isPlayerInAttackRange()
-    {
-        Transform playerToAttack = null;
-
-        var montyController = monty.GetComponent<MontyController>();
-        var seeSharpController = seeSharp.GetComponent<SeeSharpController>();
-
-        float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
-        float distanceFromMonty = Vector3.Distance(monty.position, transform.position);
-
-        // Attack the players if they are in range.
-        if (distanceFromMonty <= AttackRange && distanceFromSeeSharp <= AttackRange)
-        {
-            // Attack the player that has the fewest HealthPoints.
-            if (montyController.GetCurrentHealth() < seeSharpController.GetCurrentHealth())
-            {
-                playerToAttack = monty;
-            }
-            else
-            {
-                playerToAttack = seeSharp;
-            }
-        }
-        else if (distanceFromMonty <= AttackRange)
-        {
-            playerToAttack = monty;
-        }
-        else if (distanceFromSeeSharp <= AttackRange)
-        {
-            playerToAttack = seeSharp;
-        }
-
-        return playerToAttack;
+        Armor += 10;
+        AttackDamage += 75;
+        MagicResist += 10;
     }
 
     /// <summary>
@@ -203,16 +182,16 @@ public class AssassinController : Character
         // Register the fact that we can attack the player and that we want to chase if he escapes our range.
         isAggroed = true;
 
+        // Reset the dodge count.
         timesDodged = 0;
 
+        // Face the target even if we cannot attack it.
         FaceTarget(player);
 
         if (canAttack)
         {
             canAttack = false;
-
             Vector3 positionReset = transform.position;
-
             transform.position = new Vector3(player.position.x, player.position.y, player.position.z + 5f);
 
             if (resetPosition)
@@ -226,30 +205,6 @@ public class AssassinController : Character
         }
     }
 
-    IEnumerator PrepareAndAttack(Transform player)
-    {
-        yield return new WaitForSecondsRealtime(1f);
-        Vector3 newPosition = new Vector3(player.position.x, player.position.y, player.position.z - 5f);
-        transform.position = newPosition;
-        FaceTarget(player);
-        animator.SetBool("attack", true);
-
-        var ctrl = player.GetComponent<SeeSharpController>();
-        var ctrl1 = player.GetComponent<MontyController>();
-
-        if (ctrl)
-        {
-            ctrl.TakeHit(AttackDamage, Resistance.UseArmor);
-        }
-        if (ctrl1)
-        {
-            //ctrl1.SetMovementSpeed(ctrl1.GetMovementSpeed() / 2);
-            ctrl1.TakeHit(AttackDamage, Resistance.UseArmor);
-        }
-
-        StartCoroutine(ResetAttack());
-    }
-
     IEnumerator PrepareAndAttack(Vector3 positionToResetTo, Transform player)
     {
         yield return new WaitForSecondsRealtime(1f);
@@ -258,20 +213,64 @@ public class AssassinController : Character
         FaceTarget(player);
         animator.SetBool("attack", true);
 
-        var ctrl = player.GetComponent<SeeSharpController>();
-        var ctrl1 = player.GetComponent<MontyController>();
-
-        if (ctrl)
+        // Check if the player is still alive.
+        SeeSharpController ssCtrl = null;
+        MontyController mCtrl = null;
+        if (gameController.IsSeeSharpAlive())
         {
-            ctrl.TakeHit(AttackDamage, Resistance.UseArmor);
+            ssCtrl = player.GetComponent<SeeSharpController>();
         }
-        if(ctrl1)
+        if (gameController.IsMontyAlive())
+        {
+            mCtrl = player.GetComponent<MontyController>();
+        }
+
+        // Attack the player if alive.
+        if (ssCtrl)
+        {
+            ssCtrl.TakeHit(AttackDamage, Resistance.UseArmor);
+        }
+        if (mCtrl)
         {
             //ctrl1.SetMovementSpeed(ctrl1.GetMovementSpeed() / 2);
-            ctrl1.TakeHit(AttackDamage, Resistance.UseArmor);
+            mCtrl.TakeHit(AttackDamage, Resistance.UseArmor);
         }
 
         StartCoroutine(ResetPosition(positionToResetTo));
+    }
+
+    IEnumerator PrepareAndAttack(Transform player)
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        Vector3 newPosition = new Vector3(player.position.x, player.position.y, player.position.z - 5f);
+        transform.position = newPosition;
+        FaceTarget(player);
+        animator.SetBool("attack", true);
+
+        // Check if the player is still alive.
+        SeeSharpController ssCtrl = null;
+        MontyController mCtrl = null;
+        if (gameController.IsSeeSharpAlive())
+        {
+            ssCtrl = player.GetComponent<SeeSharpController>();
+        }
+        if (gameController.IsMontyAlive())
+        {
+            mCtrl = player.GetComponent<MontyController>();
+        }
+
+        // Attack the player if alive.
+        if (ssCtrl)
+        {
+            ssCtrl.TakeHit(AttackDamage, Resistance.UseArmor);
+        }
+        if (mCtrl)
+        {
+            //ctrl1.SetMovementSpeed(ctrl1.GetMovementSpeed() / 2);
+            mCtrl.TakeHit(AttackDamage, Resistance.UseArmor);
+        }
+
+        StartCoroutine(ResetAttack());
     }
 
     IEnumerator ResetPosition(Vector3 positionToResetTo)
@@ -288,32 +287,6 @@ public class AssassinController : Character
         canAttack = true;
     }
 
-    Transform GetClosestPlayer()
-    {
-        Transform closestPlayer;
-        float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
-        float distanceFromMonty = Vector3.Distance(monty.position, transform.position);
-
-        if (distanceFromSeeSharp <= distanceFromMonty)
-        {
-            closestPlayer = seeSharp;
-        }
-        else
-        {
-            closestPlayer = monty;
-        }
-        return closestPlayer;
-    }
-
-    /// <summary>
-    /// Chase the player closest to us.
-    /// </summary>
-    void ChaseClosestPlayer()
-    {
-        agent.SetDestination(GetClosestPlayer().position);
-        //animator.SetTrigger("chase");
-    }
-
     /// <summary>
     /// Rotate the GameObject towards the target.
     /// </summary>
@@ -325,11 +298,114 @@ public class AssassinController : Character
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
+    /// <summary>
+    /// Chase the player closest to us.
+    /// </summary>
+    void ChaseClosestPlayer()
+    {
+        Transform closestPlayer = GetClosestPlayer();
+        if (closestPlayer)
+        {
+            agent.SetDestination(closestPlayer.position);
+        }
+        else
+        {
+            agent.isStopped = true;
+        }
+        //animator.SetTrigger("chase");
+    }
+
+    Transform GetClosestPlayer()
+    {
+        Transform closestPlayer = null;
+        float distanceFromSeeSharp = float.MaxValue;
+        float distanceFromMonty = float.MaxValue;
+        if (gameController.IsSeeSharpAlive())
+        {
+            distanceFromSeeSharp = Vector3.Distance(seeSharpController.transform.position, transform.position);
+        }
+        if (gameController.IsMontyAlive())
+        {
+            distanceFromMonty = Vector3.Distance(montyController.transform.position, transform.position);
+        }
+
+        if (gameController.IsMontyAlive())
+        {
+            if(gameController.IsSeeSharpAlive())
+            {
+                if(distanceFromMonty <= distanceFromSeeSharp)
+                {
+                    closestPlayer = montyController.transform;
+                }
+                else
+                {
+                    closestPlayer = seeSharpController.transform;
+                }
+            }
+            else
+            {
+                closestPlayer = montyController.transform;
+            }
+        }
+        else if (gameController.IsSeeSharpAlive())
+        {
+            closestPlayer = seeSharpController.transform;
+        }
+        return closestPlayer;
+    }
+
+    void Dodge()
+    {
+        BulletController bulletController = FindObjectOfType<BulletController>();
+
+        // If there is a bullet in the scene (i.e. the player is shooting).
+        if (bulletController)
+        {
+            // Get its direction.
+            Vector3 direction = bulletController.GetDirection();
+
+            // And find out if that would hit us.
+            RaycastHit hit;
+            if (Physics.Raycast(bulletController.transform.position, direction, out hit, 5000, assassinMask))
+            {
+                timesDodged++;
+
+                float randomValue = Random.value;
+                Vector3 positionAlteration;
+
+                if (randomValue <= 0.25f)
+                {
+                    positionAlteration = Vector3.forward;
+                }
+                else if (randomValue <= 0.5f)
+                {
+                    positionAlteration = Vector3.right;
+                }
+                else if (randomValue <= 0.75f)
+                {
+                    positionAlteration = Vector3.back;
+                }
+                else
+                {
+                    positionAlteration = Vector3.left;
+                }
+
+                rigidbody.MovePosition(GetClosestPlayer().position + positionAlteration * 10f);
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Ability ability = other.GetComponent<Ability>();
         if(ability)
         {
+            // Ignore friendly-fire, e.g. abilities that should damage enemies and not our friends.
+            if (ability.TypeOfTarget == Ability.TargetType.Player)
+            {
+                return;
+            }
+
             if (ability.AttackDamage > 0)
             {
                 TakeDamage(ability.AttackDamage, Resistance.UseArmor);

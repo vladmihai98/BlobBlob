@@ -5,11 +5,13 @@ using static Character;
 public class BerserkerController : MonoBehaviour
 {
     private CharacterController controller;
+    private GameController gameController;
     private bool canAttack = true;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        gameController = FindObjectOfType<GameController>();
     }
 
     /// <summary>
@@ -22,20 +24,26 @@ public class BerserkerController : MonoBehaviour
         if(canAttack)
         {
             canAttack = false;
+            SeeSharpController seeSharpController = null;
+            MontyController montyController = null;
 
-            SeeSharpController seeSharpController = player.GetComponent<SeeSharpController>();
-            MontyController montyController = player.GetComponent<MontyController>();
+            if (gameController.IsSeeSharpAlive())
+            {
+                seeSharpController = player.GetComponent<SeeSharpController>();
+            }
+            if(gameController.IsMontyAlive())
+            {
+                montyController = player.GetComponent<MontyController>();
+            }
 
             if (seeSharpController)
             {
                 seeSharpController.TakeHit(controller.AttackDamage, Resistance.UseArmor);
             }
-
             if (montyController)
             {
                 montyController.TakeHit(controller.AttackDamage, Resistance.UseArmor);
             }
-
             StartCoroutine(ResetTimer());
         }
     }

@@ -8,15 +8,17 @@ public class SeeSharpShooter : MonoBehaviour
     [Tooltip("Distance to capture raycasthit.")]
     [SerializeField] float maximumLength = 5000f;
 
-    [SerializeField] SeeSharpController controller;
-
     private Camera camera;
+    private SeeSharpController controller;
+    private GameController gameController;
     private float timeToFire = 0f;
     private float fireRate;
 
     void Start()
     {
         camera = Camera.main;
+        controller = FindObjectOfType<SeeSharpController>();
+        gameController = FindObjectOfType<GameController>();
         fireRate = controller.AttackSpeed;
     }
 
@@ -42,7 +44,7 @@ public class SeeSharpShooter : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0) && Time.time >= timeToFire)
+        if (gameController.IsSeeSharpAlive() && Input.GetMouseButton(0) && Time.time >= timeToFire)
         {
             timeToFire = Time.time + 1 / fireRate;
             SpawnVfx(newRotation, direction);

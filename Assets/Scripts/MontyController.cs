@@ -6,7 +6,6 @@ public class MontyController : Character
 {
     [Header("Extra Stats")]
     [SerializeField] float jumpHeight = 300;
-    [SerializeField] Transform seeSharp;
 
     private SpellHandler spellHandler;
     private Rigidbody rigidbody;
@@ -14,6 +13,8 @@ public class MontyController : Character
     private bool isGrounded;
     private int shieldValue;
     private int currentShieldValue;
+    private GameController gameController;
+    private SeeSharpController seeSharpController;
 
     /// <summary>
     /// Keep track of objects that have damaged us so that their colliders can't damage us the next frame.
@@ -61,9 +62,11 @@ public class MontyController : Character
 
         isGrounded = true;
         currentShieldValue = -1;
-        spellHandler = GetComponent<SpellHandler>();
-        rigidbody = GetComponent<Rigidbody>();
+        gameController = FindObjectOfType<GameController>();
         pastDamagingParticles = new List<GameObject>();
+        rigidbody = GetComponent<Rigidbody>();
+        seeSharpController = FindObjectOfType<SeeSharpController>();
+        spellHandler = GetComponent<SpellHandler>();
     }
 
     public override void Interact()
@@ -144,11 +147,15 @@ public class MontyController : Character
         //if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.Z))
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
-
-            if(distanceFromSeeSharp < AttackRange)
+            float distanceFromSeeSharp = float.MaxValue;
+            if(gameController.IsSeeSharpAlive())
             {
-                int result = spellHandler.CastBasicHeal(seeSharp);
+                distanceFromSeeSharp = Vector3.Distance(seeSharpController.transform.position, transform.position);
+            }
+
+            if(gameController.IsSeeSharpAlive() && distanceFromSeeSharp < AttackRange)
+            {
+                int result = spellHandler.CastBasicHeal(seeSharpController.transform);
                 if(result >= 0)
                 {
                     currentMana = result;
@@ -160,11 +167,15 @@ public class MontyController : Character
         //if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.X))
         if (Input.GetKeyDown(KeyCode.E))
         {
-            float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
+            float distanceFromSeeSharp = float.MaxValue;
+            if (gameController.IsSeeSharpAlive())
+            {
+                distanceFromSeeSharp = Vector3.Distance(seeSharpController.transform.position, transform.position);
+            }
 
             if (distanceFromSeeSharp < AttackRange)
             {
-                int result = spellHandler.CastTechShield(seeSharp);
+                int result = spellHandler.CastTechShield(seeSharpController.transform);
                 if (result >= 0)
                 {
                     currentMana = result;
@@ -176,11 +187,15 @@ public class MontyController : Character
         //if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.C))
         if (Input.GetKeyDown(KeyCode.R))
         {
-            float distanceFromSeeSharp = Vector3.Distance(seeSharp.position, transform.position);
-
-            if(distanceFromSeeSharp < AttackRange)
+            float distanceFromSeeSharp = float.MaxValue;
+            if (gameController.IsSeeSharpAlive())
             {
-                int result = spellHandler.CastEnergySlash(seeSharp);
+                distanceFromSeeSharp = Vector3.Distance(seeSharpController.transform.position, transform.position);
+            }
+
+            if (distanceFromSeeSharp < AttackRange)
+            {
+                int result = spellHandler.CastEnergySlash(seeSharpController.transform);
                 if (result >= 0)
                 {
                     currentMana = result;
@@ -249,6 +264,15 @@ public class MontyController : Character
     {
         yield return new WaitForSecondsRealtime(timeOut);
         currentShieldValue = -1;
+    }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        if (!pastDamagingParticles.Contains(other))
+        {
+            pastDamagingParticles.Add(other);
+            HandleDamage(other.GetComponent<Ability>());
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
