@@ -5,6 +5,7 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] Vector3 positionOffset;
     [SerializeField] float zoomInZ;
     [SerializeField] float zoomOutZ;
+    [SerializeField] float maxBounds;
 
     private Camera camera;
     private Bounds bounds;
@@ -25,7 +26,12 @@ public class CameraMovement : MonoBehaviour
     {
         bounds = GetBounds();
         PositionCamera();
-        AdjustZoom();
+
+        // Adjust zoom only if both players are alive.
+        if(gameController.IsMontyAlive() && gameController.IsSeeSharpAlive())
+        {
+            AdjustZoom();
+        }
     }
 
     Bounds GetBounds()
@@ -53,7 +59,7 @@ public class CameraMovement : MonoBehaviour
 
     void AdjustZoom()
     {
-        float newZoom = Mathf.Lerp(zoomInZ, zoomOutZ, bounds.size.x / 58f);
+        float newZoom = Mathf.Lerp(zoomInZ, zoomOutZ, bounds.size.x / maxBounds);
         Vector3 newCameraPosition = new Vector3
         {
             x = camera.transform.position.x,

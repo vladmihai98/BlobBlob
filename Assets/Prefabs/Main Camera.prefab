@@ -95,8 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c28b3e5cfec0f5b40a0d9121a87086d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monty: {fileID: 0}
-  seeSharp: {fileID: 0}
-  positionOffset: {x: 0, y: 25, z: -30}
+  positionOffset: {x: 0, y: 20, z: -30}
+  maxBounds: 115
   zoomInZ: 0
-  zoomOutZ: -100
+  zoomOutZ: -120

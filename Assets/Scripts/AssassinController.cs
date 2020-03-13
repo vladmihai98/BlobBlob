@@ -58,9 +58,23 @@ public class AssassinController : Character
 
                     int montyHealth = gameController.IsMontyAlive() ? montyController.GetCurrentHealth() : 0;
                     int seeSharpHealth = gameController.IsSeeSharpAlive() ? seeSharpController.GetCurrentHealth() : 0;
-                    if (gameController.IsMontyAlive() && montyHealth < seeSharpHealth)
+                    if (gameController.IsMontyAlive())
                     {
-                        AttackPlayer(montyController.transform, false);
+                        if(gameController.IsSeeSharpAlive())
+                        {
+                            if(montyHealth <= seeSharpHealth)
+                            {
+                                AttackPlayer(montyController.transform, false);
+                            }
+                            else
+                            {
+                                AttackPlayer(seeSharpController.transform, false);
+                            }
+                        }
+                        else
+                        {
+                            AttackPlayer(montyController.transform, false);
+                        }
                     }
                     else if(gameController.IsSeeSharpAlive())
                     {
