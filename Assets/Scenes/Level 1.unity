@@ -6921,16 +6921,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 371209614450195926, guid: 0d38627066c6c7643a065d6504f8b1a6,
-        type: 3}
-      propertyPath: seeSharp
-      value: 
-      objectReference: {fileID: 219146270}
-    - target: {fileID: 371209614450195926, guid: 0d38627066c6c7643a065d6504f8b1a6,
-        type: 3}
-      propertyPath: monty
-      value: 
-      objectReference: {fileID: 1137715779}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d38627066c6c7643a065d6504f8b1a6, type: 3}
 --- !u!4 &691244763 stripped
@@ -21417,16 +21407,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8331938965216514938, guid: 3a5f63d70119ab8499ba1e83f868ca84,
-        type: 3}
-      propertyPath: seeSharp
-      value: 
-      objectReference: {fileID: 219146270}
-    - target: {fileID: 8331938965216514938, guid: 3a5f63d70119ab8499ba1e83f868ca84,
-        type: 3}
-      propertyPath: monty
-      value: 
-      objectReference: {fileID: 1137715779}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a5f63d70119ab8499ba1e83f868ca84, type: 3}
 --- !u!4 &629219321004063044 stripped
@@ -21732,16 +21712,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2087157238044769639, guid: 958720e8e8983a24a895db3839c04065,
-        type: 3}
-      propertyPath: seeSharp
-      value: 
-      objectReference: {fileID: 219146270}
-    - target: {fileID: 2087157238044769639, guid: 958720e8e8983a24a895db3839c04065,
-        type: 3}
-      propertyPath: monty
-      value: 
-      objectReference: {fileID: 1137715779}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 958720e8e8983a24a895db3839c04065, type: 3}
 --- !u!1 &4223187730663053322
@@ -21837,11 +21807,6 @@ PrefabInstance:
       propertyPath: hudController
       value: 
       objectReference: {fileID: 786869417}
-    - target: {fileID: 487919238538434733, guid: a52e3e42f01461845ab42815affc6059,
-        type: 3}
-      propertyPath: seeSharp
-      value: 
-      objectReference: {fileID: 219146270}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a52e3e42f01461845ab42815affc6059, type: 3}
 --- !u!114 &4787614778345812469 stripped

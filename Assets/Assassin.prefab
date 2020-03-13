@@ -235,7 +235,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 10
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -271,7 +271,7 @@ MonoBehaviour:
   MaxHealth: 200
   MaxMana: 0
   MovementSpeed: 20
-  AttackRange: 30
+  AttackRange: 60
   ShowRange: 0
   AttackDamage: 150
   AbilityPower: 0
@@ -279,8 +279,6 @@ MonoBehaviour:
   CastingSpeed: 0
   Armor: 10
   MagicResist: 10
-  seeSharp: {fileID: 0}
-  monty: {fileID: 0}
   material: {fileID: 2100000, guid: 40e1af48d60759b408cdbcebdd349b7b, type: 2}
   assassinMask:
     serializedVersion: 2

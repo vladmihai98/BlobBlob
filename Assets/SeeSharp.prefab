@@ -108,7 +108,6 @@ MonoBehaviour:
   firePoint: {fileID: 2904090905156706845}
   vfx: {fileID: 8731488085076216129, guid: 9ec56f099d5553448826b29970422e3d, type: 3}
   maximumLength: 5000
-  controller: {fileID: 8275852417690028464}
 --- !u!1 &8275852417690062623
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,7 +209,7 @@ MonoBehaviour:
   ManaPoints: 0
   MaxHealth: 400
   MaxMana: 0
-  MovementSpeed: 10
+  MovementSpeed: 17
   AttackRange: 20
   ShowRange: 0
   AttackDamage: 80

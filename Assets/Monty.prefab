@@ -100,7 +100,7 @@ MonoBehaviour:
   ManaPoints: 0
   MaxHealth: 300
   MaxMana: 700
-  MovementSpeed: 13
+  MovementSpeed: 20
   AttackRange: 25
   ShowRange: 0
   AttackDamage: 0
@@ -110,7 +110,6 @@ MonoBehaviour:
   Armor: 35
   MagicResist: 30
   jumpHeight: 750
-  seeSharp: {fileID: 0}
 --- !u!114 &1696105916
 MonoBehaviour:
   m_ObjectHideFlags: 0
