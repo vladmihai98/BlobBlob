@@ -467,7 +467,7 @@ MonoBehaviour:
   MovementSpeed: 17
   AttackRange: 20
   ShowRange: 0
-  AttackDamage: 80
+  AttackDamage: 100
   AbilityPower: 0
   AttackSpeed: 3
   CastingSpeed: 0
