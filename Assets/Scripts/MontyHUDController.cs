@@ -22,12 +22,15 @@ public class MontyHUDController : MonoBehaviour
     [SerializeField] Image basicHealCD;
     [SerializeField] Text basicHealCDText;
     [SerializeField] Text basicHealCost;
+    [SerializeField] Text basicHealKey;
     [SerializeField] Image techShieldCD;
     [SerializeField] Text techShieldCDText;
     [SerializeField] Text techShieldCost;
+    [SerializeField] Text techShieldKey;
     [SerializeField] Image energySlashCD;
     [SerializeField] Text energySlashCDText;
     [SerializeField] Text energySlashCost;
+    [SerializeField] Text energySlashKey;
 
     /// <summary>
     /// Dictionary holding the references to the CD image and text of each spell.
@@ -115,9 +118,11 @@ public class MontyHUDController : MonoBehaviour
     IEnumerator UpdateSpellCooldown(string spellName, int cooldown)
     {
         int currentCd = cooldown;
+        if (spellName.Equals("BasicHeal")) { basicHealKey.enabled = false; }
+        if (spellName.Equals("TechShield")) { techShieldKey.enabled = false; }
+        if (spellName.Equals("EnergySlash")) { energySlashKey.enabled = false; }
         Image image = spellsCooldownUpdateable[spellName].Item1;
         Text text = spellsCooldownUpdateable[spellName].Item2;
-
         image.fillAmount = 1f;
         text.text = $"{currentCd} s";
         yield return new WaitForSecondsRealtime(1f);
@@ -129,6 +134,9 @@ public class MontyHUDController : MonoBehaviour
             if(currentCd == 0)
             {
                 text.text = string.Empty;
+                if (spellName.Equals("BasicHeal")) { basicHealKey.enabled = true; }
+                if (spellName.Equals("TechShield")) { techShieldKey.enabled = true; }
+                if (spellName.Equals("EnergySlash")) { energySlashKey.enabled = true; }
             }
             else
             {
