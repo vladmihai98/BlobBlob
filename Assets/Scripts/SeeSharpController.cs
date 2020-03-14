@@ -71,7 +71,6 @@ public class SeeSharpController : Character
     public override void Move()
     {
         ProcessInput();
-
         rigidbody.MovePosition(transform.position + (velocity * MovementSpeed * Time.deltaTime));
     }
 

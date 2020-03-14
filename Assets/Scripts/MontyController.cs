@@ -82,12 +82,9 @@ public class MontyController : Character
 
     public override void Interact()
     {
-        if(gameObject)
-        {
-            ProcessInput();
-            Move();
-            Jump();
-        }
+        ProcessInput();
+        Move();
+        Jump();
     }
 
     /// <summary>
@@ -252,7 +249,7 @@ public class MontyController : Character
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             isGrounded = false;
 
@@ -262,13 +259,24 @@ public class MontyController : Character
             // Perform jump after delay, since character ducks before jumping.
             StartCoroutine(PerformJump());
         }
+
+        // Kudos to this video https://www.youtube.com/watch?v=7KiK0Aqtmzc
+        float fallMultiplier = 2.5f;
+        float jumpMultiplier = 2f;
+        if(rigidbody.velocity.y < 0)
+        {
+            rigidbody.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        }
+        else if(rigidbody.velocity.y > 0)
+        {
+            rigidbody.velocity += Vector3.up * Physics.gravity.y * (jumpMultiplier - 1) * Time.deltaTime;
+        }
     }
 
     IEnumerator PerformJump()
     {
-        yield return new WaitForSeconds(1.15f);
-
-        rigidbody.AddForce(0, jumpHeight, 0);
+        yield return new WaitForSeconds(0.57f);
+        rigidbody.velocity = Vector3.up * jumpHeight;
     }
 
     IEnumerator DestroyShield(float timeOut)

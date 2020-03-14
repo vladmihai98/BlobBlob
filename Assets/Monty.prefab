@@ -109,7 +109,7 @@ MonoBehaviour:
   CastingSpeed: 0
   Armor: 35
   MagicResist: 30
-  jumpHeight: 750
+  jumpHeight: 20
 --- !u!114 &1696105916
 MonoBehaviour:
   m_ObjectHideFlags: 0
