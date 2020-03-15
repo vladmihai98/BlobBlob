@@ -2,6 +2,7 @@
 
 public class GameController : MonoBehaviour
 {
+    [SerializeField] CameraMovement camera;
     [SerializeField] MontyController monty;
     [SerializeField] SeeSharpController seeSharp;
 
@@ -25,7 +26,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        HackButton();
+        HackButtons();
 
         if(isMontyAlive && monty.GetCurrentHealth() <= 0)
         {
@@ -43,7 +44,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void HackButton()
+    void HackButtons()
     {
         // Full Heal and Mana
         if (Input.GetKey(KeyCode.F))
@@ -122,6 +123,62 @@ public class GameController : MonoBehaviour
                 Vector3 newPos = new Vector3(-140, 0f, 1637f);
                 monty.transform.position = newPos;
             }
+        }
+
+        ManipulateCamera();
+    }
+
+    /// <summary>
+    /// YGHJ for movement and TU for raise/lower
+    /// </summary>
+    void ManipulateCamera()
+    {
+        // Move the camera forward.
+        if (Input.GetKey(KeyCode.Y))
+        {
+            camera.enabled = false;
+            camera.transform.position += Vector3.forward * 20f * Time.deltaTime;
+        }
+
+        // Move the camera to the right.
+        if (Input.GetKey(KeyCode.J))
+        {
+            camera.enabled = false;
+            camera.transform.position += Vector3.right * 20f * Time.deltaTime;
+        }
+
+        // Move the camera back.
+        if (Input.GetKey(KeyCode.H))
+        {
+            camera.enabled = false;
+            camera.transform.position += Vector3.back * 20f * Time.deltaTime;
+        }
+
+        // Move the camera to the left.
+        if (Input.GetKey(KeyCode.G))
+        {
+            camera.enabled = false;
+            camera.transform.position += Vector3.left * 20f * Time.deltaTime;
+        }
+
+        // Raise the camera.
+        if (Input.GetKey(KeyCode.U))
+        {
+            camera.enabled = false;
+            camera.transform.position += Vector3.up * 20f * Time.deltaTime;
+        }
+
+        // Lower the camera.
+        if (Input.GetKey(KeyCode.T))
+        {
+            camera.enabled = false;
+            camera.transform.position += Vector3.down * 20f * Time.deltaTime;
+        }
+
+        // Reset camera
+        if (Input.GetKey(KeyCode.I))
+        {
+            camera.enabled = true;
         }
     }
 
