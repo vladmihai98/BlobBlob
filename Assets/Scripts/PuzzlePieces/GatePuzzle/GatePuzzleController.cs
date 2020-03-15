@@ -1,10 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GatePuzzleController : MonoBehaviour
 {
     [SerializeField] Transform gate;
+    [SerializeField] CameraMovement camera;
+    [SerializeField] GameObject successScreen;
 
     [Header("References to pieces of the puzzle.")]
     [SerializeField] SuspendedCrateController suspendedCrate;
@@ -12,8 +13,6 @@ public class GatePuzzleController : MonoBehaviour
     [SerializeField] MidCrateController midCrate;
     [SerializeField] RightCrateController rightCrate;
     [SerializeField] DarkCrateController darkCrate;
-
-    [SerializeField] bool test = false;
 
     private bool isPuzzleSolved = false;
     private Vector3 newPosition;
@@ -25,11 +24,6 @@ public class GatePuzzleController : MonoBehaviour
 
     void Update()
     {
-        if(test)
-        {
-            MoveGate();
-        }
-
         if (!isPuzzleSolved)
         {
             if (suspendedCrate.GetPuzzleStatus() && firstNumber.GetPuzzleStatus() &&
@@ -47,6 +41,19 @@ public class GatePuzzleController : MonoBehaviour
 
     void MoveGate()
     {
+        camera.enabled = false;
+        Vector3 newCameraPosition = newPosition;
+        newCameraPosition.z -= 40f;
+        newCameraPosition.y += 20f;
+        camera.transform.position = Vector3.Lerp(transform.position, newCameraPosition, 0.1f);
         gate.position = Vector3.Lerp(gate.position, newPosition, 0.005f);
+        StartCoroutine(DisplaySuccessMessage());
+    }
+
+    IEnumerator DisplaySuccessMessage()
+    {
+        yield return new WaitForSeconds(2f);
+        Time.timeScale = 0f;
+        successScreen.SetActive(true);
     }
 }

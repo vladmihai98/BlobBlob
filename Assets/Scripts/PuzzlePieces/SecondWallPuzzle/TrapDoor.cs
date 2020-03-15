@@ -9,10 +9,12 @@ public class TrapDoor : MonoBehaviour
     [SerializeField] Transform leverToRevealRight;
 
     private Vector3 newPosition;
+    private bool revivedMonty;
 
     void Start()
     {
-        newPosition = transform.position + positionOffset;    
+        newPosition = transform.position + positionOffset;
+        revivedMonty = false;
     }
 
     void Update()
@@ -24,7 +26,11 @@ public class TrapDoor : MonoBehaviour
             leverToRevealRight.gameObject.SetActive(true);
 
             // Allow Monty to act again.
-            FindObjectOfType<GameController>().FakeMontyNotAlive(true);
+            if(!revivedMonty)
+            {
+                FindObjectOfType<GameController>().FakeMontyNotAlive(true);
+                revivedMonty = true;
+            }
         }
     }
 }

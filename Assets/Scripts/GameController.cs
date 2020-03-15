@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+    [Header("Game controls")]
     [SerializeField] CameraMovement camera;
     [SerializeField] MontyController monty;
     [SerializeField] SeeSharpController seeSharp;
+
+    [Header("Game windows")]
+    [SerializeField] GameObject pauseCanvas;
+    [SerializeField] GameObject gameOverCanvas;
 
     private bool isMontyAlive;
     private bool isSeeSharpAlive;
@@ -18,6 +24,14 @@ public class GameController : MonoBehaviour
 
     public bool IsSeeSharpAlive() { return isSeeSharpAlive; }
 
+    public void ResumeGame() { Time.timeScale = 1f; }
+
+    public void ReturnToMenu() { SceneManager.LoadScene(0); }
+
+    public void TryAgain() { SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); }
+
+    public void QuitGame() { Application.Quit(); }
+
     void Start()
     {
         isMontyAlive = true;
@@ -26,6 +40,11 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.P))
+        {
+            PauseGame();
+        }
+
         HackButtons();
 
         if(isMontyAlive && monty.GetCurrentHealth() <= 0)
@@ -42,6 +61,13 @@ public class GameController : MonoBehaviour
         {
             DisplayGameOver();
         }
+    }
+
+    void PauseGame()
+    {
+        // Pause game.
+        Time.timeScale = 0f;
+        pauseCanvas.SetActive(true);
     }
 
     void HackButtons()
@@ -184,6 +210,6 @@ public class GameController : MonoBehaviour
 
     void DisplayGameOver()
     {
-
+        gameOverCanvas.SetActive(true);
     }
 }
