@@ -82,9 +82,12 @@ public class MontyController : Character
 
     public override void Interact()
     {
-        ProcessInput();
-        Move();
-        Jump();
+        if(gameController.IsMontyAlive())
+        {
+            ProcessInput();
+            Move();
+            Jump();
+        }
     }
 
     /// <summary>
@@ -315,10 +318,9 @@ public class MontyController : Character
         }
     }
 
-    private void GainMana(int manaPoints)
+    public void GainMana(int manaPoints)
     {
         currentMana += manaPoints * 20;
-        print($"gained {manaPoints} mp");
         if(currentMana > MaxMana)
         {
             currentMana = MaxMana;

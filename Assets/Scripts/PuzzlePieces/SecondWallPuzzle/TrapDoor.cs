@@ -22,6 +22,9 @@ public class TrapDoor : MonoBehaviour
             transform.position = newPosition;
             leverToRevealLeft.gameObject.SetActive(true);
             leverToRevealRight.gameObject.SetActive(true);
+
+            // Allow Monty to act again.
+            FindObjectOfType<GameController>().FakeMontyNotAlive(true);
         }
     }
 }
