@@ -5,6 +5,7 @@ public class GameController : MonoBehaviour
 {
     [Header("Game controls")]
     [SerializeField] CameraMovement camera;
+    [SerializeField] GatePuzzleController gatePuzzle;
     [SerializeField] MontyController monty;
     [SerializeField] SeeSharpController seeSharp;
 
@@ -45,6 +46,11 @@ public class GameController : MonoBehaviour
             PauseGame();
         }
 
+        if(Input.GetKey(KeyCode.Alpha0))
+        {
+            AssumeGatePuzzleIsComplete();
+        }
+
         HackButtons();
 
         if(isMontyAlive && monty.GetCurrentHealth() <= 0)
@@ -68,6 +74,11 @@ public class GameController : MonoBehaviour
         // Pause game.
         Time.timeScale = 0f;
         pauseCanvas.SetActive(true);
+    }
+
+    void AssumeGatePuzzleIsComplete()
+    {
+        gatePuzzle.ForcePuzzleCompletion();
     }
 
     void HackButtons()

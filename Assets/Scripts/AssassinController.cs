@@ -321,12 +321,12 @@ public class AssassinController : Character
         if (closestPlayer)
         {
             agent.SetDestination(closestPlayer.position);
+            //animator.SetTrigger("chase");
         }
         else
         {
             agent.isStopped = true;
         }
-        //animator.SetTrigger("chase");
     }
 
     Transform GetClosestPlayer()

@@ -155,8 +155,8 @@ public class MontyController : Character
         }
 
         // Cast BasicHeal on SeeSharp.
-        //if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.Z))
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Z))
+        //if (Input.GetKeyDown(KeyCode.Q))
         {
             float distanceFromSeeSharp = float.MaxValue;
             if(gameController.IsSeeSharpAlive())
@@ -175,8 +175,8 @@ public class MontyController : Character
         }
 
         // Cast TechShield on SeeSharp.
-        //if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.X))
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.X))
+        //if (Input.GetKeyDown(KeyCode.E))
         {
             float distanceFromSeeSharp = float.MaxValue;
             if (gameController.IsSeeSharpAlive())
@@ -195,8 +195,8 @@ public class MontyController : Character
         }
 
         // Cast EnergySlash from SeeSharp's position.
-        //if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.C))
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C))
+        //if (Input.GetKeyDown(KeyCode.R))
         {
             float distanceFromSeeSharp = float.MaxValue;
             if (gameController.IsSeeSharpAlive())

@@ -17,6 +17,11 @@ public class GatePuzzleController : MonoBehaviour
     private bool isPuzzleSolved = false;
     private Vector3 newPosition;
 
+    public void ForcePuzzleCompletion()
+    {
+        isPuzzleSolved = true;
+    }
+
     private void Start()
     {
         newPosition = new Vector3(gate.position.x, gate.position.y + 50f, gate.position.z);
